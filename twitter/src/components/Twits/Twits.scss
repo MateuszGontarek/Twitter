@@ -43,5 +43,25 @@
       background-position: center center;
       border-radius: 10px;
     }
+    .add-comment {
+      width: 400px;
+      display: flex;
+      background-color: #fff;
+      opacity: 0.8;
+      border-radius: 5px;
+      .comment-input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
+        resize: none;
+        &:focus {
+          outline: none;
+          border: none;
+          box-shadow: none;
+        }
+      }
+    }
   }
 }
