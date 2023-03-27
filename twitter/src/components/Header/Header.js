@@ -1,25 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
+// import { useState, useEffect } from "react";
+// import axios from "axios";
 import "./Header.scss";
 
 const Header = () => {
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userNickname = userData.nickname;
-  const userEmail = userData.email;
+  // const userEmail = userData.email;
   const navigate = useNavigate();
-  const [receivedMessages, setReceivedMessages] = useState([]);
-  const token = sessionStorage.getItem("token");
+  // const [receivedMessages, setReceivedMessages] = useState([]);
+  // const token = sessionStorage.getItem("token");
 
-  const ifEmpty = (e) => {
-    if (e.target.classList.contains("error")) {
-      e.target.classList.remove("error");
-    }
-  };
+  // const ifEmpty = (e) => {
+  //   if (e.target.classList.contains("error")) {
+  //     e.target.classList.remove("error");
+  //   }
+  // };
 
-  let backspace = false;
-  let actualAdress = "";
+  // let backspace = false;
+  // let actualAdress = "";
 
   // const addMessagesHandler = async () => {
   //   const receiver = adressRef.current.value,

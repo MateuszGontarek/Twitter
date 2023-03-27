@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import Header from "../../components/Header";
 import AddTwit from "../../components/AddTwit";
 import Twits from "../../components/Twits";
+import Settings from "../../components/Settings";
 const MainPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
@@ -21,6 +22,7 @@ const MainPage = () => {
         <AddTwit />
         <Twits />
       </div>
+      <Settings />
     </div>
   );
 };
