@@ -19,8 +19,8 @@ const Twits = () => {
 
   const autoHeight = (element) => {
     element.style.height = "auto";
-    element.style.height = (element.scrollHeight)+"px";
-  }
+    element.style.height = element.scrollHeight + "px";
+  };
 
   const deleteTwit = async (id) => {
     const response = await axios.delete("/api/twits", {
@@ -36,7 +36,7 @@ const Twits = () => {
     getTwits();
   }, []);
   return (
-    <div className="">
+    <div className="twits-container">
       <h2>Get Twits</h2>
       <div className="twits">
         {twits.map((twit) => {
@@ -59,13 +59,17 @@ const Twits = () => {
               <div
                 className="twit-content"
                 style={{
-                  backgroundImage: `url(${twit.content})`
+                  backgroundImage: `url(${twit.content})`,
                 }}
               ></div>
               <form className="add-comment">
-                <textarea className="comment-input" placeholder="Dodaj komentarz..." onChange={(element) => {
-                  autoHeight(element.target);
-                }}></textarea>
+                <textarea
+                  className="comment-input"
+                  placeholder="Dodaj komentarz..."
+                  onChange={(element) => {
+                    autoHeight(element.target);
+                  }}
+                ></textarea>
               </form>
             </div>
           );

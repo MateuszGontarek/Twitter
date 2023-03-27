@@ -33,7 +33,7 @@ const AddTwit = () => {
     }
   };
   return (
-    <div className="">
+    <div className="add-twits-container">
       <h2>Add Twit</h2>
       <form>
         {/* <img src="img-icon.png" /> */}
