@@ -1,0 +1,67 @@
+@import "./../../colors.scss";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.panel-container {
+  background: $background;
+  box-sizing: border-box;
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .top-left {
+      display: flex;
+      align-items: center;
+      img {
+        height: 100px;
+        margin-right: 10px;
+      }
+    }
+  }
+  h1 {
+    color: $white;
+    margin-bottom: 10px;
+    span {
+      color: $blue;
+    }
+  }
+  .email {
+    display: flex;
+    color: #7b0dbf;
+    align-items: center;
+    font-size: 22px;
+    margin-bottom: 10px;
+    img {
+      margin-right: 7px;
+    }
+  }
+  input {
+    border: none;
+    border: 1px solid $white;
+    background: transparent;
+    padding: 10px;
+    border-bottom-left-radius: 8px;
+    color: $white;
+  }
+  .logout {
+    height: 35px;
+    top: 10px;
+    right: 10px;
+    margin-right: 20px;
+    border: none;
+    border-radius: 8px;
+    color: $white;
+    font-size: 20px;
+    cursor: pointer;
+    width: 200px;
+    padding: 5px;
+    color: $background;
+    &:hover {
+      background: $secondaryHover;
+      color: $white;
+      border: 0.1px solid $white;
+    }
+  }
+}

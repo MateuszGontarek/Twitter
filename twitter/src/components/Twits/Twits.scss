@@ -1,0 +1,47 @@
+@import "./../../colors.scss";
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.twits {
+  display: flex;
+  flex-direction: column;
+  .twit {
+    background: $secondaryHover;
+    border: 2px solid $background;
+    transition: 0.2s;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    &:hover {
+      box-shadow: 0 0 20px $secondary;
+      filter: contrast(1.2);
+    }
+    .twit-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      .twit-description {
+        width: 80%;
+        height: 100px;
+      }
+      button {
+        background: none;
+        border: none;
+        color: $white;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+    .twit-content {
+      width: 350px;
+      height: 350px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      border-radius: 10px;
+    }
+  }
+}
