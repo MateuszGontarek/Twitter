@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  parents: {
+    type: String,
+    default: null
+  } 
 });
 
 const Twit = mongoose.model("twits", userSchema);
