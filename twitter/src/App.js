@@ -11,9 +11,10 @@ function App() {
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/*" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/*" element={<MainPage />} />
-          <Route path="/main" element={<MainPage />} />
+          {/* <Route path="/*" element={<MainPage />} /> */}
+          {/* <Route path="/main" element={<MainPage />} /> */}
         </Routes>
       </BrowserRouter>
     </div>

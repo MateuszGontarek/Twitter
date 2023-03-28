@@ -7,22 +7,11 @@ import AddTwit from "../../components/AddTwit";
 import Twits from "../../components/Twits";
 import Settings from "../../components/Settings";
 const MainPage = () => {
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (!sessionStorage.getItem("token")) {
-  //     navigate("/login");
-  //     return;
-  //   }
-  // }, []);
+  const navigate = useNavigate();
 
   return (
     <div className="main-page">
-      {/* <Header /> */}
-      <div className="twits-functionality">
-        {/* <AddTwit /> */}
-        <Twits />
-      </div>
-      {/* <Settings /> */}
+      <h1>Tu będzie main page bez logowania</h1>
     </div>
   );
 };
