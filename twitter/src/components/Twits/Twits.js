@@ -59,60 +59,61 @@ const Twits = () => {
       <div className="twits">
         {console.log(twits)}
         {twits.map((twit) => {
-          return (
-            <div className="twit" key={twit._id}>
-              <div className="twit-header">
-                {/* <p className="twit-description">{twit.description}</p> */}
-                <textarea
-                  readOnly
-                  value={twit.description}
-                  className="twit-description"
-                />
-                <button
-                  onClick={() => deleteTwit(twit._id)}
-                  className="twit-delete"
-                >
-                  usuń
-                </button>
-              </div>
-              <div
-                className="twit-content"
-                style={{
-                  backgroundImage: `url(${twit.content})`,
-                }}
-              ></div>
-              <div className="twit-comments">
-                {twits
-                  .filter((comment) => comment.parents === twit._id)
-                  .map((comment) => {
-                    return (
-                      <div className="twit-comment" key={comment._id}>
-                        <textarea
-                          readOnly
-                          value={comment.description}
-                          className="twit-comment-description"
-                        />
-                      </div>
-                    );
-                  })}
-              </div>
-              <form
-                className="add-comment"
-                onSubmit={(e, _id) => {
-                  addComment(e, twit._id);
-                }}
-              >
-                <textarea
-                  className="comment-input"
-                  placeholder="Dodaj komentarz..."
-                  onChange={(element) => {
-                    autoHeight(element.target);
+          if (twit.parents === null) {
+            return (
+              <div className="twit" key={twit._id}>
+                <div className="twit-header">
+                  <textarea
+                    readOnly
+                    value={twit.description}
+                    className="twit-description"
+                  />
+                  <button
+                    onClick={() => deleteTwit(twit._id)}
+                    className="twit-delete"
+                  >
+                    usuń
+                  </button>
+                </div>
+                <div
+                  className="twit-content"
+                  style={{
+                    backgroundImage: `url(${twit.content})`,
                   }}
-                ></textarea>
-                <button className="comment-button">Dodaj</button>
-              </form>
-            </div>
-          );
+                ></div>
+                <div className="twit-comments">
+                  {twits
+                    .filter((comment) => comment.parents === twit._id)
+                    .map((comment) => {
+                      return (
+                        <div className="twit-comment" key={comment._id}>
+                          <textarea
+                            readOnly
+                            value={comment.description}
+                            className="twit-comment-description"
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
+                <form
+                  className="add-comment"
+                  onSubmit={(e, _id) => {
+                    addComment(e, twit._id);
+                  }}
+                >
+                  <textarea
+                    className="comment-input"
+                    placeholder="Dodaj komentarz..."
+                    onChange={(element) => {
+                      autoHeight(element.target);
+                    }}
+                  ></textarea>
+                  <button className="comment-button">Dodaj</button>
+                </form>
+              </div>
+            );
+          }
         })}
       </div>
     </div>
