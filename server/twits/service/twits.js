@@ -49,20 +49,19 @@ const addComment = async (req, res) => {
   const token = req.headers.token;
 
   if (!comment) return res.status(400).json({ success: false });
-  if (!jwt.verify(token, "admin4123")) return res.status(404).json({ success: false });
+  if (!jwt.verify(token, "admin4123"))
+    return res.status(404).json({ success: false });
 
- 
   try {
     await new Twit({
       description: comment,
       content: null,
-      parents: id
+      parents: id,
     }).save();
     return res.status(200).json({ success: true });
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
-    return res.status(403).json({ success: false })
+    return res.status(403).json({ success: false });
   }
 };
 // const deleteMessage = async (req, res) => {

@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 const Twits = () => {
   const token = sessionStorage.getItem("token");
   const [twits, setTwits] = useState([]);
-
   const getTwits = async () => {
     const response = await axios.get("/api/twits", {
       headers: { token },
