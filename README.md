@@ -1,5 +1,5 @@
 # Twitter
 Team: 
-  Vladimir Adamovich
-  Mateusz Gontarek
-  Paweł Rauzer 
+  Vladimir Adamovich /
+  Mateusz Gontarek /
+  Paweł Rauzer /
