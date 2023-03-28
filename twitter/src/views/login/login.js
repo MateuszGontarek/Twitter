@@ -20,7 +20,7 @@ const Login = () => {
       const data = { nickname, email };
       const userData = JSON.stringify(data);
       sessionStorage.setItem("userData", userData);
-      navigate("/main");
+      navigate("/home");
     }
   };
 
