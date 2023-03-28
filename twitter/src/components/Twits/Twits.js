@@ -27,6 +27,7 @@ const Twits = () => {
     });
 
     console.log(response)
+    getTwits();
   };
 
 
