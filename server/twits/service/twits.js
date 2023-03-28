@@ -19,6 +19,7 @@ const addTwit = async (req, res) => {
     return res.status(500).json({ success: false });
   }
 };
+
 const getTwits = async (req, res) => {
   if (!jwt.verify(req.headers.token, "admin4123"))
     return res.status(403).json({ success: false });
@@ -29,6 +30,7 @@ const getTwits = async (req, res) => {
     return res.status(500).json({ success: false });
   }
 };
+
 const deleteTwit = async (req, res) => {
   const id = req.headers.id;
   const token = req.headers.token;
@@ -39,6 +41,28 @@ const deleteTwit = async (req, res) => {
     return res.status(200).json({ success: true });
   } catch (error) {
     return res.status(500).json({ success: false });
+  }
+};
+
+const addComment = async (req, res) => {
+  const { id, comment } = req.body;
+  const token = req.headers.token;
+
+  if (!comment) return res.status(400).json({ success: false });
+  if (!jwt.verify(token, "admin4123")) return res.status(404).json({ success: false });
+
+ 
+  try {
+    await new Twit({
+      description: comment,
+      content: null,
+      parents: id
+    }).save();
+    return res.status(200).json({ success: true });
+  }
+  catch (error) {
+    console.log(error);
+    return res.status(403).json({ success: false })
   }
 };
 // const deleteMessage = async (req, res) => {
@@ -58,4 +82,5 @@ module.exports = {
   addTwit,
   getTwits,
   deleteTwit,
+  addComment,
 };
