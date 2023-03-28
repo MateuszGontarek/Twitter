@@ -29,11 +29,9 @@ const Twits = () => {
         headers: { token },
       }
     );
-
-    console.log(response)
     getTwits();
-
   };
+
 
   const autoHeight = (element) => {
     element.style.height = "auto";
@@ -55,9 +53,7 @@ const Twits = () => {
   }, []);
   return (
     <div className="twits-container">
-      <h2>Get Twits</h2>
       <div className="twits">
-        {console.log(twits)}
         {twits.map((twit) => {
           if (twit.parents === null) {
             return (
@@ -94,7 +90,7 @@ const Twits = () => {
                           />
                         </div>
                       );
-                    })}
+                  })}
                 </div>
                 <form
                   className="add-comment"
@@ -102,7 +98,7 @@ const Twits = () => {
                     addComment(e, twit._id);
                   }}
                 >
-                  <textarea
+                  <textarea maxLength={200} 
                     className="comment-input"
                     placeholder="Dodaj komentarz..."
                     onChange={(element) => {

@@ -12,6 +12,13 @@ const AddTwit = () => {
       e.target.classList.remove("warning");
     }
   };
+
+
+  const autoHeight = (element) => {
+    element.style.height = "auto";
+    element.style.height = element.scrollHeight + "px";
+  };
+
   const addTwit = async (e) => {
     e.preventDefault();
     if (twitTextRef.current.value === "") {
@@ -27,18 +34,16 @@ const AddTwit = () => {
     if (response.data.success) {
       // twitTextRef.current.value = "";
       setTwitContent({});
-      window.location.reload();
     } else {
       console.log("error");
     }
   };
   return (
     <div className="add-twits-container">
-      <h2>Add Twit</h2>
       <form>
         {/* <img src="img-icon.png" /> */}
-        <input
-          onChange={(e) => ifEmpty(e)}
+        <textarea maxLength={200}
+          onChange={(e) => {ifEmpty(e); autoHeight(e.target)}}
           ref={twitTextRef}
           type="text"
           placeholder="co nowego?"

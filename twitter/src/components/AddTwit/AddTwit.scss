@@ -1,48 +1,42 @@
-@import "./../../colors.scss";
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-form {
+.add-twits-container {
   display: flex;
-  flex-direction: column;
-  width: 300px;
-  .warning {
-    color: red !important;
-  }
-  .twit-content {
-    // display: flex;
-    justify-content: space-between;
-    input {
-      // width: 50%;
-      // background: url("../../../public/img-icon.png");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      border: none;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 30px;
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    textarea {
+      height: 60px;
+      margin-top: 10px;
+      resize: none;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px #0c8de4;
+      }
     }
-    button {
-      width: 50%;
-      background: $blue;
-      color: $white;
-      text-transform: uppercase;
-      border: none;
-    }
-  }
-  button,
-  input {
-    border-radius: 3px;
-    margin-top: 10px;
-    padding: 10px 5px;
-  }
-  input {
-    border: 2px solid $secondary;
-    &:focus {
-      box-shadow: 0 0 10px $secondary;
-    }
-    &::placeholder {
-      color: $secondary;
+
+    .twit-content {
+      display: flex;
+      align-items: center;
+
+      button {
+        border: none;
+        background-color: #1da1f2;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #0c8de4;
+        }
+      }
     }
   }
 }

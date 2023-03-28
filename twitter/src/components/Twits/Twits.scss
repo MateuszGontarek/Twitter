@@ -6,8 +6,10 @@
 }
 .twits {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   .twit {
+    margin: 10px;
     background: $secondaryHover;
     border: 2px solid $background;
     transition: 0.2s;
@@ -25,7 +27,17 @@
       margin-bottom: 10px;
       .twit-description {
         width: 80%;
-        height: 100px;
+        background-color: $white;
+        border: none;
+        color: $blue;
+        resize: none;
+        border-radius: 10px;
+        padding: 10px;
+        &:focus {
+          outline: none;
+          border: none;
+          box-shadow: none;
+        }
       }
       button {
         background: none;
@@ -36,16 +48,40 @@
       }
     }
     .twit-content {
-      width: 350px;
-      height: 350px;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;
       border-radius: 10px;
     }
+    .twit-comments {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;
+      height: auto;
+      .twit-comment {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        .twit-comment-description {
+          resize: none;
+          width: 100%;
+          height: 100%;
+          background-color: $white;
+          border: none;
+          color: $blue;
+          border-radius: 10px;
+          padding: 10px;
+          &:focus {
+            outline: none;
+            border: none;
+            box-shadow: none;
+          }
+
+        }
+      }
+    }
     .add-comment {
       width: 400px;
-      display: flex;
       background-color: #fff;
       opacity: 0.8;
       border-radius: 5px;
