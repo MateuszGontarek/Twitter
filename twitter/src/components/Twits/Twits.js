@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 const Twits = () => {
   const token = sessionStorage.getItem("token");
   const [twits, setTwits] = useState([]);
-
   const getTwits = async () => {
     const response = await axios.get("/api/twits", {
       headers: { token },
@@ -16,21 +15,6 @@ const Twits = () => {
     } else {
       console.log("error");
     }
-  };
-
-  const addComment = async (e, id) => {
-    e.preventDefault();
-
-    const comment = e.target[0].value;
-    const response = await axios.post(
-      "/api/twits-comment",
-      { comment, id },
-      {
-        headers: { token },
-      }
-    );
-
-    console.log(response);
   };
 
   const autoHeight = (element) => {
@@ -55,7 +39,6 @@ const Twits = () => {
     <div className="twits-container">
       <h2>Get Twits</h2>
       <div className="twits">
-        {console.log(twits)}
         {twits.map((twit) => {
           return (
             <div className="twit" key={twit._id}>
@@ -79,27 +62,7 @@ const Twits = () => {
                   backgroundImage: `url(${twit.content})`,
                 }}
               ></div>
-              <div className="twit-comments">
-                {twits
-                  .filter((comment) => comment.parents === twit._id)
-                  .map((comment) => {
-                    return (
-                      <div className="twit-comment" key={comment._id}>
-                        <textarea
-                          readOnly
-                          value={comment.description}
-                          className="twit-comment-description"
-                        />
-                      </div>
-                    );
-                  })}
-              </div>
-              <form
-                className="add-comment"
-                onSubmit={(e, _id) => {
-                  addComment(e, twit._id);
-                }}
-              >
+              <form className="add-comment">
                 <textarea
                   className="comment-input"
                   placeholder="Dodaj komentarz..."
@@ -107,7 +70,6 @@ const Twits = () => {
                     autoHeight(element.target);
                   }}
                 ></textarea>
-                <button className="comment-button">Dodaj</button>
               </form>
             </div>
           );
