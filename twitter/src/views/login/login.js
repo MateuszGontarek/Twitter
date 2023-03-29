@@ -15,10 +15,7 @@ const Login = () => {
 
     if (response.data.success) {
       sessionStorage.setItem("token", response.data.token);
-      const nickname = response.data.nickname;
-      const email = response.data.email;
-      const data = { nickname, email };
-      const userData = JSON.stringify(data);
+      const userData = JSON.stringify(response.data.user);
       sessionStorage.setItem("userData", userData);
       navigate("/home");
     }

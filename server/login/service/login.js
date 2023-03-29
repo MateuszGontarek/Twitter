@@ -32,8 +32,7 @@ const loginUser = async (req, res) => {
       return res.status(200).json({
         success: true,
         token,
-        nickname: user.nickname,
-        email: user.email,
+        user,
       });
     } else {
       return res.status(200).json({ success: false });
