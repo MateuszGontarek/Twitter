@@ -24,7 +24,7 @@ const getTwits = async (req, res) => {
   if (!jwt.verify(req.headers.token, "admin4123"))
     return res.status(403).json({ success: false });
   try {
-    const twits = await Twit.find();
+    const twits = await Twit.find().sort({ date: -1 });
     return res.status(200).json({ success: true, twits });
   } catch (error) {
     return res.status(500).json({ success: false });
@@ -64,18 +64,6 @@ const addComment = async (req, res) => {
     return res.status(403).json({ success: false });
   }
 };
-// const deleteMessage = async (req, res) => {
-//   const id = req.headers.id;
-//   const token = req.headers.token;
-//   if (!jwt.verify(token, "admin4123"))
-//     return res.status(403).json({ success: false });
-//   try {
-//     await Message.findByIdAndDelete(id);
-//     return res.status(200).json({ success: true });
-//   } catch (error) {
-//     return res.status(500).json({ success: false });
-//   }
-// };
 
 module.exports = {
   addTwit,

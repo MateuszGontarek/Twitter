@@ -13,7 +13,6 @@ const AddTwit = () => {
     }
   };
 
-
   const autoHeight = (element) => {
     element.style.height = "auto";
     element.style.height = element.scrollHeight + "px";
@@ -34,6 +33,7 @@ const AddTwit = () => {
     if (response.data.success) {
       // twitTextRef.current.value = "";
       setTwitContent({});
+      window.location.reload();
     } else {
       console.log("error");
     }
@@ -42,8 +42,12 @@ const AddTwit = () => {
     <div className="add-twits-container">
       <form>
         {/* <img src="img-icon.png" /> */}
-        <textarea maxLength={200}
-          onChange={(e) => {ifEmpty(e); autoHeight(e.target)}}
+        <textarea
+          maxLength={200}
+          onChange={(e) => {
+            ifEmpty(e);
+            autoHeight(e.target);
+          }}
           ref={twitTextRef}
           type="text"
           placeholder="co nowego?"

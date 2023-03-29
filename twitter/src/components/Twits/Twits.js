@@ -2,7 +2,8 @@ import React from "react";
 import "./Twits.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import * as Icon from "react-bootstrap-icons";
+import { Trash3Fill } from "react-bootstrap-icons";
 const Twits = () => {
   const token = sessionStorage.getItem("token");
   const [twits, setTwits] = useState([]);
@@ -30,7 +31,6 @@ const Twits = () => {
     );
     getTwits();
   };
-
 
   const autoHeight = (element) => {
     element.style.height = "auto";
@@ -63,15 +63,16 @@ const Twits = () => {
                     value={twit.description}
                     className="twit-description"
                   />
-                  <button
+                  <Trash3Fill
                     onClick={() => deleteTwit(twit._id)}
+                    size={30}
                     className="twit-delete"
-                  >
-                    usuń
-                  </button>
+                  />
                 </div>
                 <div
-                  className="twit-content"
+                  className={
+                    twit.content ? "twit-content" : "twit-content-none"
+                  }
                   style={{
                     backgroundImage: `url(${twit.content})`,
                   }}
@@ -89,7 +90,7 @@ const Twits = () => {
                           />
                         </div>
                       );
-                  })}
+                    })}
                 </div>
                 <form
                   className="add-comment"
@@ -97,7 +98,8 @@ const Twits = () => {
                     addComment(e, twit._id);
                   }}
                 >
-                  <textarea maxLength={200} 
+                  <textarea
+                    maxLength={200}
                     className="comment-input"
                     placeholder="Dodaj komentarz..."
                     onChange={(element) => {

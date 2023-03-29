@@ -15,8 +15,8 @@ const userSchema = new mongoose.Schema({
   },
   parents: {
     type: String,
-    default: null
-  } 
+    default: null,
+  },
 });
 
 const Twit = mongoose.model("twits", userSchema);

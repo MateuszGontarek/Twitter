@@ -6,10 +6,12 @@
 }
 .twits {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
+  margin: 0 auto;
+  width: 430px;
   .twit {
-    margin: 10px;
     background: $secondaryHover;
     border: 2px solid $background;
     transition: 0.2s;
@@ -18,7 +20,6 @@
     margin-bottom: 10px;
     &:hover {
       box-shadow: 0 0 20px $secondary;
-      filter: contrast(1.2);
     }
     .twit-header {
       display: flex;
@@ -39,19 +40,22 @@
           box-shadow: none;
         }
       }
-      button {
-        background: none;
-        border: none;
-        color: $white;
-        font-size: 20px;
+      .twit-delete {
+        color: #fff;
+        margin-right: 15px;
         cursor: pointer;
       }
     }
     .twit-content {
       background-repeat: no-repeat;
       background-size: cover;
+      height: 320px;
+      width: 320px;
       background-position: center center;
       border-radius: 10px;
+    }
+    .twit-content-none {
+      display: none;
     }
     .twit-comments {
       display: flex;
@@ -76,7 +80,6 @@
             border: none;
             box-shadow: none;
           }
-
         }
       }
     }
