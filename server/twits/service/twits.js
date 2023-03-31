@@ -1,10 +1,12 @@
 const Twit = require("../../models/twit");
+const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
 
 const addTwit = async (req, res) => {
   const date = new Date();
   const data = req.body.data;
   const description = data.twitText;
+  const userId = data.userId;
   const content = data.twitContent.image;
   if (!jwt.verify(req.body.token, "admin4123"))
     return res.status(403).json({ success: false });
@@ -12,6 +14,7 @@ const addTwit = async (req, res) => {
     await new Twit({
       description,
       content,
+      userId,
       date,
     }).save();
     return res.status(200).json({ success: true });
@@ -25,6 +28,14 @@ const getTwits = async (req, res) => {
     return res.status(403).json({ success: false });
   try {
     const twits = await Twit.find().sort({ date: -1 });
+    const users = await User.find();
+    // for (const twit in twits) {
+    //   console.log(twit);
+    // }
+    // POBIERASZ LISTĘ WSZYSTKICH UŻYTKOWNIKÓW
+    // ITERUJESZ PO TWITS I POBIERASZ ID USERA
+    // DODAJESZ DO OBIEKTU TWITS AVATAR UZYTKOWNIKA
+
     return res.status(200).json({ success: true, twits });
   } catch (error) {
     return res.status(500).json({ success: false });

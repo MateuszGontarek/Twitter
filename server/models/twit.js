@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  userId: {
+    type: String,
+    required: true,
+
+  },
 });
 
 const Twit = mongoose.model("twits", userSchema);

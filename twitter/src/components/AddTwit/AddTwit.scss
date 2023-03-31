@@ -1,3 +1,4 @@
+@import "./../../colors.scss";
 .add-twits-container {
   display: flex;
   justify-content: center;
@@ -24,12 +25,13 @@
     .twit-content {
       display: flex;
       align-items: center;
-
+      justify-content: space-between;
       button {
         border: none;
         background-color: #1da1f2;
         color: white;
         padding: 10px 20px;
+        width: 100px;
         border-radius: 5px;
         cursor: pointer;
 
