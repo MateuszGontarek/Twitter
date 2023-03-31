@@ -3,9 +3,10 @@ import "./Twits.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import * as Icon from "react-bootstrap-icons";
-import { Trash3Fill } from "react-bootstrap-icons";
+import { Trash3Fill, HeartFill } from "react-bootstrap-icons";
 const Twits = () => {
   const token = sessionStorage.getItem("token");
+  const { email } = JSON.parse(sessionStorage.getItem("userData"));
   const [twits, setTwits] = useState([]);
   const getTwits = async () => {
     const response = await axios.get("/api/twits", {
@@ -17,6 +18,24 @@ const Twits = () => {
       console.log("error");
     }
   };
+
+
+  const addLike = async (id) => {
+    const response = await axios.post(
+      "/api/twits-like",
+      { id, email },
+      {
+        headers: { token },
+      }
+    );
+    if (response.data.success) {
+      getTwits();
+    } else {
+      console.log("error");
+    }
+  };
+
+
 
   const addComment = async (e, id) => {
     e.preventDefault();
@@ -30,6 +49,7 @@ const Twits = () => {
       }
     );
     getTwits();
+    e.target[0].value = "";
   };
 
   const autoHeight = (element) => {
@@ -43,6 +63,7 @@ const Twits = () => {
     });
     if (response.data.success) {
       getTwits();
+      console.log(twits)
     } else {
       console.log("error");
     }
@@ -63,6 +84,9 @@ const Twits = () => {
                     value={twit.description}
                     className="twit-description"
                   />
+                  <HeartFill size={30} 
+                  className={twit.likes.includes(email) ? "twit-heart-active" : "twit-heart"}
+                  onClick={() => addLike(twit._id)}/>
                   <Trash3Fill
                     onClick={() => deleteTwit(twit._id)}
                     size={30}
@@ -87,6 +111,11 @@ const Twits = () => {
                             readOnly
                             value={comment.description}
                             className="twit-comment-description"
+                          />
+                          <Trash3Fill
+                            onClick={() => deleteTwit(comment._id)}
+                            size={25}
+                            className="twit-delete"
                           />
                         </div>
                       );
