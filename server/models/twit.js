@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  hastags: {
+    type: Array,
+    default: [],
+    required: false,
+  }
 });
 
 const Twit = mongoose.model("twits", userSchema);
