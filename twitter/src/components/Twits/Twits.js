@@ -9,19 +9,29 @@ const Twits = () => {
   const userData = sessionStorage.getItem("userData");
   const avatar = JSON.parse(userData).avatar;
   const nickname = JSON.parse(userData).nickname;
-  console.log(avatar);
   const [twits, setTwits] = useState([]);
+  // const [twitHeaderInfo, setTwitHeaderInfo] = useState({});
   const getTwits = async () => {
     const response = await axios.get("/api/twits", {
       headers: { token },
     });
     if (response.data.success) {
       setTwits(response.data.twits);
+      // getTwitHeaderInfo(twits);
     } else {
       console.log("error");
     }
   };
-
+  // const getTwitHeaderInfo = async (userId) => {
+  //   const response = await axios.get("/api/users/public-info", {
+  //     headers: { userid: userId },
+  //   });
+  //   if (response.data.success) {
+  //     return response.data.twitHeaderInfo;
+  //   } else {
+  //     console.log("error");
+  //   }
+  // };
   const addComment = async (e, id) => {
     e.preventDefault();
 
@@ -51,6 +61,16 @@ const Twits = () => {
       console.log("error");
     }
   };
+  // const getTwitHeaderInfo = async (userId) => {
+  //     const response = await axios.get("/api/users/public-info", {
+  //       headers: { userid: userId },
+  //     });
+  //     if (response.data.success) {
+  //       return response.data.twitHeaderInfo;
+  //     } else {
+  //       console.log("error");
+  //     }
+  //   };
   useEffect(() => {
     getTwits();
   }, []);
@@ -59,6 +79,12 @@ const Twits = () => {
       <div className="twits">
         {twits.map((twit) => {
           if (twit.parents === null) {
+            // const twitHeaderPromise = getTwitHeaderInfo(twit.userId);
+            // // console.log(twitHeaderPromise);
+            // twitHeaderPromise.then((result) => {
+            //   console.log(result);
+            //   return result;
+            // });
             return (
               <div className="twit" key={twit._id}>
                 <div className="twit-header">

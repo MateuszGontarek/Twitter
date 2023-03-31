@@ -5,6 +5,8 @@ import FileBase64 from "react-file-base64";
 import { useState } from "react";
 
 const AddTwit = () => {
+  const userData = sessionStorage.getItem("userData");
+  const userId = JSON.parse(userData)._id;
   const twitTextRef = React.createRef();
   const [twitContent, setTwitContent] = useState({});
   const ifEmpty = (e) => {
@@ -28,7 +30,7 @@ const AddTwit = () => {
     }
     const twitText = twitTextRef.current.value;
     const token = sessionStorage.getItem("token");
-    const data = { twitContent, twitText };
+    const data = { twitContent, twitText, userId };
     const response = await axios.post("/api/twits", { data, token });
     if (response.data.success) {
       // twitTextRef.current.value = "";
