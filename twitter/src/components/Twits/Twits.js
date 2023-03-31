@@ -7,6 +7,10 @@ import { Trash3Fill, HeartFill } from "react-bootstrap-icons";
 const Twits = () => {
   const token = sessionStorage.getItem("token");
   const { email } = JSON.parse(sessionStorage.getItem("userData"));
+  const userData = sessionStorage.getItem("userData");
+  const avatar = JSON.parse(userData).avatar;
+  const nickname = JSON.parse(userData).nickname;
+
   const [twits, setTwits] = useState([]);
   const getTwits = async () => {
     const response = await axios.get("/api/twits", {
@@ -79,6 +83,7 @@ const Twits = () => {
             return (
               <div className="twit" key={twit._id}>
                 <div className="twit-header">
+
                   <textarea
                     readOnly
                     value={twit.description}
@@ -87,12 +92,27 @@ const Twits = () => {
                   <HeartFill size={30} 
                   className={twit.likes.includes(email) ? "twit-heart-active" : "twit-heart"}
                   onClick={() => addLike(twit._id)}/>
+
+                  <div
+                    className={avatar ? "avatar" : "avatar-none"}
+                    style={{
+                      backgroundImage: `url(${avatar})`,
+                    }}
+                  ></div>
+                  <p className="nickname">{nickname}</p>
+                  <div className="twit-header-info"></div>
+
                   <Trash3Fill
                     onClick={() => deleteTwit(twit._id)}
                     size={30}
                     className="twit-delete"
                   />
                 </div>
+                <textarea
+                  readOnly
+                  value={twit.description}
+                  className="twit-description"
+                />
                 <div
                   className={
                     twit.content ? "twit-content" : "twit-content-none"

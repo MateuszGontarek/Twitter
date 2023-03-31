@@ -4,6 +4,6 @@ const usersService = require("./service");
 
 router.get("/api/users", usersService.getUsers);
 router.post("/api/users", usersService.addUser);
+router.post("/api/users/update", usersService.updateUser);
 router.delete("/api/users", usersService.deleteUser);
-router.get("/api/users/validate", usersService.validateEmail);
 module.exports = router;
