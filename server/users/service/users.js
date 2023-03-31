@@ -15,7 +15,6 @@ const getUsers = async (req, res) => {
     return res.status(403).json({ success: false });
   }
 };
-
 const addUser = async (req, res) => {
   const date = new Date();
   const data = req.body.data;
@@ -61,9 +60,23 @@ const deleteUser = async (req, res) => {
     return res.status(403).json({ success: false });
   }
 };
+const getTwitHeaderInfo = async (req, res) => {
+  try {
+    const user = await User.findOne({ userId: req.body.userId });
+    if (!user) return res.status(200).json({ success: false });
+    const twitHeaderInfo = {
+      avatar: user.avatar,
+      nickname: user.nickname,
+    };
+    return res.status(200).json({ success: true, twitHeaderInfo });
+  } catch (error) {
+    return res.status(500).json({ success: false });
+  }
+};
 module.exports = {
   getUsers,
   addUser,
   deleteUser,
   updateUser,
+  getTwitHeaderInfo,
 };

@@ -10,7 +10,7 @@ const Settings = () => {
   const updateAvatar = async () => {
     const id = JSON.parse(userData)._id;
     const newAvatar = avatar.image;
-    const response = await axios.post("/api/users/update", {
+    const response = await axios.put("/api/users/update", {
       id,
       token,
       newAvatar,
@@ -27,15 +27,21 @@ const Settings = () => {
       <h2>Settings</h2>
       <div className="settings-container">
         <div className="set-avatar">
+          <p>Chanhe avatar</p>
           <FileBase64
             multiple={false}
             onDone={({ base64 }) => setAvatar({ image: base64 })}
           />
-          <button onClick={updateAvatar}>Update</button>
         </div>
-        {/* <div className="set-nickname">
+        <div className="set-nickname">
           <input type="text" placeholder="new nickname" />
-        </div> */}
+        </div>
+        <div className="new-password">
+          <input type="text" placeholder="new password" />
+        </div>
+        <button className="update-user" onClick={updateAvatar}>
+          Update
+        </button>
       </div>
     </div>
   );

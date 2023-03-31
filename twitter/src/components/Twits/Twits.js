@@ -3,24 +3,44 @@ import "./Twits.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import * as Icon from "react-bootstrap-icons";
-import { Trash3Fill } from "react-bootstrap-icons";
+import { Trash3Fill, HeartFill } from "react-bootstrap-icons";
 const Twits = () => {
   const token = sessionStorage.getItem("token");
+  const { email } = JSON.parse(sessionStorage.getItem("userData"));
   const userData = sessionStorage.getItem("userData");
   const avatar = JSON.parse(userData).avatar;
   const nickname = JSON.parse(userData).nickname;
-  console.log(avatar);
   const [twits, setTwits] = useState([]);
+
   const getTwits = async () => {
     const response = await axios.get("/api/twits", {
       headers: { token },
     });
     if (response.data.success) {
       setTwits(response.data.twits);
+      // getTwitHeaderInfo(twits);
     } else {
       console.log("error");
     }
   };
+
+
+  const addLike = async (id) => {
+    const response = await axios.post(
+      "/api/twits-like",
+      { id, email },
+      {
+        headers: { token },
+      }
+    );
+    if (response.data.success) {
+      getTwits();
+    } else {
+      console.log("error");
+    }
+  };
+
+
 
   const addComment = async (e, id) => {
     e.preventDefault();
@@ -34,6 +54,7 @@ const Twits = () => {
       }
     );
     getTwits();
+    e.target[0].value = "";
   };
 
   const autoHeight = (element) => {
@@ -47,10 +68,21 @@ const Twits = () => {
     });
     if (response.data.success) {
       getTwits();
+      console.log(twits)
     } else {
       console.log("error");
     }
   };
+  // const getTwitHeaderInfo = async (userId) => {
+  //     const response = await axios.get("/api/users/public-info", {
+  //       headers: { userid: userId },
+  //     });
+  //     if (response.data.success) {
+  //       return response.data.twitHeaderInfo;
+  //     } else {
+  //       console.log("error");
+  //     }
+  //   };
   useEffect(() => {
     getTwits();
   }, []);
@@ -59,9 +91,25 @@ const Twits = () => {
       <div className="twits">
         {twits.map((twit) => {
           if (twit.parents === null) {
+            // const twitHeaderPromise = getTwitHeaderInfo(twit.userId);
+            // // console.log(twitHeaderPromise);
+            // twitHeaderPromise.then((result) => {
+            //   console.log(result);
+            //   return result;
+            // });
             return (
               <div className="twit" key={twit._id}>
                 <div className="twit-header">
+
+                  <textarea
+                    readOnly
+                    value={twit.description}
+                    className="twit-description"
+                  />
+                  <HeartFill size={30} 
+                  className={twit.likes.includes(email) ? "twit-heart-active" : "twit-heart"}
+                  onClick={() => addLike(twit._id)}/>
+
                   <div
                     className={avatar ? "avatar" : "avatar-none"}
                     style={{
@@ -70,6 +118,7 @@ const Twits = () => {
                   ></div>
                   <p className="nickname">{nickname}</p>
                   <div className="twit-header-info"></div>
+
                   <Trash3Fill
                     onClick={() => deleteTwit(twit._id)}
                     size={30}
@@ -99,6 +148,11 @@ const Twits = () => {
                             readOnly
                             value={comment.description}
                             className="twit-comment-description"
+                          />
+                          <Trash3Fill
+                            onClick={() => deleteTwit(comment._id)}
+                            size={25}
+                            className="twit-delete"
                           />
                         </div>
                       );
