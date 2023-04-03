@@ -10,28 +10,17 @@ const Twits = () => {
   const avatar = JSON.parse(userData).avatar;
   const nickname = JSON.parse(userData).nickname;
   const [twits, setTwits] = useState([]);
-  // const [twitHeaderInfo, setTwitHeaderInfo] = useState({});
   const getTwits = async () => {
     const response = await axios.get("/api/twits", {
       headers: { token },
     });
     if (response.data.success) {
-      setTwits(response.data.twits);
-      // getTwitHeaderInfo(twits);
+      const data = response.data.twitsWithHeaders;
+      setTwits(data);
     } else {
       console.log("error");
     }
   };
-  // const getTwitHeaderInfo = async (userId) => {
-  //   const response = await axios.get("/api/users/public-info", {
-  //     headers: { userid: userId },
-  //   });
-  //   if (response.data.success) {
-  //     return response.data.twitHeaderInfo;
-  //   } else {
-  //     console.log("error");
-  //   }
-  // };
   const addComment = async (e, id) => {
     e.preventDefault();
 
@@ -61,16 +50,6 @@ const Twits = () => {
       console.log("error");
     }
   };
-  // const getTwitHeaderInfo = async (userId) => {
-  //     const response = await axios.get("/api/users/public-info", {
-  //       headers: { userid: userId },
-  //     });
-  //     if (response.data.success) {
-  //       return response.data.twitHeaderInfo;
-  //     } else {
-  //       console.log("error");
-  //     }
-  //   };
   useEffect(() => {
     getTwits();
   }, []);
@@ -79,22 +58,16 @@ const Twits = () => {
       <div className="twits">
         {twits.map((twit) => {
           if (twit.parents === null) {
-            // const twitHeaderPromise = getTwitHeaderInfo(twit.userId);
-            // // console.log(twitHeaderPromise);
-            // twitHeaderPromise.then((result) => {
-            //   console.log(result);
-            //   return result;
-            // });
             return (
               <div className="twit" key={twit._id}>
                 <div className="twit-header">
                   <div
-                    className={avatar ? "avatar" : "avatar-none"}
+                    className={twit.avatar ? "avatar" : "avatar-none"}
                     style={{
-                      backgroundImage: `url(${avatar})`,
+                      backgroundImage: `url(${twit.avatar})`,
                     }}
                   ></div>
-                  <p className="nickname">{nickname}</p>
+                  <p className="nickname">{twit.nickname}</p>
                   <div className="twit-header-info"></div>
                   <Trash3Fill
                     onClick={() => deleteTwit(twit._id)}

@@ -27,17 +27,23 @@ const getTwits = async (req, res) => {
   if (!jwt.verify(req.headers.token, "admin4123"))
     return res.status(403).json({ success: false });
   try {
+    const twitsWithHeaders = [];
     const twits = await Twit.find().sort({ date: -1 });
     const users = await User.find();
-    // for (const twit in twits) {
-    //   console.log(twit);
-    // }
-    // POBIERASZ LISTĘ WSZYSTKICH UŻYTKOWNIKÓW
-    // ITERUJESZ PO TWITS I POBIERASZ ID USERA
-    // DODAJESZ DO OBIEKTU TWITS AVATAR UZYTKOWNIKA
 
-    return res.status(200).json({ success: true, twits });
+    twits.forEach((twit) => {
+      const { _id, description, content, parents, date } = twit;
+      const twitUser = users.find((user) => user._id == twit.userId);
+      const twitCopy = { _id, description, content, parents, date };
+
+      twitCopy.nickname = twitUser.nickname;
+      twitCopy.avatar = twitUser.avatar;
+      twitsWithHeaders.push(twitCopy);
+    });
+
+    return res.status(200).json({ success: true, twitsWithHeaders });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ success: false });
   }
 };
