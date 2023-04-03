@@ -4,6 +4,7 @@ import Login from "./views/login";
 import MainPage from "./views/MainPage";
 import Register from "./views/register";
 import Home from "./views/Home";
+import Settings from "./components/Settings";
 function App() {
   return (
     <div className="App">
@@ -13,6 +14,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/*" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/settings" element={<Settings />} />
           {/* <Route path="/*" element={<MainPage />} /> */}
           {/* <Route path="/main" element={<MainPage />} /> */}
         </Routes>

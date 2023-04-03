@@ -44,7 +44,6 @@ const Twits = () => {
 
   const addComment = async (e, id) => {
     e.preventDefault();
-
     const comment = e.target[0].value;
     const response = await axios.post(
       "/api/twits-comment",
@@ -73,51 +72,35 @@ const Twits = () => {
       console.log("error");
     }
   };
-  // const getTwitHeaderInfo = async (userId) => {
-  //     const response = await axios.get("/api/users/public-info", {
-  //       headers: { userid: userId },
-  //     });
-  //     if (response.data.success) {
-  //       return response.data.twitHeaderInfo;
-  //     } else {
-  //       console.log("error");
-  //     }
-  //   };
   useEffect(() => {
     getTwits();
   }, []);
   return (
-    <div className="twits-container">
       <div className="twits">
         {twits.map((twit) => {
           if (twit.parents === null) {
-            // const twitHeaderPromise = getTwitHeaderInfo(twit.userId);
-            // // console.log(twitHeaderPromise);
-            // twitHeaderPromise.then((result) => {
-            //   console.log(result);
-            //   return result;
-            // });
             return (
               <div className="twit" key={twit._id}>
+                <div className="twit-info">
+                  <div
+                      className={avatar ? "avatar" : "avatar-none"}
+                      style={{
+                        backgroundImage: `url(${avatar})`,
+                      }}
+                    ></div>
+                  <p className="nickname">{nickname}</p>
+                </div> 
                 <div className="twit-header">
-
                   <textarea
                     readOnly
                     value={twit.description}
                     className="twit-description"
                   />
+
+                  <p className="twit-heart-counter">{twit.likes.length}</p>
                   <HeartFill size={30} 
                   className={twit.likes.includes(email) ? "twit-heart-active" : "twit-heart"}
-                  onClick={() => addLike(twit._id)}/>
-
-                  <div
-                    className={avatar ? "avatar" : "avatar-none"}
-                    style={{
-                      backgroundImage: `url(${avatar})`,
-                    }}
-                  ></div>
-                  <p className="nickname">{nickname}</p>
-                  <div className="twit-header-info"></div>
+                  onClick={(e) => addLike(twit._id)}/>
 
                   <Trash3Fill
                     onClick={() => deleteTwit(twit._id)}
@@ -125,11 +108,6 @@ const Twits = () => {
                     className="twit-delete"
                   />
                 </div>
-                <textarea
-                  readOnly
-                  value={twit.description}
-                  className="twit-description"
-                />
                 <div
                   className={
                     twit.content ? "twit-content" : "twit-content-none"
@@ -158,12 +136,12 @@ const Twits = () => {
                       );
                     })}
                 </div>
-                <form
-                  className="add-comment"
-                  onSubmit={(e, _id) => {
-                    addComment(e, twit._id);
-                  }}
-                >
+                  <form
+                    className="add-comment"
+                    onSubmit={(e, _id) => {
+                      addComment(e, twit._id);
+                    }}
+                  >
                   <textarea
                     maxLength={200}
                     className="comment-input"
@@ -173,13 +151,13 @@ const Twits = () => {
                     }}
                   ></textarea>
                   <button className="comment-button">Dodaj</button>
-                </form>
+                  </form>
               </div>
             );
           }
         })}
       </div>
-    </div>
+
   );
 };
 
