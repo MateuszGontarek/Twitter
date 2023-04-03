@@ -17,10 +17,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  likes: {
+    type: Array,
+    default: [],
+  },
   userId: {
     type: String,
     required: true,
+
   },
+  hastags: {
+    type: Array,
+    default: [],
+    required: false,
+  }
 });
 
 const Twit = mongoose.model("twits", userSchema);
