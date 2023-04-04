@@ -23,16 +23,6 @@ const Twits = () => {
       console.log("error");
     }
   };
-  // const getTwitHeaderInfo = async (userId) => {
-  //   const response = await axios.get("/api/users/public-info", {
-  //     headers: { userid: userId },
-  //   });
-  //   if (response.data.success) {
-  //     return response.data.twitHeaderInfo;
-  //   } else {
-  //     console.log("error");
-  //   }
-  // };
   const addComment = async (e, id) => {
     e.preventDefault();
     const comment = e.target[0].value;
