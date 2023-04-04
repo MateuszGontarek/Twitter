@@ -24,13 +24,12 @@ const userSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true,
-
   },
   hastags: {
     type: Array,
     default: [],
     required: false,
-  }
+  },
 });
 
 const Twit = mongoose.model("twits", userSchema);

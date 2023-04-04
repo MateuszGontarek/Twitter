@@ -27,30 +27,35 @@ const getTwits = async (req, res) => {
   if (!jwt.verify(req.headers.token, "admin4123"))
     return res.status(403).json({ success: false });
   try {
+    const twitsWithHeaders = [];
     const twits = await Twit.find().sort({ date: -1 });
     const users = await User.find();
-    // for (const twit in twits) {
-    //   console.log(twit);
-    // }
-    // POBIERASZ LISTĘ WSZYSTKICH UŻYTKOWNIKÓW
-    // ITERUJESZ PO TWITS I POBIERASZ ID USERA
-    // DODAJESZ DO OBIEKTU TWITS AVATAR UZYTKOWNIKA
 
-    return res.status(200).json({ success: true, twits });
+    twits.forEach((twit) => {
+      const { _id, description, content, parents, date, likes } = twit;
+      const twitUser = users.find((user) => user._id == twit.userId);
+      const twitCopy = { _id, description, content, parents, date, likes };
+
+      twitCopy.nickname = twitUser.nickname;
+      twitCopy.avatar = twitUser.avatar;
+      twitsWithHeaders.push(twitCopy);
+    });
+
+    return res.status(200).json({ success: true, twitsWithHeaders });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ success: false });
   }
 };
-
 const deleteTwit = async (req, res) => {
   const id = req.headers.id;
   const token = req.headers.token;
   if (!jwt.verify(token, "admin4123"))
     return res.status(403).json({ success: false });
   try {
-    await Twit.deleteMany({$or: [{_id: id}, {parents: id}]})
+    await Twit.deleteMany({ $or: [{ _id: id }, { parents: id }] });
     return res.status(200).json({ success: true });
-  } catch (error) { 
+  } catch (error) {
     return res.status(500).json({ success: false });
   }
 };
@@ -77,32 +82,31 @@ const addComment = async (req, res) => {
   }
 };
 
-
 const addLike = async (req, res) => {
   const { id, email } = req.body;
   const token = req.headers.token;
-  
-  if(!jwt.verify(token, "admin4123")) return res.status(403).json({success: false})
+
+  if (!jwt.verify(token, "admin4123"))
+    return res.status(403).json({ success: false });
   try {
-    const twit = await Twit.findById(id)
-    if(twit.likes.includes(email)) {
-      twit.likes = twit.likes.filter((like) => like !== email)
-      
+    const twit = await Twit.findById(id);
+    if (twit.likes.includes(email)) {
+      twit.likes = twit.likes.filter((like) => like !== email);
     } else {
-      twit.likes.push(email)
+      twit.likes.push(email);
     }
-    await twit.save()
-    console.log(await Twit.findById(id))
-    return res.status(200).json({success: true})
+    await twit.save();
+    console.log(await Twit.findById(id));
+    return res.status(200).json({ success: true });
   } catch (error) {
-    return res.status(500).json({success: false})
+    return res.status(500).json({ success: false });
   }
-}
-  
+};
+
 module.exports = {
   addTwit,
   getTwits,
   deleteTwit,
   addComment,
-  addLike
+  addLike,
 };
