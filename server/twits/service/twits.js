@@ -68,6 +68,7 @@ const addComment = async (req, res) => {
       description: comment,
       content: null,
       parents: id,
+      userId: null,
     }).save();
     return res.status(200).json({ success: true });
   } catch (error) {
