@@ -32,13 +32,17 @@ const getTwits = async (req, res) => {
     const users = await User.find();
 
     twits.forEach((twit) => {
-      const { _id, description, content, parents, date, likes } = twit;
-      const twitUser = users.find((user) => user._id == twit.userId);
-      const twitCopy = { _id, description, content, parents, date, likes };
+      if (twit.userId) {
+        const { _id, description, content, parents, date, likes } = twit;
+        const twitUser = users.find((user) => user._id == twit.userId);
+        const twitCopy = { _id, description, content, parents, date, likes };
 
-      twitCopy.nickname = twitUser.nickname;
-      twitCopy.avatar = twitUser.avatar;
-      twitsWithHeaders.push(twitCopy);
+        twitCopy.nickname = twitUser.nickname;
+        twitCopy.avatar = twitUser.avatar;
+        twitsWithHeaders.push(twitCopy);
+      } else {
+        twitsWithHeaders.push(twit);
+      }
     });
 
     return res.status(200).json({ success: true, twitsWithHeaders });
@@ -73,7 +77,8 @@ const addComment = async (req, res) => {
       description: comment,
       content: null,
       parents: id,
-      userId: null,
+      // userId: null,
+      nickname: "gewgdewygdw",
     }).save();
     return res.status(200).json({ success: true });
   } catch (error) {
@@ -96,7 +101,6 @@ const addLike = async (req, res) => {
       twit.likes.push(email);
     }
     await twit.save();
-    console.log(await Twit.findById(id));
     return res.status(200).json({ success: true });
   } catch (error) {
     return res.status(500).json({ success: false });

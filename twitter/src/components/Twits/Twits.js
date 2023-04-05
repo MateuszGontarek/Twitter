@@ -8,8 +8,8 @@ const Twits = () => {
   const token = sessionStorage.getItem("token");
   const { email } = JSON.parse(sessionStorage.getItem("userData"));
   const userData = sessionStorage.getItem("userData");
-  // const avatar = JSON.parse(userData).avatar;
-  // const nickname = JSON.parse(userData).nickname;
+  const avatar = JSON.parse(userData).avatar;
+  const nickname = JSON.parse(userData).nickname;
   const [twits, setTwits] = useState([]);
 
   const getTwits = async () => {
@@ -17,8 +17,7 @@ const Twits = () => {
       headers: { token },
     });
     if (response.data.success) {
-      const data = response.data.twitsWithHeaders;
-      setTwits(data);
+      setTwits(response.data.twitsWithHeaders);
       // getTwitHeaderInfo(twits);
     } else {
       console.log("error");
