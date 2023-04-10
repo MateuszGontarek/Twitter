@@ -3,33 +3,46 @@ import "./Settings.scss";
 import axios from "axios";
 import FileBase64 from "react-file-base64";
 import { useState } from "react";
+import Header from "./../Header/Header";
 const Settings = () => {
   const [avatar, setAvatar] = useState("");
+  const [newNickName, setNewNickName] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const token = sessionStorage.getItem("token");
   const userData = sessionStorage.getItem("userData");
 
 
-  const updateAvatar = async () => {
+  const update = async () => {
     const id = JSON.parse(userData)._id;
-    const newAvatar = avatar.image;
-    const response = await axios.put("/api/users/update", {
-      id,
+    if(!avatar && !newNickName && !currentPassword && !newPassword) return;
+    const data = {
+      avatar: avatar.image,
+      newNickName,
+      currentPassword,
+      newPassword,
       token,
-      newAvatar,
-    });
-
-
+      id
+    };
+    if (!data) return;
+    const response = await axios.put("/api/users/update", data);
     if (response.data.success) {
-      setAvatar({});
+      console.log("success");
+      // modify one element of the userData object
+      const userData = JSON.parse(sessionStorage.getItem("userData"));
+      userData['nickname'] = newNickName;
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+      window.location.reload();
     } else {
       console.log("error");
     }
-  };
+  }
 
 
 
   return (
     <div className="settings">
+      <Header />
       <h2>Settings</h2>
       <div className="settings-container">
         <div className="set-avatar">
@@ -42,15 +55,21 @@ const Settings = () => {
         </div>
         <div className="set-nickname">
           <p>Change nickname</p>
-          <input type="text" placeholder="new nickname" />
+          <input type="text" placeholder="new nickname" onChange={(e) =>
+            setNewNickName(e.target.value)
+          }/>
         </div>
         <div className="new-password">
           <p>Change password</p>
-          <input type="text" placeholder="current password" />
-          <input type="text" placeholder="new password" />
+          <input type="text" placeholder="current password" onChange={(e) =>
+          setCurrentPassword(e.target.value)}/>
+
+          <input type="text" placeholder="new password" onChange={(e) => 
+            setNewPassword(e.target.value)
+          }/>
         </div>
         <div className="update-user">
-          <button className="update-user" onClick={updateAvatar}>
+          <button className="update-user" onClick={update}>
             Update
           </button>
         </div>
