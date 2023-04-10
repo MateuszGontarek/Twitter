@@ -3,13 +3,11 @@ import "./Twits.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import * as Icon from "react-bootstrap-icons";
-import { Trash3Fill, HeartFill } from "react-bootstrap-icons";
+import { Trash3Fill, HeartFill, PeopleCircle } from "react-bootstrap-icons";
 const Twits = () => {
   const token = sessionStorage.getItem("token");
   const { email } = JSON.parse(sessionStorage.getItem("userData"));
   const userData = sessionStorage.getItem("userData");
-  const avatar = JSON.parse(userData).avatar;
-  const nickname = JSON.parse(userData).nickname;
   const [twits, setTwits] = useState([]);
 
   const getTwits = async () => {
@@ -18,7 +16,6 @@ const Twits = () => {
     });
     if (response.data.success) {
       setTwits(response.data.twitsWithHeaders);
-      // getTwitHeaderInfo(twits);
     } else {
       console.log("error");
     }
@@ -80,9 +77,11 @@ const Twits = () => {
             <div className="twit" key={twit._id}>
               <div className="twit-info">
                 <div
-                  className={twit.avatar ? "avatar" : "avatar-none"}
+                  className="twit-avatar"
                   style={{
-                    backgroundImage: `url(${twit.avatar})`,
+                    backgroundImage: twit.avatar
+                      ? `url(${twit.avatar})`
+                      : 'url("AccountCircle.svg")',
                   }}
                 ></div>
                 <p className="nickname">{twit.nickname}</p>
