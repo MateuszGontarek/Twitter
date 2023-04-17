@@ -20,18 +20,16 @@ const Home = () => {
   return (
     <div className="home-page">
       <Header />
-<<<<<<< HEAD
       <div className="home-container">
-=======
-      <div className="search">
-        <Search />
-      </div>
-      <div className="twits-functionality">
->>>>>>> d699c8e4b4c4710d66c9a6e78ae1cd57cc69f573
-        <AddTwit />
-        {/* <Searcher /> */}
-        <Twits />
-        {/* <Settings /> */}
+        <div className="search">
+          <Search />
+        </div>
+        <div className="twits-functionality">
+          <AddTwit />
+          {/* <Searcher /> */}
+          <Twits />
+          {/* <Settings /> */}
+        </div>
       </div>
     </div>
   );
