@@ -1,11 +1,8 @@
 @import "./../../colors.scss";
 .home-page {
   background: $background;
-  .twits-functionality {
+  min-height: 100vh;
+  .home-container {
     padding-top: 100px;
-    justify-content: space-around;
-  }
-  h2 {
-    margin: 10px 0;
   }
 }

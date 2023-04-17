@@ -6,6 +6,7 @@ import Header from "../../components/Header";
 import AddTwit from "../../components/AddTwit";
 import Twits from "../../components/Twits";
 import Settings from "../../components/Settings";
+import Searcher from "../../components/Searcher";
 const Home = () => {
   const navigate = useNavigate();
   useEffect(() => {
@@ -18,11 +19,12 @@ const Home = () => {
   return (
     <div className="home-page">
       <Header />
-      <div className="twits-functionality">
+      <div className="home-container">
         <AddTwit />
+        {/* <Searcher /> */}
         <Twits />
+        {/* <Settings /> */}
       </div>
-      <Settings />
     </div>
   );
 };

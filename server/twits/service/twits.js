@@ -3,19 +3,23 @@ const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
 
 const addTwit = async (req, res) => {
+  if (!jwt.verify(req.body.token, "admin4123"))
+    return res.status(403).json({ success: false });
   const date = new Date();
   const data = req.body.data;
   const description = data.twitText;
   const userId = data.userId;
   const content = data.twitContent.image;
-  if (!jwt.verify(req.body.token, "admin4123"))
-    return res.status(403).json({ success: false });
+  const hashtags = description
+    .match(/#[a-zA-Zа-яА-Я0-9]+/g)
+    .map((hashtag) => hashtag.substring(1));
   try {
     await new Twit({
       description,
       content,
       userId,
       date,
+      hashtags,
     }).save();
     return res.status(200).json({ success: true });
   } catch (error) {
@@ -33,10 +37,63 @@ const getTwits = async (req, res) => {
 
     twits.forEach((twit) => {
       if (twit.userId) {
-        const { _id, description, content, parents, date, likes } = twit;
+        const { _id, description, content, parents, date, likes, hashtags } =
+          twit;
         const twitUser = users.find((user) => user._id == twit.userId);
-        const twitCopy = { _id, description, content, parents, date, likes };
+        const twitCopy = {
+          _id,
+          description,
+          content,
+          parents,
+          date,
+          likes,
+          hashtags,
+        };
 
+        twitCopy.nickname = twitUser.nickname;
+        twitCopy.avatar = twitUser.avatar;
+        twitsWithHeaders.push(twitCopy);
+      } else {
+        twitsWithHeaders.push(twit);
+      }
+    });
+
+    return res.status(200).json({ success: true, twitsWithHeaders });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false });
+  }
+};
+const getTwitsByHashtag = async (req, res) => {
+  const hashtag = req.headers.hashtag;
+
+  try {
+    const twitsWithHeaders = [];
+    const twits = await Twit.find().sort({ date: -1 });
+    const users = await User.find();
+    const twitsByHashtag = [];
+
+    twits.forEach((twit) => {
+      twit.hashtags.forEach((twitHashtag) => {
+        if (twitHashtag.includes(hashtag)) {
+          twitsByHashtag.push(twit);
+        }
+      });
+    });
+    twitsByHashtag.forEach((twit) => {
+      if (twit.userId) {
+        const { _id, description, content, parents, date, likes, hashtags } =
+          twit;
+        const twitUser = users.find((user) => user._id == twit.userId);
+        const twitCopy = {
+          _id,
+          description,
+          content,
+          parents,
+          date,
+          likes,
+          hashtags,
+        };
         twitCopy.nickname = twitUser.nickname;
         twitCopy.avatar = twitUser.avatar;
         twitsWithHeaders.push(twitCopy);
@@ -113,4 +170,5 @@ module.exports = {
   deleteTwit,
   addComment,
   addLike,
+  getTwitsByHashtag,
 };

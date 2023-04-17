@@ -43,7 +43,6 @@ const AddTwit = () => {
   return (
     <div className="add-twits-container">
       <form>
-        {/* <img src="img-icon.png" /> */}
         <textarea
           maxLength={200}
           onChange={(e) => {

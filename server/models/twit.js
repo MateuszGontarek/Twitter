@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  hastags: {
+  hashtags: {
     type: Array,
     default: [],
     required: false,

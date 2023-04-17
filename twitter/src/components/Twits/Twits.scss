@@ -4,7 +4,13 @@
   margin: 0;
   padding: 0;
 }
+.searcher {
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+}
 .twits {
+  padding-top: 120px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -22,18 +28,22 @@
     // &:hover {
     //   box-shadow: 0 0 20px $secondary;
     // }
-    .twit-info {
+    .twit-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 10px;
       .twit-avatar {
+        border: 3px solid $secondary;
         width: 60px;
         height: 60px;
         border-radius: 50%;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center center;
+      }
+      .twit-avatar-default {
+        border: none !important;
       }
       .nickname {
         color: $background;
@@ -42,7 +52,7 @@
         margin-right: 10px;
       }
     }
-    .twit-header {
+    .twit-info {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -62,26 +72,11 @@
           border: none;
           box-shadow: none;
         }
-      }
-      .nickname {
-        color: $blue;
-        font-size: 35px;
-        font-weight: 600;
-        margin-right: 10px;
-      }
-      .avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center center;
-      }
-      .avatar-none {
-        background: $blue;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
+        .hashtag {
+          color: $secondary;
+          font-weight: 600;
+          cursor: pointer;
+        }
       }
       .twit-heart-counter {
         color: $blue;

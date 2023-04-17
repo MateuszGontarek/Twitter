@@ -7,4 +7,5 @@ router.get("/api/twits", usersService.getTwits);
 router.delete("/api/twits", usersService.deleteTwit);
 router.post("/api/twits-comment", usersService.addComment);
 router.post("/api/twits-like", usersService.addLike);
+router.get("/api/twits/find", usersService.getTwitsByHashtag);
 module.exports = router;
