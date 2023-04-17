@@ -2,13 +2,16 @@ import React from "react";
 import "./Twits.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import * as Icon from "react-bootstrap-icons";
 import { Trash3Fill, HeartFill, Search } from "react-bootstrap-icons";
-const Twits = () => {
+const Twits = (props) => {
+  const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
-  const { email } = JSON.parse(sessionStorage.getItem("userData"));
-  const userData = sessionStorage.getItem("userData");
+  let { email } = "";
+  if (!notLoginUser) {
+    email = JSON.parse(sessionStorage.getItem("userData"));
+  }
+  // const userData = sessionStorage.getItem("userData");
   const [twits, setTwits] = useState([]);
   const findTwits = async (e) => {
     const hashtagContent = hashtagRef.current.value;
@@ -19,7 +22,6 @@ const Twits = () => {
     let hashtag = "";
     if (hashtagContent[0] == "#") {
       hashtag = hashtagContent.substring(1);
-      console.log(hashtag);
     } else {
       hashtag = hashtagContent;
     }
@@ -48,9 +50,7 @@ const Twits = () => {
   };
 
   const getTwits = async () => {
-    const response = await axios.get("/api/twits", {
-      headers: { token },
-    });
+    const response = await axios.get("/api/twits");
     if (response.data.success) {
       setTwits(response.data.twitsWithHeaders);
     } else {
@@ -59,6 +59,10 @@ const Twits = () => {
   };
 
   const addLike = async (id) => {
+    if (notLoginUser) {
+      console.log("zaloguj się");
+      return;
+    }
     const response = await axios.post(
       "/api/twits-like",
       { id, email },
@@ -74,6 +78,10 @@ const Twits = () => {
   };
 
   const addComment = async (e, id) => {
+    if (notLoginUser) {
+      console.log("zaloguj się");
+      return;
+    }
     e.preventDefault();
     const comment = e.target[0].value;
     const response = await axios.post(
@@ -93,12 +101,15 @@ const Twits = () => {
   };
 
   const deleteTwit = async (id) => {
+    if (notLoginUser) {
+      console.log("zaloguj się");
+      return;
+    }
     const response = await axios.delete("/api/twits", {
       headers: { id, token },
     });
     if (response.data.success) {
       getTwits();
-      console.log(twits);
     } else {
       console.log("error");
     }
@@ -172,11 +183,13 @@ const Twits = () => {
                     onClick={(e) => addLike(twit._id)}
                   />
 
-                  <Trash3Fill
-                    onClick={() => deleteTwit(twit._id)}
-                    size={30}
-                    className="twit-delete"
-                  />
+                  {twit.userId === email._id && (
+                    <Trash3Fill
+                      onClick={() => deleteTwit(twit._id)}
+                      size={30}
+                      className="twit-delete"
+                    />
+                  )}
                 </div>
                 <div
                   className={

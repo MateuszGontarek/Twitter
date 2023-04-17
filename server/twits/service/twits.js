@@ -10,9 +10,10 @@ const addTwit = async (req, res) => {
   const description = data.twitText;
   const userId = data.userId;
   const content = data.twitContent.image;
-  const hashtags = description
-    .match(/#[a-zA-Zа-яА-Я0-9]+/g)
-    .map((hashtag) => hashtag.substring(1));
+  let hashtags = description.match(/#[a-zA-Zа-яА-Я0-9]+/g);
+  if (hashtags) {
+    hashtags = hashtags.map((hashtag) => hashtag.substring(1));
+  }
   try {
     await new Twit({
       description,
@@ -28,8 +29,6 @@ const addTwit = async (req, res) => {
 };
 
 const getTwits = async (req, res) => {
-  if (!jwt.verify(req.headers.token, "admin4123"))
-    return res.status(403).json({ success: false });
   try {
     const twitsWithHeaders = [];
     const twits = await Twit.find().sort({ date: -1 });
@@ -37,11 +36,20 @@ const getTwits = async (req, res) => {
 
     twits.forEach((twit) => {
       if (twit.userId) {
-        const { _id, description, content, parents, date, likes, hashtags } =
-          twit;
+        const {
+          _id,
+          userId,
+          description,
+          content,
+          parents,
+          date,
+          likes,
+          hashtags,
+        } = twit;
         const twitUser = users.find((user) => user._id == twit.userId);
         const twitCopy = {
           _id,
+          userId,
           description,
           content,
           parents,
@@ -145,17 +153,17 @@ const addComment = async (req, res) => {
 };
 
 const addLike = async (req, res) => {
-  const { id, email } = req.body;
+  const { id, userData } = req.body;
   const token = req.headers.token;
 
   if (!jwt.verify(token, "admin4123"))
     return res.status(403).json({ success: false });
   try {
     const twit = await Twit.findById(id);
-    if (twit.likes.includes(email)) {
-      twit.likes = twit.likes.filter((like) => like !== email);
+    if (twit.likes.includes(userData)) {
+      twit.likes = twit.likes.filter((like) => like !== userData);
     } else {
-      twit.likes.push(email);
+      twit.likes.push(userData);
     }
     await twit.save();
     return res.status(200).json({ success: true });

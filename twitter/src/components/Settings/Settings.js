@@ -12,33 +12,29 @@ const Settings = () => {
   const token = sessionStorage.getItem("token");
   const userData = sessionStorage.getItem("userData");
 
-
   const update = async () => {
     const id = JSON.parse(userData)._id;
-    if(!avatar && !newNickName && !currentPassword && !newPassword) return;
+    if (!avatar && !newNickName && !currentPassword && !newPassword) return;
     const data = {
       avatar: avatar.image,
       newNickName,
       currentPassword,
       newPassword,
       token,
-      id
+      id,
     };
     if (!data) return;
     const response = await axios.put("/api/users/update", data);
     if (response.data.success) {
       console.log("success");
-      // modify one element of the userData object
       const userData = JSON.parse(sessionStorage.getItem("userData"));
-      userData['nickname'] = newNickName;
+      userData["nickname"] = newNickName;
       sessionStorage.setItem("userData", JSON.stringify(userData));
       window.location.reload();
     } else {
       console.log("error");
     }
-  }
-
-
+  };
 
   return (
     <div className="settings">
@@ -55,18 +51,25 @@ const Settings = () => {
         </div>
         <div className="set-nickname">
           <p>Change nickname</p>
-          <input type="text" placeholder="new nickname" onChange={(e) =>
-            setNewNickName(e.target.value)
-          }/>
+          <input
+            type="text"
+            placeholder="new nickname"
+            onChange={(e) => setNewNickName(e.target.value)}
+          />
         </div>
         <div className="new-password">
           <p>Change password</p>
-          <input type="text" placeholder="current password" onChange={(e) =>
-          setCurrentPassword(e.target.value)}/>
+          <input
+            type="text"
+            placeholder="current password"
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
 
-          <input type="text" placeholder="new password" onChange={(e) => 
-            setNewPassword(e.target.value)
-          }/>
+          <input
+            type="text"
+            placeholder="new password"
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
         </div>
         <div className="update-user">
           <button className="update-user" onClick={update}>

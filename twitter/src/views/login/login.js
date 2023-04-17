@@ -18,10 +18,8 @@ const Login = () => {
       const userData = JSON.stringify(response.data.user);
       sessionStorage.setItem("userData", userData);
       navigate("/home");
-    }
-    else 
-    {
-      console.log(response)
+    } else {
+      console.log(response);
     }
   };
 

@@ -5,6 +5,8 @@ import FileBase64 from "react-file-base64";
 import { useState } from "react";
 
 const AddTwit = () => {
+  const token = sessionStorage.getItem("token");
+
   const userData = sessionStorage.getItem("userData");
   const userId = JSON.parse(userData)._id;
   const twitTextRef = React.createRef();
@@ -35,7 +37,6 @@ const AddTwit = () => {
     if (response.data.success) {
       // twitTextRef.current.value = "";
       setTwitContent({});
-      window.location.reload();
     } else {
       console.log("error");
     }
