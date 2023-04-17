@@ -19,6 +19,10 @@ const Login = () => {
       sessionStorage.setItem("userData", userData);
       navigate("/home");
     }
+    else 
+    {
+      console.log(response)
+    }
   };
 
   return (
