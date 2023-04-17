@@ -21,9 +21,6 @@ const Home = () => {
     <div className="home-page">
       <Header />
       <div className="home-container">
-        <div className="search">
-          <Search />
-        </div>
         <div className="twits-functionality">
           <AddTwit />
           {/* <Searcher /> */}
