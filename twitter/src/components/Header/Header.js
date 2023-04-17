@@ -9,6 +9,8 @@ const Header = () => {
   const userNickname = userData.nickname;
   const userEmail = userData.email;
   const navigate = useNavigate();
+
+  console.log(sessionStorage.getItem("userData"));
   return (
     <div className="panel-container container">
       <div className="top">
