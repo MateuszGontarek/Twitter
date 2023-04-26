@@ -31,13 +31,13 @@ const Login = () => {
           ref={loginRef}
           type="text"
           placeholder="Email"
-          defaultValue={"admin@technischools.com"}
+          defaultValue={"test@technischools.com"}
         />
         <input
           ref={passwordRef}
           type="password"
           placeholder="Password"
-          defaultValue={"admin4123"}
+          defaultValue={"test"}
         />
         <button onClick={(e) => loginFn(e)}>Login</button>
       </form>

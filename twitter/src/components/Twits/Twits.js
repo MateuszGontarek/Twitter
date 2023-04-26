@@ -28,21 +28,6 @@ const Twits = (props) => {
 
     getTwitsByHashtag(hashtag);
   };
-
-  const getMoreTwitsByHashtag = (hashtag) => {
-    // console.log(24978598743);
-  };
-  const getTwitsByHashtag = async (hashtag) => {
-    const response = await axios.get("/api/twits/find", {
-      headers: { hashtag },
-    });
-    if (response.data.success) {
-      const twitsWithHeaders = response.data.twitsWithHeaders;
-      setTwits(twitsWithHeaders);
-    } else {
-      console.log("error");
-    }
-  };
   const ifEmpty = (e) => {
     if (e.target.classList.contains("warning")) {
       e.target.classList.remove("warning");
@@ -114,8 +99,23 @@ const Twits = (props) => {
       console.log("error");
     }
   };
+  const getTwitsByHashtag = async (hashtag) => {
+    const response = await axios.get("/api/twits/find", {
+      headers: { hashtag },
+    });
+    if (response.data.success) {
+      const twitsWithHeaders = response.data.twitsWithHeaders;
+      setTwits(twitsWithHeaders);
+    } else {
+      console.log("error");
+    }
+  };
 
   useEffect(() => {
+    window.getTwitsByHashtagAfterClick = (event) => {
+      const hashtag = event.target.innerText.substring(1);
+      getTwitsByHashtag(hashtag);
+    };
     getTwits();
   }, []);
   return (
@@ -166,7 +166,7 @@ const Twits = (props) => {
                       __html: twit.hashtags
                         ? twit.description.replace(
                             /#(\w+)/g,
-                            '<span onclick="{}" class="hashtag">#$1</span>'
+                            '<span onclick="getTwitsByHashtagAfterClick(event)" class="hashtag">#$1</span>'
                           )
                         : twit.description,
                     }}
@@ -183,7 +183,7 @@ const Twits = (props) => {
                     onClick={(e) => addLike(twit._id)}
                   />
 
-                  {twit.userId === email._id && (
+                  {email && twit.userId === email._id && (
                     <Trash3Fill
                       onClick={() => deleteTwit(twit._id)}
                       size={30}

@@ -74,7 +74,6 @@ const getTwits = async (req, res) => {
 };
 const getTwitsByHashtag = async (req, res) => {
   const hashtag = req.headers.hashtag;
-
   try {
     const twitsWithHeaders = [];
     const twits = await Twit.find().sort({ date: -1 });
