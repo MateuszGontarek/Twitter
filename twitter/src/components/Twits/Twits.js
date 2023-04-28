@@ -114,7 +114,7 @@ const Twits = (props) => {
   useEffect(() => {
     window.getTwitsByHashtagAfterClick = (event) => {
       const hashtag = event.target.innerText.substring(1);
-      getTwitsByHashtag(hashtag);
+      getTwitsByHashtag(hashtag, true);
     };
     getTwits();
   }, []);

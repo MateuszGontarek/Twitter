@@ -1,17 +1,53 @@
-import { useNavigate } from "react-router-dom";
-import React from "react";
-// import { useState, useEffect } from "react";
-// import axios from "axios";
+import React, { useState } from "react";
 import "./Header.scss";
 
 const Header = () => {
-  const userData = JSON.parse(sessionStorage.getItem("userData"));
-  const userNickname = userData.nickname;
-  const userEmail = userData.email;
-  const navigate = useNavigate();
-
   return (
-    <div className="panel-container container">
+    <nav role="navigation">
+      <div id="menuToggle">
+        {/* <!--
+    A fake / hidden checkbox is used as click reciever,
+    so you can use the :checked selector on it.
+    --> */}
+        <input type="checkbox" />
+
+        {/* <!--
+    Some spans to act as a hamburger.
+    
+    They are acting like a real hamburger,
+    not that McDonalds stuff.
+    --> */}
+        <span></span>
+        <span></span>
+        <span></span>
+
+        {/* <!--
+    Too bad the menu has to be inside of the button
+    but hey, it's pure CSS magic.
+    --> */}
+        <ul id="menu">
+          <a href="#">
+            <li>Home</li>
+          </a>
+          <a href="#">
+            <li>About</li>
+          </a>
+          <a href="#">
+            <li>Info</li>
+          </a>
+          <a href="#">
+            <li>Contact</li>
+          </a>
+        </ul>
+      </div>
+    </nav>
+  );
+};
+
+export default Header;
+
+{
+  /* <div className="panel-container container">
       <div className="top">
         <div className="top-left">
           <img
@@ -36,8 +72,5 @@ const Header = () => {
           Wyloguj
         </button>
       </div>
-    </div>
-  );
-};
-
-export default Header;
+    </div> */
+}
