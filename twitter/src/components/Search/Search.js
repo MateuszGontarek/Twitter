@@ -4,9 +4,6 @@ import axios from "axios";
 import { useState } from "react";
 
 const Search = () => {
-
-  
-  
   return (
     <div className="Search-Box">
       <div>

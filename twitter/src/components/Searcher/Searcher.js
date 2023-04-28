@@ -13,10 +13,12 @@ const Searcher = () => {
       e.target.classList.remove("warning");
     }
   };
+  
   const autoHeight = (element) => {
     element.style.height = "auto";
     element.style.height = element.scrollHeight + "px";
   };
+
   const findTwits = async (e) => {
     e.preventDefault();
     const hashtag = hashtagRef.current.value;
