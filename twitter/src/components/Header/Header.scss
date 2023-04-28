@@ -31,7 +31,6 @@ a {
   position: absolute;
   top: -7px;
   left: -5px;
-
   cursor: pointer;
 
   opacity: 0; /* hide this */
@@ -110,27 +109,57 @@ a {
   list-style-type: none;
   -webkit-font-smoothing: antialiased;
   /* to stop flickering of text in safari */
-
   transform-origin: 0% 0%;
   transform: translate(100%, 0);
-
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
-
-#menu li {
+#menu a,
+.user-info {
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
   margin-left: 10px;
+  border-radius: 50px;
+}
+#menu a .menuIcon {
+  margin-right: 25px;
+}
+#menu li {
   padding: 10px 0;
-  padding-left: 50px;
   font-size: 22px;
   color: $secondary;
   transition: 0.1s ease;
   border-radius: 50px;
 }
-#menu li:hover {
+#menu a:hover {
   background-color: $blue;
   color: $white;
 }
-
+#menu a:hover li {
+  color: $white;
+}
+#menu .user-info .avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid $secondary;
+  margin-right: 25px;
+}
+#menu .user-info {
+  margin: 15px 0;
+}
+#menu .user-info .nickname {
+  color: $secondary;
+  font-size: 30px;
+  font-weight: 700;
+  margin-right: 25px;
+}
+#menu .user-info .default-avatar {
+  border: none !important;
+}
 /*
  * And let's fade it in from the left
  */
