@@ -1,42 +1,71 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Header.scss";
-
+import {
+  BoxArrowLeft,
+  Twitter,
+  Heart,
+  Gear,
+  QuestionCircle,
+  Person,
+} from "react-bootstrap-icons";
 const Header = () => {
+  // 1.Avatar + Nick
+  // 2.Log out
+  // 3.My twits
+  // 4.Liked twits
+  // 5.Settings
+  // 6.Support*
+  const navigate = useNavigate();
+  const menuIconSize = 20;
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
   return (
     <nav role="navigation">
       <div id="menuToggle">
-        {/* <!--
-    A fake / hidden checkbox is used as click reciever,
-    so you can use the :checked selector on it.
-    --> */}
         <input type="checkbox" />
-
-        {/* <!--
-    Some spans to act as a hamburger.
-    
-    They are acting like a real hamburger,
-    not that McDonalds stuff.
-    --> */}
         <span></span>
         <span></span>
         <span></span>
-
-        {/* <!--
-    Too bad the menu has to be inside of the button
-    but hey, it's pure CSS magic.
-    --> */}
         <ul id="menu">
+          <div className="user-info">
+            <div
+              style={{
+                backgroundImage: userData.avatar
+                  ? `url(${userData.avatar})`
+                  : 'url("AccountCircle.svg")',
+              }}
+              className={
+                userData.avatar ? "menuIcon avatar" : "menuIcon default-avatar"
+              }
+            />
+            <li className="nickname">{userData.nickname}</li>
+          </div>
           <a href="#">
-            <li>Home</li>
+            <BoxArrowLeft className="menuIcon" size={menuIconSize} />
+            <li
+              onClick={() => {
+                sessionStorage.clear();
+                navigate("/login");
+              }}
+            >
+              Log out
+            </li>
           </a>
           <a href="#">
-            <li>About</li>
+            <Twitter className="menuIcon" size={menuIconSize} />
+            <li>My twits</li>
           </a>
           <a href="#">
-            <li>Info</li>
+            <Heart className="menuIcon" size={menuIconSize} />
+            <li>Liked twits</li>
+          </a>
+          <a href="settings">
+            <Gear className="menuIcon" size={menuIconSize} />
+            <li>Settings</li>
           </a>
           <a href="#">
-            <li>Contact</li>
+            <QuestionCircle className="menuIcon" size={menuIconSize} />
+            <li>Support</li>
           </a>
         </ul>
       </div>
