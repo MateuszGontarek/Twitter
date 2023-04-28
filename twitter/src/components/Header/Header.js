@@ -9,13 +9,8 @@ import {
   QuestionCircle,
   Person,
 } from "react-bootstrap-icons";
+
 const Header = () => {
-  // 1.Avatar + Nick
-  // 2.Log out
-  // 3.My twits
-  // 4.Liked twits
-  // 5.Settings
-  // 6.Support*
   const navigate = useNavigate();
   const menuIconSize = 20;
   const userData = JSON.parse(sessionStorage.getItem("userData"));
@@ -40,30 +35,29 @@ const Header = () => {
             />
             <li className="nickname">{userData.nickname}</li>
           </div>
-          <a href="#">
+          <a href="login">
             <BoxArrowLeft className="menuIcon" size={menuIconSize} />
             <li
               onClick={() => {
                 sessionStorage.clear();
-                navigate("/login");
               }}
             >
               Log out
             </li>
           </a>
-          <a href="#">
+          <a href="home/my-twits">
             <Twitter className="menuIcon" size={menuIconSize} />
             <li>My twits</li>
           </a>
-          <a href="#">
+          <a href="home/liked">
             <Heart className="menuIcon" size={menuIconSize} />
             <li>Liked twits</li>
           </a>
-          <a href="settings">
+          <a href="home/settings">
             <Gear className="menuIcon" size={menuIconSize} />
             <li>Settings</li>
           </a>
-          <a href="#">
+          <a target="_blank" href="support">
             <QuestionCircle className="menuIcon" size={menuIconSize} />
             <li>Support</li>
           </a>
