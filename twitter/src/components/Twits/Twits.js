@@ -4,14 +4,15 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Trash3Fill, HeartFill, Search } from "react-bootstrap-icons";
 const Twits = (props) => {
+  const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
   const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
+
   let { email } = "";
   if (!notLoginUser) {
     email = JSON.parse(sessionStorage.getItem("userData"));
   }
-  // const userData = sessionStorage.getItem("userData");
   const [twits, setTwits] = useState([]);
   const findTwits = async (e) => {
     const hashtagContent = hashtagRef.current.value;
@@ -20,7 +21,7 @@ const Twits = (props) => {
     }
     e.preventDefault();
     let hashtag = "";
-    if (hashtagContent[0] == "#") {
+    if (hashtagContent[0] === "#") {
       hashtag = hashtagContent.substring(1);
     } else {
       hashtag = hashtagContent;
@@ -62,6 +63,23 @@ const Twits = (props) => {
     }
   };
 
+  const getUserLikes = async (id) => {
+    if (notLoginUser) {
+      console.log("zaloguj się");
+      return;
+    }
+    const response = await axios.get("/api/twits-like", {
+      headers: { token },
+      id: id,
+    });
+    if (response.data.success) {
+      const twitsWithHeaders = response.data.twitsWithHeaders;
+      setTwits(twitsWithHeaders);
+    } else {
+      console.log("error");
+    }
+  };
+
   const addComment = async (e, id) => {
     if (notLoginUser) {
       console.log("zaloguj się");
@@ -71,7 +89,7 @@ const Twits = (props) => {
     const comment = e.target[0].value;
     const response = await axios.post(
       "/api/twits-comment",
-      { comment, id },
+      { comment, id, userId: email._id },
       {
         headers: { token },
       }
@@ -183,7 +201,7 @@ const Twits = (props) => {
                     onClick={(e) => addLike(twit._id)}
                   />
 
-                  {email && twit.userId === email._id && (
+                  {twit.userId === email._id && (
                     <Trash3Fill
                       onClick={() => deleteTwit(twit._id)}
                       size={30}
@@ -210,11 +228,13 @@ const Twits = (props) => {
                             value={comment.description}
                             className="twit-comment-description"
                           />
-                          <Trash3Fill
-                            onClick={() => deleteTwit(comment._id)}
-                            size={25}
-                            className="twit-delete"
-                          />
+                          {comment.userId === email._id && (
+                            <Trash3Fill
+                              onClick={() => deleteTwit(twit._id)}
+                              size={30}
+                              className="twit-delete"
+                            />
+                          )}
                         </div>
                       );
                     })}

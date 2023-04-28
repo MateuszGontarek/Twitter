@@ -129,7 +129,7 @@ const deleteTwit = async (req, res) => {
 };
 
 const addComment = async (req, res) => {
-  const { id, comment } = req.body;
+  const { id, comment, userId } = req.body;
   const token = req.headers.token;
 
   if (!comment) return res.status(400).json({ success: false });
@@ -141,7 +141,7 @@ const addComment = async (req, res) => {
       description: comment,
       content: null,
       parents: id,
-      // userId: null,
+      userId: userId,
       nickname: "gewgdewygdw",
     }).save();
     return res.status(200).json({ success: true });
@@ -171,6 +171,17 @@ const addLike = async (req, res) => {
   }
 };
 
+const getTwitsWithLike = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const twitsWithLike = await Twit.find({ likes: id });
+    return res.status(200).json({ success: true, twitsWithLike });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false });
+  }
+};
+
 module.exports = {
   addTwit,
   getTwits,
@@ -178,4 +189,5 @@ module.exports = {
   addComment,
   addLike,
   getTwitsByHashtag,
+  getTwitsWithLike,
 };
