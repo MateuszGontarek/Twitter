@@ -201,7 +201,7 @@ const Twits = (props) => {
                     onClick={(e) => addLike(twit._id)}
                   />
 
-                  {twit.userId === email._id && (
+                  {email && twit.userId === email._id && (
                     <Trash3Fill
                       onClick={() => deleteTwit(twit._id)}
                       size={30}
@@ -228,7 +228,7 @@ const Twits = (props) => {
                             value={comment.description}
                             className="twit-comment-description"
                           />
-                          {comment.userId === email._id && (
+                          {email && comment.userId === email._id && (
                             <Trash3Fill
                               onClick={() => deleteTwit(twit._id)}
                               size={30}

@@ -3,7 +3,7 @@ import "./Settings.scss";
 import axios from "axios";
 import FileBase64 from "react-file-base64";
 import { useState } from "react";
-import Header from "./../Header/Header";
+import Header from "../../components/Header/Header";
 const Settings = () => {
   const [avatar, setAvatar] = useState("");
   const [newNickName, setNewNickName] = useState("");

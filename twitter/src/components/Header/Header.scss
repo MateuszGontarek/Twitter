@@ -113,15 +113,19 @@ a {
   transform: translate(100%, 0);
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
-#menu a,
+#menu .chosen-element {
+  border: 0.5px solid $blue !important;
+}
+#menu .menu-element,
 .user-info {
+  border: 0.5px solid transparent;
   display: flex;
   align-items: center;
   padding-left: 40px;
   margin-left: 10px;
   border-radius: 50px;
 }
-#menu a .menuIcon {
+#menu .menu-element .menuIcon {
   margin-right: 25px;
   color: $secondary;
 }
@@ -132,12 +136,12 @@ a {
   transition: 0.1s ease;
   border-radius: 50px;
 }
-#menu a:hover {
+#menu .menu-element:hover {
   background-color: $blue;
   color: $white;
 }
-#menu a:hover li,
-#menu a:hover .menuIcon {
+#menu .menu-element:hover li,
+#menu .menu-element:hover .menuIcon {
   color: $white;
 }
 #menu .user-info .avatar {
@@ -152,6 +156,7 @@ a {
 }
 #menu .user-info {
   margin: 15px 0;
+  border: none !important;
 }
 #menu .user-info .nickname {
   color: $secondary;
