@@ -129,6 +129,11 @@ a {
   margin-right: 25px;
   color: $secondary;
 }
+.settings-point:hover .settings-icon {
+  transition: 0s color 0s linear;
+  transition: 1s;
+  transform: rotate(230deg);
+}
 #menu li {
   padding: 10px 0;
   font-size: 22px;

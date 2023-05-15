@@ -8,30 +8,48 @@
     display: flex;
     flex-direction: column;
     width: 430px;
-    textarea {
-      height: 60px;
-      resize: none;
-      padding: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      &:focus {
-        outline: none;
-        box-shadow: 0 0 5px #0c8de4;
+    .content-main {
+      display: flex;
+      align-items: center;
+      background: $white;
+      justify-content: space-between;
+      padding: 10px 20px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      textarea {
+        height: 60px;
+        resize: none;
+        padding: 15px;
+        width: 85%;
+        border: 1px solid $secondary;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 5px #0c8de4;
+        }
+      }
+      .add-twit-icon {
+        color: $secondary;
+        cursor: pointer;
       }
     }
-
     .twit-content {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      .fileBase64 {
+        display: none;
+      }
       button {
         border: none;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 50px;
         background-color: #1da1f2;
         color: white;
         padding: 10px 20px;
-        width: 100px;
-        border-radius: 5px;
+        width: 100%;
+        // border-radius: 5px;
         cursor: pointer;
 
         &:hover {
