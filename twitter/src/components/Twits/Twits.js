@@ -8,6 +8,7 @@ const Twits = (props) => {
   const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
+  const { filter } = props;
 
   let { email } = "";
   if (!notLoginUser) {
@@ -36,7 +37,15 @@ const Twits = (props) => {
   };
 
   const getTwits = async () => {
-    const response = await axios.get("/api/twits");
+    const { _id } = JSON.parse(sessionStorage.getItem("userData"));
+
+    const response = await axios.get("/api/twits", {
+      headers: { 
+        filterOption: filter,
+        id: _id, 
+        email: email.email,
+      },
+    });
     if (response.data.success) {
       setTwits(response.data.twitsWithHeaders);
     } else {
@@ -46,7 +55,6 @@ const Twits = (props) => {
 
   const addLike = async (id) => {
     if (notLoginUser) {
-      console.log("zaloguj się");
       return;
     }
     const response = await axios.post(
@@ -58,23 +66,6 @@ const Twits = (props) => {
     );
     if (response.data.success) {
       getTwits();
-    } else {
-      console.log("error");
-    }
-  };
-
-  const getUserLikes = async (id) => {
-    if (notLoginUser) {
-      console.log("zaloguj się");
-      return;
-    }
-    const response = await axios.get("/api/twits-like", {
-      headers: { token },
-      id: id,
-    });
-    if (response.data.success) {
-      const twitsWithHeaders = response.data.twitsWithHeaders;
-      setTwits(twitsWithHeaders);
     } else {
       console.log("error");
     }
@@ -135,6 +126,7 @@ const Twits = (props) => {
       getTwitsByHashtag(hashtag, true);
     };
     getTwits();
+    console.log(10, filter)
   }, []);
   return (
     <div className="container">
@@ -194,7 +186,7 @@ const Twits = (props) => {
                   <HeartFill
                     size={30}
                     className={
-                      twit.likes.includes(email)
+                      twit.likes.includes(email['email'])
                         ? "twit-heart-active"
                         : "twit-heart"
                     }
