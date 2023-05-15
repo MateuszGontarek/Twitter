@@ -3,6 +3,7 @@ import "./AddTwit.scss";
 import axios from "axios";
 import FileBase64 from "react-file-base64";
 import { useState } from "react";
+import { Image } from "react-bootstrap-icons";
 
 const AddTwit = () => {
   const token = sessionStorage.getItem("token");
@@ -40,24 +41,41 @@ const AddTwit = () => {
       console.log("error");
     }
   };
+  const clickFileInput = () => {
+    const fileInputDiv = document.querySelector(".fileBase64");
+    const fileInput = fileInputDiv.querySelector("input");
+    fileInput.click();
+  };
   return (
     <div className="add-twits-container">
       <form>
-        <textarea
-          maxLength={200}
-          onChange={(e) => {
-            ifEmpty(e);
-            autoHeight(e.target);
-          }}
-          ref={twitTextRef}
-          type="text"
-          placeholder="co nowego?"
-        />
-        <div className="twit-content">
-          <FileBase64
-            multiple={false}
-            onDone={({ base64 }) => setTwitContent({ image: base64 })}
+        <div className="content-main">
+          {" "}
+          <textarea
+            maxLength={200}
+            onChange={(e) => {
+              ifEmpty(e);
+              autoHeight(e.target);
+            }}
+            ref={twitTextRef}
+            type="text"
+            placeholder="co nowego?"
           />
+          <Image
+            size={30}
+            className="add-twit-icon"
+            onClick={() => {
+              clickFileInput();
+            }}
+          />
+        </div>
+        <div className="twit-content">
+          <div className="fileBase64">
+            <FileBase64
+              multiple={false}
+              onDone={({ base64 }) => setTwitContent({ image: base64 })}
+            />
+          </div>
           <button onClick={(e) => addTwit(e)} type="submit">
             twitnij
           </button>

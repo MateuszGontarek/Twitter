@@ -102,11 +102,11 @@ const Header = () => {
             to="/home/settings"
             className={
               actualPage !== "settings"
-                ? "menu-element"
-                : "menu-element chosen-element"
+                ? "menu-element settings-point"
+                : "menu-element chosen-element settings-point"
             }
           >
-            <Gear className="menuIcon" size={menuIconSize} />
+            <Gear className="menuIcon settings-icon" size={menuIconSize} />
             <li>Settings</li>
           </Link>
           {/* <a target="_blank" href="support">

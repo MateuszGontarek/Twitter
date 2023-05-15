@@ -1,9 +1,6 @@
 @import "./../../colors.scss";
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-}
+@import url("https://fonts.googleapis.com/css2?family=Advent+Pro:wght@200;300;500;700&family=Alata&display=swap");
 
 .user-settings {
   display: flex;
@@ -14,14 +11,42 @@
   text-align: center;
 
   h2 {
-    color: $blue;
-    font-size: 35px;
-    font-weight: 600;
-    margin-bottom: 50px;
+    margin: 0;
+    color: $black;
+    padding-right: 20px;
+    font-family: Alata;
   }
 
   .input-field {
     display: flex;
+    justify-content: space-between;
+
+    p {
+      font-family: Alata;
+      font-size: 25px;
+      background: linear-gradient(101.53deg, #319d38 17.35%, #29146f 94.36%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+    }
+    input {
+      margin-bottom: 10px;
+      font-family: Alata;
+      font-size: 20px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 10px;
+      background: $white;
+      transition: 0.2s;
+      border: 2px solid transparent;
+      &::placeholder {
+        color: $blue;
+      }
+      &:focus {
+        outline: none;
+        border-color: $green;
+      }
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
@@ -32,6 +57,49 @@
       font-weight: 600;
       margin-bottom: 10px;
     }
+  }
+  .set-avatar-content {
+    display: flex;
+    justify-content: space-between;
+    .avatar {
+      height: 70px;
+      width: 70px;
+    }
+    .set-avatar-button {
+      justify-content: space-between;
+      align-self: flex-end;
+      font-family: Alata;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      .file-base64-avatar {
+        display: none;
+      }
+      span {
+        margin-left: 10px;
+        width: 70px;
+      }
+    }
+  }
+  .set-nickname,
+  .new-password {
+    display: flex;
+    flex-direction: column;
+  }
+  .current-nickname-container {
+    display: flex;
+    flex-direction: column;
+    .current-nickname {
+      color: $blue;
+    }
+    .current-nickname-label {
+      font-family: Alata;
+      color: $blue;
+      opacity: 0.8;
+    }
+  }
+}
 
     input {
       border: 1px solid $blue;
