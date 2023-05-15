@@ -63,6 +63,7 @@ const Header = () => {
             <li>Log out</li>
           </Link>
           <Link
+          onClick="location.reload();"
             to="/home"
             className={
               actualPage !== "home"
@@ -74,6 +75,7 @@ const Header = () => {
             <li>Home</li>
           </Link>
           <Link
+          onClick="location.reload();"
             to="/home/your"
             className={
               actualPage !== "your"
@@ -85,6 +87,7 @@ const Header = () => {
             <li>Your</li>
           </Link>
           <Link
+          onClick="location.reload();"
             to="/home/liked"
             className={
               actualPage !== "liked"

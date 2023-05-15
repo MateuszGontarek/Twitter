@@ -12,10 +12,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Home filter="all" />} />
           <Route path="/home/settings" element={<Settings />} />
-          <Route path="/home/your" element={<UserTwits />} />
-          <Route path="/home/liked" element={<LikedTwits />} />
+          <Route path="/home/your" element={<Home filter="user" />} />
+          <Route path="/home/liked" element={<Home filter="liked" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/*" element={<Login />} />
           <Route path="/register" element={<Register />} />

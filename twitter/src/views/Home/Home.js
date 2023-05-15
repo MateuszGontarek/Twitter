@@ -3,11 +3,13 @@ import "./Home.scss";
 import Header from "../../components/Header";
 import AddTwit from "../../components/AddTwit";
 import Twits from "../../components/Twits";
-const Home = () => {
+const Home = (props) => {
   if (!sessionStorage.getItem("token")) {
     window.location.href = "/login";
     return;
   }
+  const { filter } = props;
+  console.log(filter);
 
   return (
     <div className="home-page">
@@ -15,7 +17,7 @@ const Home = () => {
       <div className="home-container">
         <div className="twits-functionality">
           <AddTwit />
-          <Twits />
+          <Twits filter={filter} />
         </div>
       </div>
     </div>

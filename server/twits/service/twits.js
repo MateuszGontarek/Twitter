@@ -30,10 +30,26 @@ const addTwit = async (req, res) => {
 
 const getTwits = async (req, res) => {
   try {
-    const twitsWithHeaders = [];
-    const twits = await Twit.find().sort({ date: -1 });
-    const users = await User.find();
+    const filterOption  = req.headers.filteroption;
+    const id = req.headers.id;
+    const email = req.headers.email;
 
+    const twitsWithHeaders = [];
+    if (filterOption === "all") {
+      var twits = await Twit.find().sort({ date: -1 });
+      var users = await User.find();
+    }
+    else if (filterOption === "liked") {
+      var twits = await Twit.find({ likes: { $in: [email] } }).sort({ date: -1 });
+      var users = await User.find();
+    }
+    else if (filterOption === "user") {
+      var twits = await Twit.find({ userId: id }).sort({ date: -1 });
+      var users = await User.find();
+    }
+    else {
+      return res.status(500).json({ success: false });
+    }
     twits.forEach((twit) => {
       if (twit.userId) {
         const {
