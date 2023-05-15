@@ -29,26 +29,32 @@ const addUser = async (req, res) => {
   }
 };
 const updateUser = async (req, res) => {
-  const {
-    avatar,
-    newNickName,
-    currentPassword,
-    newPassword,
-    token,
-    id
-  } = req.body;
- 
+  const { newAvatar, newNickName, currentPassword, newPassword, token, id } =
+    req.body;
   if (!jwt.verify(token, "admin4123"))
     return res.status(403).json({ success: false });
+  const user = await User.findOne({ _id: id });
   try {
-    if (currentPassword === newPassword) {
-      await User.findOneAndUpdate({ _id:id }, { $set: { password: newPassword }},  { useFindAndModify: false })
+    if (currentPassword === user.password) {
+      await User.findOneAndUpdate(
+        { _id: id },
+        { $set: { password: newPassword } },
+        { useFindAndModify: false }
+      );
     }
-    if (avatar) {
-      await User.findOneAndUpdate({ _id:id }, { $set: { avatar: avatar }},  { useFindAndModify: false })
+    if (newAvatar) {
+      await User.findOneAndUpdate(
+        { _id: id },
+        { $set: { avatar: newAvatar } },
+        { useFindAndModify: false }
+      );
     }
     if (newNickName) {
-      await User.findOneAndUpdate({ _id:id }, { $set: { nickname: newNickName }}, { useFindAndModify: false })
+      await User.findOneAndUpdate(
+        { _id: id },
+        { $set: { nickname: newNickName } },
+        { useFindAndModify: false }
+      );
     }
     return res.status(200).json({ success: true });
   } catch (error) {
