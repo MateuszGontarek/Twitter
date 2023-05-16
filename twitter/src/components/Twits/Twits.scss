@@ -33,6 +33,7 @@
     input {
       color: $secondary;
       border: none;
+      background: $white;
       &:focus {
         outline: none;
       }
@@ -201,7 +202,7 @@
     }
     .add-comment {
       width: 100%;
-      background-color: #fff;
+      background-color: $white;
       opacity: 0.8;
       border-radius: 5px;
       .comment-input {

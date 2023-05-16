@@ -40,9 +40,9 @@ const Twits = (props) => {
     const { _id } = JSON.parse(sessionStorage.getItem("userData"));
 
     const response = await axios.get("/api/twits", {
-      headers: { 
+      headers: {
         filterOption: filter,
-        id: _id, 
+        id: _id,
         email: email.email,
       },
     });
@@ -126,14 +126,14 @@ const Twits = (props) => {
       getTwitsByHashtag(hashtag, true);
     };
     getTwits();
-    console.log(10, filter)
+    console.log(10, filter);
   }, []);
   return (
-    <div className="container">
+    <div className="">
       <div className="searcher">
         <form>
           <div className="searcher-content">
-            <img className="hashtag-symbol" src="hashtag-symbol.webp" />
+            <img className="hashtag-symbol" src="../hashtag-symbol.webp" />
             <input
               maxLength={200}
               onChange={(e) => {
@@ -186,7 +186,7 @@ const Twits = (props) => {
                   <HeartFill
                     size={30}
                     className={
-                      twit.likes.includes(email['email'])
+                      twit.likes.includes(email["email"])
                         ? "twit-heart-active"
                         : "twit-heart"
                     }
