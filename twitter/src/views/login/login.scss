@@ -1,15 +1,18 @@
 @import "./../../colors.scss";
 
 .login-container {
-  background: $background;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
   form {
+    width: 315px;
     display: flex;
     flex-direction: column;
+    background: $blue-darkest;
+    padding: 20px;
+    border-radius: 10px;
 
     h2 {
       color: $white;
@@ -19,21 +22,72 @@
     }
     input,
     button {
-      width: 250px;
-      margin: 10px;
+      margin-bottom: 20px;
       border: none;
       padding: 10px;
-      border-radius: 4px;
+      border-radius: 10px;
       font-size: 15px;
+    }
+    input {
+      color: $white;
+      background: transparent;
+      border: 1.45px solid $twitter-color-dark;
+      transition: 0.2s;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px $twitter-color;
+      }
+    }
+    label {
+      margin-bottom: 6px;
+      color: $indigo-light;
+      // font-weight: 100;
+      font-style: light;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
     button {
       cursor: pointer;
-      background: $secondary;
+      background: $twitter-color-dark;
+      transition: 0.2s;
       color: $white;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
 
       &:hover {
-        background: $secondaryHover;
+        background: $twitter-color;
       }
+    }
+    .no-acc {
+      color: $white;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      .no-acc-button {
+        color: $twitter-color;
+        cursor: pointer;
+      }
+    }
+    .google-login {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: $background;
+      padding: 7px;
+      border-radius: 100px;
+      transition: 0.3s;
+      &:hover {
+        background: $blue-second;
+      }
+      cursor: pointer;
+      .google-icon {
+        color: $indigo-light;
+      }
+      .google-login-text {
+        color: $indigo-light;
+      }
+    }
+    .google-login:hover .google-login-text,
+    .google-login:hover .google-icon {
+      color: $white;
     }
   }
 }

@@ -6,21 +6,24 @@
   width: 85%;
   margin: 0 auto;
 }
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border: 2px solid $blue;
-  margin-right: 20px;
-}
-.default-avatar {
-  color: $black;
-  border: none !important;
+body {
+  background: $background;
 }
 .settings {
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid $twitter-color;
+    margin-right: 20px;
+  }
+  .default-avatar {
+    color: $black;
+    border: none !important;
+  }
   .icon {
     position: absolute;
     bottom: 0px;
@@ -28,7 +31,7 @@
   }
   h2 {
     margin: 0;
-    color: $black;
+    color: $white;
     padding-right: 20px;
     font-family: Alata;
   }
@@ -50,9 +53,9 @@
       border-radius: 10px;
       transition: 0.2s;
       cursor: pointer;
-      border: 2px solid transparent;
+      border: 3px solid transparent;
       &:hover {
-        border-color: $green-second;
+        border-color: $twitter-color;
       }
       .update-button-text {
         width: 80px;
@@ -62,7 +65,7 @@
         opacity: 0;
         transition: 0.2s;
         margin-left: 5px;
-        color: $green;
+        color: $twitter-color;
       }
       .updated-icon {
         opacity: 1 !important;
@@ -80,7 +83,11 @@
     p {
       font-family: Alata;
       font-size: 25px;
-      background: linear-gradient(101.53deg, #319d38 17.35%, #29146f 94.36%);
+      background: linear-gradient(
+        245.3deg,
+        $twitter-color 25.83%,
+        $twitter-color-dark 93.39%
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -101,24 +108,25 @@
       }
       &:focus {
         outline: none;
-        border-color: $green;
+        border-color: $twitter-color-dark;
       }
     }
   }
   .set-avatar-content {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .avatar {
       height: 70px;
       width: 70px;
     }
     .set-avatar-button {
       justify-content: space-between;
-      align-self: flex-end;
       font-family: Alata;
       font-size: 20px;
       display: flex;
       align-items: center;
+      color: $indigo-light;
       cursor: pointer;
       .file-base64-avatar {
         display: none;
@@ -142,7 +150,7 @@
     }
     .current-nickname-label {
       font-family: Alata;
-      color: $blue;
+      color: $indigo-light;
       opacity: 0.8;
     }
   }

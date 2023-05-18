@@ -2,7 +2,7 @@ import React from "react";
 import "./login.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Header from "../../components/Header";
+import { Google } from "react-bootstrap-icons";
 const Login = () => {
   const navigate = useNavigate();
   const loginRef = React.createRef();
@@ -26,20 +26,35 @@ const Login = () => {
   return (
     <div className="login-container">
       <form>
-        <h2>User login</h2>
+        <h2>Login</h2>
+        <label>Emal</label>
         <input
           ref={loginRef}
           type="text"
-          placeholder="Email"
-          defaultValue={"test@technischools.com"}
+          // placeholder="Email"
+          // defaultValue={"test@technischools.com"}
         />
+        <label>Password</label>
         <input
           ref={passwordRef}
           type="password"
-          placeholder="Password"
-          defaultValue={"test"}
+          // placeholder="Password"
+          // defaultValue={"test"}
         />
-        <button onClick={(e) => loginFn(e)}>Login</button>
+        <button onClick={(e) => loginFn(e)}>Sign in</button>
+        <p className="no-acc">
+          Don't have an account?{" "}
+          <b
+            onClick={() => (window.location = "register")}
+            className="no-acc-button"
+          >
+            Sign up
+          </b>
+        </p>
+        <div className="google-login">
+          <Google size={25} className="google-icon" />
+          <p className="google-login-text">Sign in with Google</p>
+        </div>
       </form>
     </div>
   );
