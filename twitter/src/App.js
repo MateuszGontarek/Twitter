@@ -5,8 +5,6 @@ import MainPage from "./views/MainPage";
 import Register from "./views/register";
 import Home from "./views/Home";
 import Settings from "./views/Settings";
-import UserTwits from "./views/UserTwits";
-import LikedTwits from "./views/LikedTwits";
 function App() {
   return (
     <div className="App">

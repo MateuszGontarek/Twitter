@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Trash3Fill, HeartFill, Search } from "react-bootstrap-icons";
 const Twits = (props) => {
   const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
+  const [showMore, setShowMore] = useState([]);
   const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
@@ -48,7 +49,13 @@ const Twits = (props) => {
     });
     if (response.data.success) {
       setTwits(response.data.twitsWithHeaders);
-    } else {
+
+      response.data.twitsWithHeaders.forEach(element => {
+        if (element.parents) {
+          setShowMore([...showMore, false])
+        }
+      });
+    } else { 
       console.log("error");
     }
   };
@@ -94,6 +101,12 @@ const Twits = (props) => {
     element.style.height = element.scrollHeight + "px";
   };
 
+  const showMoreCommentsHandler = (index) => {
+    const newShowMore = [...showMore];
+    newShowMore[index] = !newShowMore[index];
+    setShowMore(newShowMore);
+  };
+
   const deleteTwit = async (id) => {
     if (notLoginUser) {
       console.log("zaloguj się");
@@ -120,13 +133,13 @@ const Twits = (props) => {
     }
   };
 
+
   useEffect(() => {
     window.getTwitsByHashtagAfterClick = (event) => {
       const hashtag = event.target.innerText.substring(1);
       getTwitsByHashtag(hashtag, true);
     };
     getTwits();
-    console.log(10, filter)
   }, []);
   return (
     <div className="container">
@@ -150,7 +163,7 @@ const Twits = (props) => {
         </form>
       </div>
       <div className="twits">
-        {twits.map((twit) => {
+        {twits.map((twit, index) => {
           if (twit.parents === null) {
             return (
               <div className="twit" key={twit._id}>
@@ -168,7 +181,7 @@ const Twits = (props) => {
                     }}
                   ></div>
                   <p className="nickname">{twit.nickname}</p>
-                </div>
+                </div>  
                 <div className="twit-info">
                   <div
                     className="twit-description"
@@ -212,25 +225,30 @@ const Twits = (props) => {
                 <div className="twit-comments">
                   {twits
                     .filter((comment) => comment.parents === twit._id)
+                    .slice(0, showMore[index] ? 1000 : 5)
                     .map((comment) => {
                       return (
-                        <div className="twit-comment" key={comment._id}>
-                          <textarea
-                            readOnly
-                            value={comment.description}
-                            className="twit-comment-description"
-                          />
-                          {email && comment.userId === email._id && (
-                            <Trash3Fill
-                              onClick={() => deleteTwit(twit._id)}
-                              size={30}
-                              className="twit-delete"
+                          <div className="twit-comment" key={comment._id}>
+                            <textarea
+                              readOnly
+                              value={comment.description}
+                              className="twit-comment-description"
                             />
-                          )}
-                        </div>
-                      );
-                    })}
-                </div>
+                            {email && comment.userId === email._id && (
+                              <Trash3Fill
+                                onClick={() => deleteTwit(twit._id)}
+                                size={30}
+                                className="twit-delete"
+                              />
+                            )}
+                          </div>
+                        );
+                      })
+                    }
+                    {twits.filter((comment) => comment.parents === twit._id).length > 5 
+                    ? <button onClick={() => showMoreCommentsHandler(index)}>Pokaż {showMore[index] ? "Mniej" : "Więcej"}</button>
+                    : null}
+                  </div>
                 <form
                   className="add-comment"
                   onSubmit={(e, _id) => {
