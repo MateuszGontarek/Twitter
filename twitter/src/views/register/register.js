@@ -1,5 +1,5 @@
 import React from "react";
-import "./register.scss";
+// import "./register.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Register = () => {
@@ -27,31 +27,44 @@ const Register = () => {
     <div className="login-container">
       <form>
         <h2>Sign up</h2>
+        <label>Email</label>
         <input
           type="email"
-          placeholder="Email"
           ref={emailRef}
-          defaultValue={"admin@technischools.com"}
+          // placeholder="Email"
+          // defaultValue={"admin@technischools.com"}
         />
+        <label>Nickname</label>
         <input
           type="text"
-          placeholder="Nickname"
           ref={nicknameRef}
-          defaultValue={"admin"}
+          // placeholder="Nickname"
+          // defaultValue={"admin"}
         />
+        <label>Password</label>
         <input
           type="password"
-          placeholder="Password"
           ref={passwordRef}
-          defaultValue={"admin4123"}
+          // placeholder="Password"
+          // defaultValue={"admin4123"}
         />
+        {/* <label>Repeat password</label>
         <input
           type="password"
-          placeholder="Repeat password"
           ref={repeatPasswordRef}
-          defaultValue={"admin4123"}
-        />
+          // placeholder="Repeat password"
+          // defaultValue={"admin4123"}
+        /> */}
         <button onClick={(e) => Register(e)}>Login</button>
+        <p className="no-acc">
+          Do you have an account?{" "}
+          <b
+            onClick={() => (window.location = "login")}
+            className="no-acc-button"
+          >
+            Sign in
+          </b>
+        </p>
       </form>
     </div>
   );

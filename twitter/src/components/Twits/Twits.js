@@ -2,7 +2,13 @@ import React from "react";
 import "./Twits.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Trash3Fill, HeartFill, Search } from "react-bootstrap-icons";
+import {
+  Trash3Fill,
+  HeartFill,
+  Search,
+  PersonCircle,
+} from "react-bootstrap-icons";
+import Loader from "../Loader";
 const Twits = (props) => {
   const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
   const [showMore, setShowMore] = useState([]);
@@ -16,6 +22,7 @@ const Twits = (props) => {
     email = JSON.parse(sessionStorage.getItem("userData"));
   }
   const [twits, setTwits] = useState([]);
+  const [noTwits, setNoTwits] = useState(false);
   const findTwits = async (e) => {
     const hashtagContent = hashtagRef.current.value;
     if (hashtagContent.length === 0) {
@@ -41,9 +48,9 @@ const Twits = (props) => {
     const { _id } = JSON.parse(sessionStorage.getItem("userData"));
 
     const response = await axios.get("/api/twits", {
-      headers: { 
+      headers: {
         filterOption: filter,
-        id: _id, 
+        id: _id,
         email: email.email,
       },
     });
@@ -56,7 +63,12 @@ const Twits = (props) => {
         }
       });
     } else { 
-      console.log("error");
+      const twits = response.data.twitsWithHeaders;
+      if (twits.length > 0) {
+        setTwits(twits);
+      } else {
+        setNoTwits(true);
+      }
     }
   };
 
@@ -142,11 +154,12 @@ const Twits = (props) => {
     getTwits();
   }, []);
   return (
-    <div className="container">
+    <div className="">
       <div className="searcher">
         <form>
           <div className="searcher-content">
-            <img className="hashtag-symbol" src="hashtag-symbol.webp" />
+            {/* <img className="hashtag-symbol" src="../hashtag-symbol.webp" /> */}
+            <Search className="loop" size={25} />
             <input
               maxLength={200}
               onChange={(e) => {
@@ -159,7 +172,6 @@ const Twits = (props) => {
               placeholder="wpisz hasztag"
             />
           </div>
-          <Search className="loop" size={30} />
         </form>
       </div>
       <div className="twits">
@@ -168,66 +180,129 @@ const Twits = (props) => {
             return (
               <div className="twit" key={twit._id}>
                 <div className="twit-header">
+                  {twits.length > 0 ? (
+                    twits.map((twit) => {
+                      if (twit.parents === null) {
+                        return (
+                          <div className="twit" key={twit._id}>
+                            <div className="twit-header">
+                              <div
+                                className={
+                                  twit.avatar
+                                    ? "twit-avatar"
+                                    : "twit-avatar-default twit-avatar"
+                                }
+                                style={{
+                                  backgroundImage: twit.avatar
+                                    ? `url(${twit.avatar})`
+                                    : null,
+                                }}
+                              >
+                                {!twit.avatar && (
+                                  <PersonCircle
+                                    size={60}
+                                    className="default-avatar"
+                                  />
+                                )}
+                              </div>
+                              <p className="nickname">{twit.nickname}</p>
+                            </div>
+                            <div className="twit-info">
+                              <div
+                                className="twit-description"
+                                dangerouslySetInnerHTML={{
+                                  __html: twit.hashtags
+                                    ? twit.description.replace(
+                                        /#(\w+)/g,
+                                        '<span onclick="getTwitsByHashtagAfterClick(event)" class="hashtag">#$1</span>'
+                                      )
+                                    : twit.description,
+                                }}
+                              ></div>
+  
+                              <p className="twit-heart-counter">
+                                {twit.likes.length}
+                              </p>
+                              <HeartFill
+                                size={30}
+                                className={
+                                  twit.likes.includes(email["email"])
+                                    ? "twit-heart-active"
+                                    : "twit-heart"
+                                }
+                                onClick={(e) => addLike(twit._id)}
+                              />
+  
+                              {email && twit.userId === email._id && (
+                                <Trash3Fill
+                                  onClick={() => deleteTwit(twit._id)}
+                                  size={30}
+                                  className="twit-delete"
+                                />
+                              )}
+                            </div>
+                            <div
+                              className={
+                                twit.content ? "twit-content" : "twit-content-none"
+                              }
+                              style={{
+                                backgroundImage: `url(${twit.content})`,
+                              }}
+                            ></div>
+                            <p className="nickname">{twit.nickname}</p>
+                          </div>
+                        );
+                      }
+                    })
+                  ) : (
+                    <Loader />
+                  )}
+                  <div className="twit-info">
+                    <div
+                      className="twit-description"
+                      dangerouslySetInnerHTML={{
+                        __html: twit.hashtags
+                          ? twit.description.replace(
+                              /#(\w+)/g,
+                              '<span onclick="getTwitsByHashtagAfterClick(event)" class="hashtag">#$1</span>'
+                            )
+                          : twit.description,
+                      }}
+                    ></div>
+  
+                    <p className="twit-heart-counter">{twit.likes.length}</p>
+                    <HeartFill
+                      size={30}
+                      className={
+                        twit.likes.includes(email['email'])
+                          ? "twit-heart-active"
+                          : "twit-heart"
+                      }
+                      onClick={(e) => addLike(twit._id)}
+                    />
+  
+                    {email && twit.userId === email._id && (
+                      <Trash3Fill
+                        onClick={() => deleteTwit(twit._id)}
+                        size={30}
+                        className="twit-delete"
+                      />
+                    )}
+                  </div>
                   <div
                     className={
-                      twit.avatar
-                        ? "twit-avatar"
-                        : "twit-avatar-default twit-avatar"
+                      twit.content ? "twit-content" : "twit-content-none"
                     }
                     style={{
-                      backgroundImage: twit.avatar
-                        ? `url(${twit.avatar})`
-                        : 'url("AccountCircle.svg")',
+                      backgroundImage: `url(${twit.content})`,
                     }}
                   ></div>
-                  <p className="nickname">{twit.nickname}</p>
-                </div>  
-                <div className="twit-info">
-                  <div
-                    className="twit-description"
-                    dangerouslySetInnerHTML={{
-                      __html: twit.hashtags
-                        ? twit.description.replace(
-                            /#(\w+)/g,
-                            '<span onclick="getTwitsByHashtagAfterClick(event)" class="hashtag">#$1</span>'
-                          )
-                        : twit.description,
-                    }}
-                  ></div>
-
-                  <p className="twit-heart-counter">{twit.likes.length}</p>
-                  <HeartFill
-                    size={30}
-                    className={
-                      twit.likes.includes(email['email'])
-                        ? "twit-heart-active"
-                        : "twit-heart"
-                    }
-                    onClick={(e) => addLike(twit._id)}
-                  />
-
-                  {email && twit.userId === email._id && (
-                    <Trash3Fill
-                      onClick={() => deleteTwit(twit._id)}
-                      size={30}
-                      className="twit-delete"
-                    />
-                  )}
-                </div>
-                <div
-                  className={
-                    twit.content ? "twit-content" : "twit-content-none"
-                  }
-                  style={{
-                    backgroundImage: `url(${twit.content})`,
-                  }}
-                ></div>
-                <div className="twit-comments">
-                  {twits
-                    .filter((comment) => comment.parents === twit._id)
-                    .slice(0, showMore[index] ? 1000 : 5)
-                    .map((comment) => {
-                      return (
+                  <div className="twit-comments">
+                    {twits
+                      .filter((comment) => comment.parents === twit._id)
+                      .slice(0, showMore[index] ? 1000 : 5)
+                      .map((comment) => {
+                        return (
                           <div className="twit-comment" key={comment._id}>
                             <textarea
                               readOnly
@@ -243,28 +318,31 @@ const Twits = (props) => {
                             )}
                           </div>
                         );
-                      })
-                    }
-                    {twits.filter((comment) => comment.parents === twit._id).length > 5 
-                    ? <button onClick={() => showMoreCommentsHandler(index)}>Pokaż {showMore[index] ? "Mniej" : "Więcej"}</button>
-                    : null}
+                      })}
+                    {twits.filter((comment) => comment.parents === twit._id)
+                      .length > 5 ? (
+                      <button onClick={() => showMoreCommentsHandler(index)}>
+                        Pokaż {showMore[index] ? "Mniej" : "Więcej"}
+                      </button>
+                    ) : null}
                   </div>
-                <form
-                  className="add-comment"
-                  onSubmit={(e, _id) => {
-                    addComment(e, twit._id);
-                  }}
-                >
-                  <textarea
-                    maxLength={200}
-                    className="comment-input"
-                    placeholder="Dodaj komentarz..."
-                    onChange={(element) => {
-                      autoHeight(element.target);
+                  <form
+                    className="add-comment"
+                    onSubmit={(e, _id) => {
+                      addComment(e, twit._id);
                     }}
-                  ></textarea>
-                  <button className="comment-button">Dodaj</button>
-                </form>
+                  >
+                    <textarea
+                      maxLength={200}
+                      className="comment-input"
+                      placeholder="Dodaj komentarz..."
+                      onChange={(element) => {
+                        autoHeight(element.target);
+                      }}
+                    ></textarea>
+                    <button className="comment-button">Dodaj</button>
+                  </form>
+                </div>
               </div>
             );
           }
@@ -272,6 +350,7 @@ const Twits = (props) => {
       </div>
     </div>
   );
+  
 };
 
 export default Twits;

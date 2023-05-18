@@ -10,17 +10,22 @@
   z-index: 10;
   display: flex;
   justify-content: center;
+  background: $background;
   form {
-    box-shadow: 0px 10px 10px $secondary;
+    // box-shadow: 0px 4px 10px $twitter-color-dark;
     display: flex;
-    background: $white;
+    background: $background;
+    border: 1.45px solid $twitter-color-dark;
     width: 430px;
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 50px;
+    margin-top: 10px;
+    margin-bottom: 15px;
     .loop {
-      color: $secondary;
+      color: $twitter-color-dark;
+      margin-right: 10px;
     }
     .hashtag-symbol {
       margin-right: 5px;
@@ -31,8 +36,16 @@
       align-items: center;
     }
     input {
-      color: $secondary;
+      height: auto !important;
+      color: $white;
       border: none;
+      font-size: 15px;
+      background: transparent;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      &::placeholder {
+        opacity: 1;
+        color: $twitter-color-dark;
+      }
       &:focus {
         outline: none;
       }
@@ -60,20 +73,21 @@
 }
 
 .twits {
-  padding-top: 75px;
+  padding-top: 71px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   margin: 0 auto;
-  width: 430px;
+  width: 385px;
   .twit {
+    // transform: scale(0.9);
     // background: $secondaryHover;
     background: $blue;
     border: 2px solid $background;
     transition: 0.2s;
     border-radius: 10px;
-    padding: 10px;
+    padding: 15px;
     margin-bottom: 10px;
     // &:hover {
     //   box-shadow: 0 0 20px $secondary;
@@ -84,19 +98,20 @@
       justify-content: space-between;
       margin-bottom: 10px;
       .twit-avatar {
-        border: 3px solid $secondary;
-        width: 60px;
-        height: 60px;
+        border: 3px solid $indigo-light;
+        width: 55px;
+        height: 55px;
         border-radius: 50%;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center center;
+        color: $indigo-light;
       }
       .twit-avatar-default {
         border: none !important;
       }
       .nickname {
-        color: $background;
+        color: $twitter-color-dark;
         font-size: 35px;
         font-weight: 600;
         margin-right: 10px;
@@ -143,9 +158,8 @@
         margin-right: 15px;
         color: $blue;
       }
-      .twit-heart:hover,
       .twit-heart:focus {
-        color: $blue;
+        color: $twitter-color;
       }
       .twit-delete {
         color: $secondary;
@@ -157,7 +171,7 @@
       background-repeat: no-repeat;
       background-size: cover;
       width: 100%;
-      height: 350px;
+      height: 315px;
       background-position: center center;
       border-radius: 10px;
     }
@@ -174,14 +188,15 @@
         width: 100%;
         background-color: $white;
         border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 10px;
+        padding: 9px;
+        margin-bottom: 9px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 10px;
+        margin-bottom: 9px;
         opacity: 0.8;
         .twit-comment-description {
+          background: transparent;
           font-size: 12px;
           resize: none;
           height: 100%;
@@ -202,16 +217,18 @@
     }
     .add-comment {
       width: 100%;
-      background-color: #fff;
+      background: $indigo-light;
       opacity: 0.8;
       border-radius: 5px;
       .comment-input {
         width: 100%;
-        height: 40px;
+        height: 36px;
         border: none;
         padding: 10px;
         border-radius: 10px;
+        color: $background;
         resize: none;
+        background: transparent;
         &:focus {
           outline: none;
           border: none;
@@ -223,12 +240,12 @@
         border: none;
         width: 100%;
         text-align: center;
-        color: $blue;
+        color: $blue-second;
         font-size: 20px;
         cursor: pointer;
         border-radius: 3px;
-        margin-top: 10px;
-        padding: 10px 5px;
+        margin-top: 9px;
+        padding: 9px 5px;
       }
     }
   }

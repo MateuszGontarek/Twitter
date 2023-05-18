@@ -1,39 +1,39 @@
-@import "./../../colors.scss";
+// @import "./../../colors.scss";
 
-.login-container {
-  background: $background;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+// .login-container {
+//   background: $background;
+//   height: 100vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
 
-  form {
-    display: flex;
-    flex-direction: column;
+//   form {
+//     display: flex;
+//     flex-direction: column;
 
-    h2 {
-      color: $white;
-      text-align: center;
-      margin-bottom: 10px;
-      font-size: 35px;
-    }
-    input,
-    button {
-      width: 250px;
-      margin: 10px;
-      border: none;
-      padding: 10px;
-      border-radius: 4px;
-      font-size: 15px;
-    }
-    button {
-      cursor: pointer;
-      background: $secondary;
-      color: $white;
+//     h2 {
+//       color: $white;
+//       text-align: center;
+//       margin-bottom: 10px;
+//       font-size: 35px;
+//     }
+//     input,
+//     button {
+//       width: 250px;
+//       margin: 10px;
+//       border: none;
+//       padding: 10px;
+//       border-radius: 4px;
+//       font-size: 15px;
+//     }
+//     button {
+//       cursor: pointer;
+//       background: $secondaryHover;
+//       color: $white;
 
-      &:hover {
-        background: $secondaryHover;
-      }
-    }
-  }
-}
+//       &:hover {
+//         background: $secondary;
+//       }
+//     }
+//   }
+// }

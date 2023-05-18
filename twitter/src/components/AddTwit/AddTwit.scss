@@ -42,10 +42,11 @@
         display: none;
       }
       button {
+        transition: 0.2s;
         border: none;
         border-bottom-left-radius: 6px;
         border-bottom-right-radius: 50px;
-        background-color: #1da1f2;
+        background-color: $twitter-color;
         color: white;
         padding: 10px 20px;
         width: 100%;
@@ -53,7 +54,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: #0c8de4;
+          background-color: $twitter-color-dark;
         }
       }
     }

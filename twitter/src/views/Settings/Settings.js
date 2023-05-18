@@ -69,14 +69,14 @@ const Settings = () => {
     <div className="container">
       <Header />
       <div className="settings">
-        <div>
+        {/* <div>
           <img
             src="../icon.svg"
             className="icon"
             data-aos="flip-up"
             data-aos-duration="2000"
           />
-        </div>
+        </div> */}
         <div className="title-button">
           <h2>Settings</h2>
           <button className="update-button" onClick={update}>

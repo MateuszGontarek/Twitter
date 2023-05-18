@@ -1,30 +1,93 @@
 @import "./../../colors.scss";
-
 @import url("https://fonts.googleapis.com/css2?family=Advent+Pro:wght@200;300;500;700&family=Alata&display=swap");
-
-.user-settings {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.container {
+  min-height: 100vh;
+  position: relative;
+  width: 85%;
   margin: 0 auto;
-  width: 430px;
-  text-align: center;
-
+}
+body {
+  background: $background;
+}
+.settings {
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid $twitter-color;
+    margin-right: 20px;
+  }
+  .default-avatar {
+    color: $black;
+    border: none !important;
+  }
+  .icon {
+    position: absolute;
+    bottom: 0px;
+    width: 300px;
+  }
   h2 {
     margin: 0;
-    color: $background;
+    color: $white;
     padding-right: 20px;
     font-family: Alata;
   }
-
-  .input-field {
+  .title-button {
+    margin-top: 50px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    .update-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Alata;
+      font-size: 20px;
+      background: $white;
+      padding: 5px 15px;
+      align-self: center;
+      border: none;
+      border-radius: 10px;
+      transition: 0.2s;
+      cursor: pointer;
+      border: 3px solid transparent;
+      &:hover {
+        border-color: $twitter-color;
+      }
+      .update-button-text {
+        width: 80px;
+        text-align: right;
+      }
+      .updated-icon-default {
+        opacity: 0;
+        transition: 0.2s;
+        margin-left: 5px;
+        color: $twitter-color;
+      }
+      .updated-icon {
+        opacity: 1 !important;
+      }
+    }
+    .success {
+      box-shadow: 0px 0px 5px 1px $blue;
+    }
+  }
+  .settings-container {
+    margin-top: 80px;
     display: flex;
     justify-content: space-between;
 
     p {
       font-family: Alata;
       font-size: 25px;
-      background: linear-gradient(101.53deg, #319d38 17.35%, #29146f 94.36%);
+      background: linear-gradient(
+        245.3deg,
+        $twitter-color 25.83%,
+        $twitter-color-dark 93.39%
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -45,33 +108,25 @@
       }
       &:focus {
         outline: none;
-        border-color: #319d38;
+        border-color: $twitter-color-dark;
       }
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-
-    label {
-      color: $blue;
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 10px;
     }
   }
   .set-avatar-content {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .avatar {
       height: 70px;
       width: 70px;
     }
     .set-avatar-button {
       justify-content: space-between;
-      align-self: flex-end;
       font-family: Alata;
       font-size: 20px;
       display: flex;
       align-items: center;
+      color: $indigo-light;
       cursor: pointer;
       .file-base64-avatar {
         display: none;
@@ -95,43 +150,8 @@
     }
     .current-nickname-label {
       font-family: Alata;
-      color: $blue;
+      color: $indigo-light;
       opacity: 0.8;
     }
   }
-}
-
-  input {
-    border: 1px solid $blue;
-    border-radius: 5px;
-    color: $blue;
-    font-size: 20px;
-    font-weight: 600;
-    height: 40px;
-    margin-bottom: 10px;
-    padding: 0 10px;
-    width: 300px;
-    &:focus {
-      outline: none;
-    }
-  }
-  
-.update-button {
-  button {
-    background-color: $blue;
-    border: none;
-    border-radius: 5px;
-    color: $white;
-    font-size: 20px;
-    font-weight: 600;
-    height: 40px;
-    margin-top: 20px;
-    padding: 0 10px;
-    width: 200px;
-    &:focus {
-      outline: none;
-    }
-  }
-}
-
 }
