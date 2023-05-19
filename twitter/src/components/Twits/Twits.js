@@ -266,7 +266,7 @@ const Twits = (props) => {
                             />
                             {email && comment.userId === email._id && (
                               <Trash3Fill
-                                onClick={() => deleteTwit(twit._id)}
+                                onClick={() => deleteTwit(comment._id)}
                                 size={22}
                                 className="twit-delete"
                               />
