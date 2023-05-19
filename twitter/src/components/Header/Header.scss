@@ -114,7 +114,7 @@ a {
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 #menu .chosen-element {
-  border: 0.5px solid $blue-second !important;
+  border: 0.5px solid $blue-darkest !important;
 }
 #menu .menu-element,
 .user-info {
@@ -142,7 +142,7 @@ a {
   border-radius: 50px;
 }
 #menu .menu-element:hover {
-  background-color: $blue-second;
+  background-color: $blue-darkest;
   color: $white;
 }
 #menu .menu-element:hover li,

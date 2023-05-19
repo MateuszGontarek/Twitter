@@ -9,7 +9,6 @@ const Home = (props) => {
     return;
   }
   const { filter } = props;
-  console.log(filter);
 
   return (
     <div className="home-page">

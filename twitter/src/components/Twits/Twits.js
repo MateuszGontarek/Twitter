@@ -3,7 +3,7 @@ import "./Twits.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import {
-  Trash3Fill,
+  Trash3 as Trash3Fill,
   HeartFill,
   Search,
   PersonCircle,
@@ -22,11 +22,12 @@ const Twits = (props) => {
   }
   const [twits, setTwits] = useState([]);
   const [noTwits, setNoTwits] = useState(false);
+  const [hashtagNotFound, setHashtagNotFound] = useState(false);
   const findTwits = async (e) => {
     const hashtagContent = hashtagRef.current.value;
-    if (hashtagContent.length === 0) {
-      getTwits();
-    }
+    // if (hashtagContent.length === 0) {
+    //   getTwits();
+    // }
     e.preventDefault();
     let hashtag = "";
     if (hashtagContent[0] === "#") {
@@ -126,25 +127,36 @@ const Twits = (props) => {
     });
     if (response.data.success) {
       const twitsWithHeaders = response.data.twitsWithHeaders;
-      setTwits(twitsWithHeaders);
+      if (twitsWithHeaders.length > 0) {
+        setTwits(twitsWithHeaders);
+      } else {
+        setHashtagNotFound(true);
+      }
     } else {
       console.log("error");
     }
   };
-
+  // const hashtagInp = document.querySelector(".searcher-content input");
+  // hashtagInp.addEventListener("focus", function () {
+  //   let form = hashtagInp.parentNode;
+  //   form.classList.add("active");
+  // });
   useEffect(() => {
     window.getTwitsByHashtagAfterClick = (event) => {
       const hashtag = event.target.innerText.substring(1);
+      console.log(hashtag);
       getTwitsByHashtag(hashtag, true);
     };
     getTwits();
   }, []);
   return (
     <div className="">
+      <h1 className="filtered-title">
+        {filter === "liked" ? "Liked" : filter === "user" ? "Your" : null}
+      </h1>
       <div className="searcher">
         <form>
           <div className="searcher-content">
-            {/* <img className="hashtag-symbol" src="../hashtag-symbol.webp" /> */}
             <Search className="loop" size={25} />
             <input
               maxLength={200}
@@ -212,7 +224,7 @@ const Twits = (props) => {
                     {email && twit.userId === email._id && (
                       <Trash3Fill
                         onClick={() => deleteTwit(twit._id)}
-                        size={30}
+                        size={25}
                         className="twit-delete"
                       />
                     )}
@@ -239,7 +251,7 @@ const Twits = (props) => {
                             {email && comment.userId === email._id && (
                               <Trash3Fill
                                 onClick={() => deleteTwit(twit._id)}
-                                size={30}
+                                size={20}
                                 className="twit-delete"
                               />
                             )}

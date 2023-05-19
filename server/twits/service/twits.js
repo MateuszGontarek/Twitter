@@ -13,6 +13,8 @@ const addTwit = async (req, res) => {
   let hashtags = description.match(/#[a-zA-Zа-яА-Я0-9]+/g);
   if (hashtags) {
     hashtags = hashtags.map((hashtag) => hashtag.substring(1));
+  } else {
+    hashtags = [];
   }
   try {
     await new Twit({
@@ -30,7 +32,7 @@ const addTwit = async (req, res) => {
 
 const getTwits = async (req, res) => {
   try {
-    const filterOption  = req.headers.filteroption;
+    const filterOption = req.headers.filteroption;
     const id = req.headers.id;
     const email = req.headers.email;
 
@@ -38,16 +40,15 @@ const getTwits = async (req, res) => {
     if (filterOption === "all") {
       var twits = await Twit.find().sort({ date: -1 });
       var users = await User.find();
-    }
-    else if (filterOption === "liked") {
-      var twits = await Twit.find({ likes: { $in: [email] } }).sort({ date: -1 });
+    } else if (filterOption === "liked") {
+      var twits = await Twit.find({ likes: { $in: [email] } }).sort({
+        date: -1,
+      });
       var users = await User.find();
-    }
-    else if (filterOption === "user") {
+    } else if (filterOption === "user") {
       var twits = await Twit.find({ userId: id }).sort({ date: -1 });
       var users = await User.find();
-    }
-    else {
+    } else {
       return res.status(500).json({ success: false });
     }
     twits.forEach((twit) => {
@@ -97,11 +98,14 @@ const getTwitsByHashtag = async (req, res) => {
     const twitsByHashtag = [];
 
     twits.forEach((twit) => {
-      twit.hashtags.forEach((twitHashtag) => {
-        if (twitHashtag.includes(hashtag)) {
-          twitsByHashtag.push(twit);
-        }
-      });
+      console.log(twit);
+      if (twit.hashtags) {
+        twit.hashtags.forEach((twitHashtag) => {
+          if (twitHashtag.includes(hashtag)) {
+            twitsByHashtag.push(twit);
+          }
+        });
+      }
     });
     twitsByHashtag.forEach((twit) => {
       if (twit.userId) {
