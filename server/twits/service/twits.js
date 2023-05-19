@@ -30,10 +30,16 @@ const addTwit = async (req, res) => {
 
 const getTwits = async (req, res) => {
   try {
-    const filterOption  = req.headers.filteroption;
+    let filterOption  = req.headers.filteroption;
     const id = req.headers.id;
     const email = req.headers.email;
 
+    console.log(filterOption, id, email)
+
+    if (filterOption === undefined) {
+      filterOption = "all";
+    }
+    console.log(filterOption, id, email)
     const twitsWithHeaders = [];
     if (filterOption === "all") {
       var twits = await Twit.find().sort({ date: -1 });

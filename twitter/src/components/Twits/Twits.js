@@ -10,19 +10,21 @@ import {
 } from "react-bootstrap-icons";
 import Loader from "../Loader";
 const Twits = (props) => {
-  const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
   const [showMore, setShowMore] = useState([]);
+  const [twits, setTwits] = useState([]);
+  const [noTwits, setNoTwits] = useState(false);
+
   const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
-  const { filter } = props;
 
-  let { email } = "";
+  const { filter } = props;
+  let email = "";
+
   if (!notLoginUser) {
-    email = JSON.parse(sessionStorage.getItem("userData"));
+      email = JSON.parse(sessionStorage.getItem("userData"));
   }
-  const [twits, setTwits] = useState([]);
-  const [noTwits, setNoTwits] = useState(false);
+
   const findTwits = async (e) => {
     const hashtagContent = hashtagRef.current.value;
     if (hashtagContent.length === 0) {
@@ -38,6 +40,7 @@ const Twits = (props) => {
 
     getTwitsByHashtag(hashtag);
   };
+
   const ifEmpty = (e) => {
     if (e.target.classList.contains("warning")) {
       e.target.classList.remove("warning");
@@ -45,8 +48,11 @@ const Twits = (props) => {
   };
 
   const getTwits = async () => {
-    const { _id } = JSON.parse(sessionStorage.getItem("userData"));
-
+    const _id = ""
+    if (!notLoginUser) {
+      _id = JSON.parse(sessionStorage.getItem("userData")._id);
+    } 
+    console.log(_id)
     const response = await axios.get("/api/twits", {
       headers: {
         filterOption: filter,
@@ -64,7 +70,7 @@ const Twits = (props) => {
       });
     } else { 
       const twits = response.data.twitsWithHeaders;
-      if (twits.length > 0) {
+      if (twits.length) {
         setTwits(twits);
       } else {
         setNoTwits(true);
@@ -158,7 +164,6 @@ const Twits = (props) => {
       <div className="searcher">
         <form>
           <div className="searcher-content">
-            {/* <img className="hashtag-symbol" src="../hashtag-symbol.webp" /> */}
             <Search className="loop" size={25} />
             <input
               maxLength={200}
@@ -349,8 +354,7 @@ const Twits = (props) => {
         })}
       </div>
     </div>
-  );
-  
+  );  
 };
 
 export default Twits;

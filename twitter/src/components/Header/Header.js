@@ -7,29 +7,15 @@ import {
   House,
   Twitter,
   Heart,
-  Gear,
-  QuestionCircle,
-  Person,
+  Gear
 } from "react-bootstrap-icons";
 
 const Header = () => {
   const path = window.location.pathname.split("/");
   const actualPage = path[path.length - 1];
 
-  const navigate = useNavigate();
   const menuIconSize = 20;
   const userData = JSON.parse(sessionStorage.getItem("userData"));
-
-  // document.addEventListener("DOMContentLoaded", function () {
-  //   const elements = document.querySelectorAll(".menu-element");
-  //   elements.forEach((element) => {
-  //     const li = element.querySelector("li");
-  //     if (li.innerText.toLowerCase() === actualPage) {
-  //       element.classList.add("chosen-element");
-  //       return;
-  //     }
-  //   });
-  // });
 
   return (
     <nav role="navigation">
@@ -52,16 +38,6 @@ const Header = () => {
             />
             <li className="nickname">{userData.nickname}</li>
           </div>
-          <Link
-            onClick={() => {
-              sessionStorage.clear();
-            }}
-            to="/login"
-            className="menu-element"
-          >
-            <BoxArrowLeft className="menuIcon" size={menuIconSize} />
-            <li>Log out</li>
-          </Link>
           <Link
           onClick="location.reload();"
             to="/home"
@@ -109,10 +85,16 @@ const Header = () => {
             <Gear className="menuIcon settings-icon" size={menuIconSize} />
             <li>Settings</li>
           </Link>
-          {/* <a target="_blank" href="support">
-            <QuestionCircle className="menuIcon" size={menuIconSize} />
-            <li>Support</li>
-          </a> */}
+          <Link
+            onClick={() => {
+              sessionStorage.clear();
+            }}
+            to="/login"
+            className="menu-element"
+          >
+            <BoxArrowLeft className="menuIcon" size={menuIconSize} />
+            <li>Log out</li>
+          </Link>
         </ul>
       </div>
     </nav>

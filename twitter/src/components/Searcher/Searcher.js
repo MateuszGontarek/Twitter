@@ -1,12 +1,8 @@
 import React from "react";
 import "./Searcher.scss";
 import axios from "axios";
-import FileBase64 from "react-file-base64";
-import { useState } from "react";
 
 const Searcher = () => {
-  const token = sessionStorage.getItem("token");
-  const [twits, setTwits] = useState([]);
   const hashtagRef = React.createRef();
   const ifEmpty = (e) => {
     if (e.target.classList.contains("warning")) {
