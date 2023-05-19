@@ -33,6 +33,7 @@ const addTwit = async (req, res) => {
 const getTwits = async (req, res) => {
   try {
     const filterOption = req.headers.filteroption;
+    console.log(filterOption);
     const id = req.headers.id;
     const email = req.headers.email;
 
@@ -102,7 +103,6 @@ const getTwitsByHashtag = async (req, res) => {
     const twitsByHashtag = [];
 
     twits.forEach((twit) => {
-      console.log(twit);
       if (twit.hashtags) {
         twit.hashtags.forEach((twitHashtag) => {
           if (twitHashtag.includes(hashtag)) {

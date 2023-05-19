@@ -55,7 +55,7 @@ const Register = () => {
           // placeholder="Repeat password"
           // defaultValue={"admin4123"}
         /> */}
-        <button onClick={(e) => Register(e)}>Login</button>
+        <button onClick={(e) => Register(e)}>Sign up</button>
         <p className="no-acc">
           Do you have an account?{" "}
           <b

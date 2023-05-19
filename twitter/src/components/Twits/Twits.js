@@ -10,12 +10,11 @@ import {
 } from "react-bootstrap-icons";
 import Loader from "../Loader";
 const Twits = (props) => {
-  const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
+  // const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
   const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
   const { filter } = props;
-
   let { email } = "";
   if (!notLoginUser) {
     email = JSON.parse(sessionStorage.getItem("userData"));
@@ -45,14 +44,21 @@ const Twits = (props) => {
   };
 
   const getTwits = async () => {
-    const { _id } = JSON.parse(sessionStorage.getItem("userData"));
-
-    const response = await axios.get("/api/twits", {
-      headers: {
+    let headers = {};
+    if (email) {
+      const { _id } = JSON.parse(sessionStorage.getItem("userData"));
+      headers = {
         filterOption: filter,
         id: _id,
         email: email.email,
-      },
+      };
+    } else {
+      headers = {
+        filterOption: "all",
+      };
+    }
+    const response = await axios.get("/api/twits", {
+      headers,
     });
 
     response.data.twitsWithHeaders.forEach((element) => {
@@ -72,7 +78,6 @@ const Twits = (props) => {
       console.log("error");
     }
   };
-
   const showMoreCommentsHandler = (index) => {
     const newShowMore = [...showMore];
     newShowMore[index] = !newShowMore[index];
@@ -213,15 +218,23 @@ const Twits = (props) => {
                     ></div>
 
                     <p className="twit-heart-counter">{twit.likes.length}</p>
-                    <HeartFill
-                      size={30}
-                      className={
-                        twit.likes.includes(email["email"])
-                          ? "twit-heart-active"
-                          : "twit-heart"
-                      }
-                      onClick={(e) => addLike(twit._id)}
-                    />
+                    {email ? (
+                      <HeartFill
+                        size={30}
+                        className={
+                          twit.likes.includes(email["email"])
+                            ? "twit-heart-active"
+                            : "twit-heart"
+                        }
+                        onClick={(e) => addLike(twit._id)}
+                      />
+                    ) : (
+                      <HeartFill
+                        size={30}
+                        className="twit-heart"
+                        onClick={() => (window.location = "/login")}
+                      />
+                    )}
 
                     {email && twit.userId === email._id && (
                       <Trash3Fill
