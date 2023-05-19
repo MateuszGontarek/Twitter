@@ -3,7 +3,7 @@ import "./Twits.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import {
-  Trash3Fill,
+  Trash3 as Trash3Fill,
   HeartFill,
   Search,
   PersonCircle,
@@ -239,7 +239,7 @@ const Twits = (props) => {
                             {email && comment.userId === email._id && (
                               <Trash3Fill
                                 onClick={() => deleteTwit(twit._id)}
-                                size={30}
+                                size={22}
                                 className="twit-delete"
                               />
                             )}

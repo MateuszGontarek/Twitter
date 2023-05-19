@@ -129,10 +129,41 @@ a {
   margin-right: 25px;
   color: $secondary;
 }
-.settings-point:hover .settings-icon {
+.home-point:hover svg,
+.your-point:hover svg,
+.liked-point:hover svg {
+  animation: tilt 0.8s ease-in-out forwards;
+}
+.settings-point:hover svg {
   transition: 0s color 0s linear;
-  transition: 1s;
+  transition: 0.8s;
   transform: rotate(230deg);
+}
+.logout-point:hover svg {
+  animation: tilt2 0.7s ease-in-out forwards;
+}
+@keyframes tilt {
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(30deg);
+  }
+  50% {
+    transform: rotate(-30deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes tilt2 {
+  50% {
+    transform: translateX(-25px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 #menu li {
   padding: 10px 0;

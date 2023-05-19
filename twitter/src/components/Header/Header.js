@@ -7,7 +7,7 @@ import {
   House,
   Twitter,
   Heart,
-  Gear
+  Gear,
 } from "react-bootstrap-icons";
 
 const Header = () => {
@@ -39,36 +39,36 @@ const Header = () => {
             <li className="nickname">{userData.nickname}</li>
           </div>
           <Link
-          onClick="location.reload();"
+            onClick="location.reload();"
             to="/home"
             className={
               actualPage !== "home"
-                ? "menu-element"
-                : "menu-element chosen-element"
+                ? "menu-element home-point"
+                : "menu-element chosen-element home-point"
             }
           >
             <House className="menuIcon" size={menuIconSize} />
             <li>Home</li>
           </Link>
           <Link
-          onClick="location.reload();"
+            onClick="location.reload();"
             to="/home/your"
             className={
               actualPage !== "your"
-                ? "menu-element"
-                : "menu-element chosen-element"
+                ? "menu-element your-point"
+                : "menu-element chosen-element your-point"
             }
           >
             <Twitter className="menuIcon" size={menuIconSize} />
             <li>Your</li>
           </Link>
           <Link
-          onClick="location.reload();"
+            onClick="location.reload();"
             to="/home/liked"
             className={
               actualPage !== "liked"
-                ? "menu-element"
-                : "menu-element chosen-element"
+                ? "menu-element liked-point"
+                : "menu-element chosen-element liked-point"
             }
           >
             <Heart className="menuIcon" size={menuIconSize} />
@@ -90,7 +90,7 @@ const Header = () => {
               sessionStorage.clear();
             }}
             to="/login"
-            className="menu-element"
+            className="menu-element logout-point"
           >
             <BoxArrowLeft className="menuIcon" size={menuIconSize} />
             <li>Log out</li>
