@@ -31,15 +31,11 @@ const Login = () => {
         <input
           ref={loginRef}
           type="text"
-          // placeholder="Email"
-          // defaultValue={"test@technischools.com"}
         />
         <label>Password</label>
         <input
           ref={passwordRef}
           type="password"
-          // placeholder="Password"
-          // defaultValue={"test"}
         />
         <button onClick={(e) => loginFn(e)}>Sign in</button>
         <p className="no-acc">

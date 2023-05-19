@@ -8,6 +8,7 @@ import Header from "../../components/Header";
 import AOS from "aos";
 import "aos/dist/aos.css";
 AOS.init();
+
 const Settings = () => {
   const newNicknameRef = React.createRef();
   const [avatar, setAvatar] = useState("");

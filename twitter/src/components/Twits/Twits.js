@@ -10,19 +10,22 @@ import {
 } from "react-bootstrap-icons";
 import Loader from "../Loader";
 const Twits = (props) => {
-  const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
+  const [showMore, setShowMore] = useState([]);
+  const [twits, setTwits] = useState([]);
+  const [noTwits, setNoTwits] = useState(false);
+
   const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
-  const { filter } = props;
 
-  let { email } = "";
+  const { filter } = props;
+  let email = "";
+
   if (!notLoginUser) {
     email = JSON.parse(sessionStorage.getItem("userData"));
   }
   const [twits, setTwits] = useState([]);
   const [noTwits, setNoTwits] = useState(false);
-  const [hashtagNotFound, setHashtagNotFound] = useState(false);
   const findTwits = async (e) => {
     const hashtagContent = hashtagRef.current.value;
     // if (hashtagContent.length === 0) {
@@ -38,6 +41,7 @@ const Twits = (props) => {
 
     getTwitsByHashtag(hashtag);
   };
+
   const ifEmpty = (e) => {
     if (e.target.classList.contains("warning")) {
       e.target.classList.remove("warning");
@@ -46,7 +50,7 @@ const Twits = (props) => {
 
   const getTwits = async () => {
     const { _id } = JSON.parse(sessionStorage.getItem("userData"));
-
+    console.log(_id);
     const response = await axios.get("/api/twits", {
       headers: {
         filterOption: filter,
@@ -55,14 +59,20 @@ const Twits = (props) => {
       },
     });
     if (response.data.success) {
+      setTwits(response.data.twitsWithHeaders);
+
+      response.data.twitsWithHeaders.forEach((element) => {
+        if (element.parents) {
+          setShowMore([...showMore, false]);
+        }
+      });
+    } else {
       const twits = response.data.twitsWithHeaders;
-      if (twits.length > 0) {
+      if (twits.length) {
         setTwits(twits);
       } else {
         setNoTwits(true);
       }
-    } else {
-      console.log("error");
     }
   };
 
@@ -70,9 +80,10 @@ const Twits = (props) => {
     if (notLoginUser) {
       return;
     }
+    console.log(email.email);
     const response = await axios.post(
       "/api/twits-like",
-      { id, email },
+      { id, email: email.email },
       {
         headers: { token },
       }
@@ -107,6 +118,12 @@ const Twits = (props) => {
     element.style.height = element.scrollHeight + "px";
   };
 
+  const showMoreCommentsHandler = (index) => {
+    const newShowMore = [...showMore];
+    newShowMore[index] = !newShowMore[index];
+    setShowMore(newShowMore);
+  };
+
   const deleteTwit = async (id) => {
     if (notLoginUser) {
       console.log("zaloguj się");
@@ -136,11 +153,7 @@ const Twits = (props) => {
       console.log("error");
     }
   };
-  // const hashtagInp = document.querySelector(".searcher-content input");
-  // hashtagInp.addEventListener("focus", function () {
-  //   let form = hashtagInp.parentNode;
-  //   form.classList.add("active");
-  // });
+
   useEffect(() => {
     window.getTwitsByHashtagAfterClick = (event) => {
       const hashtag = event.target.innerText.substring(1);
@@ -148,6 +161,7 @@ const Twits = (props) => {
       getTwitsByHashtag(hashtag, true);
     };
     getTwits();
+    console.log(email);
   }, []);
   return (
     <div className="">
@@ -173,30 +187,91 @@ const Twits = (props) => {
         </form>
       </div>
       <div className="twits">
-        {twits.length > 0 ? (
-          twits.map((twit) => {
-            if (twit.parents === null) {
-              return (
-                <div className="twit" key={twit._id}>
-                  <div className="twit-header">
-                    <div
-                      className={
-                        twit.avatar
-                          ? "twit-avatar"
-                          : "twit-avatar-default twit-avatar"
+        {twits.map((twit, index) => {
+          if (twit.parents === null) {
+            return (
+              <div className="twit" key={twit._id}>
+                <div className="twit-header">
+                  {twits.length > 0 ? (
+                    twits.map((twit) => {
+                      if (twit.parents === null) {
+                        return (
+                          <div className="twit" key={twit._id}>
+                            <div className="twit-header">
+                              <div
+                                className={
+                                  twit.avatar
+                                    ? "twit-avatar"
+                                    : "twit-avatar-default twit-avatar"
+                                }
+                                style={{
+                                  backgroundImage: twit.avatar
+                                    ? `url(${twit.avatar})`
+                                    : null,
+                                }}
+                              >
+                                {!twit.avatar && (
+                                  <PersonCircle
+                                    size={60}
+                                    className="default-avatar"
+                                  />
+                                )}
+                              </div>
+                              <p className="nickname">{twit.nickname}</p>
+                            </div>
+                            <div className="twit-info">
+                              <div
+                                className="twit-description"
+                                dangerouslySetInnerHTML={{
+                                  __html: twit.hashtags
+                                    ? twit.description.replace(
+                                        /#(\w+)/g,
+                                        '<span onclick="getTwitsByHashtagAfterClick(event)" class="hashtag">#$1</span>'
+                                      )
+                                    : twit.description,
+                                }}
+                              ></div>
+
+                              <p className="twit-heart-counter">
+                                {twit.likes.length}
+                              </p>
+                              {console.log(twit.likes, email.email)}
+                              <HeartFill
+                                size={30}
+                                className={
+                                  twit.likes.includes(email.email)
+                                    ? "twit-heart-active"
+                                    : "twit-heart"
+                                }
+                                onClick={(e) => addLike(twit._id)}
+                              />
+
+                              {email && twit.userId === email._id && (
+                                <Trash3Fill
+                                  onClick={() => deleteTwit(twit._id)}
+                                  size={30}
+                                  className="twit-delete"
+                                />
+                              )}
+                            </div>
+                            <div
+                              className={
+                                twit.content
+                                  ? "twit-content"
+                                  : "twit-content-none"
+                              }
+                              style={{
+                                backgroundImage: `url(${twit.content})`,
+                              }}
+                            ></div>
+                            <p className="nickname">{twit.nickname}</p>
+                          </div>
+                        );
                       }
-                      style={{
-                        backgroundImage: twit.avatar
-                          ? `url(${twit.avatar})`
-                          : null,
-                      }}
-                    >
-                      {!twit.avatar && (
-                        <PersonCircle size={60} className="default-avatar" />
-                      )}
-                    </div>
-                    <p className="nickname">{twit.nickname}</p>
-                  </div>
+                    })
+                  ) : (
+                    <Loader />
+                  )}
                   <div className="twit-info">
                     <div
                       className="twit-description"
@@ -240,6 +315,7 @@ const Twits = (props) => {
                   <div className="twit-comments">
                     {twits
                       .filter((comment) => comment.parents === twit._id)
+                      .slice(0, showMore[index] ? 1000 : 5)
                       .map((comment) => {
                         return (
                           <div className="twit-comment" key={comment._id}>
@@ -258,6 +334,12 @@ const Twits = (props) => {
                           </div>
                         );
                       })}
+                    {twits.filter((comment) => comment.parents === twit._id)
+                      .length > 5 ? (
+                      <button onClick={() => showMoreCommentsHandler(index)}>
+                        Pokaż {showMore[index] ? "Mniej" : "Więcej"}
+                      </button>
+                    ) : null}
                   </div>
                   <form
                     className="add-comment"
@@ -276,12 +358,10 @@ const Twits = (props) => {
                     <button className="comment-button">Dodaj</button>
                   </form>
                 </div>
-              );
-            }
-          })
-        ) : (
-          <Loader />
-        )}
+              </div>
+            );
+          }
+        })}
       </div>
     </div>
   );

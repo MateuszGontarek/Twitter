@@ -35,7 +35,6 @@ const AddTwit = () => {
     const data = { twitContent, twitText, userId };
     const response = await axios.post("/api/twits", { data, token });
     if (response.data.success) {
-      // twitTextRef.current.value = "";
       setTwitContent({});
     } else {
       console.log("error");
