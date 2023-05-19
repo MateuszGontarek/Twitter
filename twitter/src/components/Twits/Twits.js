@@ -85,7 +85,7 @@ const Twits = (props) => {
     }
     const response = await axios.post(
       "/api/twits-like",
-      { id, email },
+      { id, email: email.email },
       {
         headers: { token },
       }
