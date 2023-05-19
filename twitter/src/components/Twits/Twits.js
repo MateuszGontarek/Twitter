@@ -22,6 +22,7 @@ const Twits = (props) => {
   }
   const [twits, setTwits] = useState([]);
   const [noTwits, setNoTwits] = useState(false);
+  const [showMore, setShowMore] = useState([]);
   const findTwits = async (e) => {
     const hashtagContent = hashtagRef.current.value;
     if (hashtagContent.length === 0) {
@@ -53,6 +54,13 @@ const Twits = (props) => {
         email: email.email,
       },
     });
+
+    response.data.twitsWithHeaders.forEach((element) => {
+      if (element.parents) {
+        setShowMore([...showMore, false]);
+      }
+    });
+
     if (response.data.success) {
       const twits = response.data.twitsWithHeaders;
       if (twits.length > 0) {
@@ -65,13 +73,19 @@ const Twits = (props) => {
     }
   };
 
+  const showMoreCommentsHandler = (index) => {
+    const newShowMore = [...showMore];
+    newShowMore[index] = !newShowMore[index];
+    setShowMore(newShowMore);
+  };
+
   const addLike = async (id) => {
     if (notLoginUser) {
       return;
     }
     const response = await axios.post(
       "/api/twits-like",
-      { id, email },
+      { id, email: email.email },
       {
         headers: { token },
       }
@@ -162,7 +176,7 @@ const Twits = (props) => {
       </div>
       <div className="twits">
         {twits.length > 0 ? (
-          twits.map((twit) => {
+          twits.map((twit, index) => {
             if (twit.parents === null) {
               return (
                 <div className="twit" key={twit._id}>
@@ -228,6 +242,7 @@ const Twits = (props) => {
                   <div className="twit-comments">
                     {twits
                       .filter((comment) => comment.parents === twit._id)
+                      .slice(0, showMore[index] ? 100 : 2)
                       .map((comment) => {
                         return (
                           <div className="twit-comment" key={comment._id}>
@@ -246,6 +261,12 @@ const Twits = (props) => {
                           </div>
                         );
                       })}
+                    {twits.filter((comment) => comment.parents === twit._id)
+                      .length > 5 ? (
+                      <button onClick={() => showMoreCommentsHandler(index)}>
+                        Pokaż {showMore[index] ? "Mniej" : "Więcej"}
+                      </button>
+                    ) : null}
                   </div>
                   <form
                     className="add-comment"
