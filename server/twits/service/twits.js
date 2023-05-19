@@ -34,12 +34,10 @@ const getTwits = async (req, res) => {
     const id = req.headers.id;
     const email = req.headers.email;
 
-    console.log(filterOption, id, email)
-
     if (filterOption === undefined) {
       filterOption = "all";
     }
-    console.log(filterOption, id, email)
+
     const twitsWithHeaders = [];
     if (filterOption === "all") {
       var twits = await Twit.find().sort({ date: -1 });
@@ -174,17 +172,17 @@ const addComment = async (req, res) => {
 };
 
 const addLike = async (req, res) => {
-  const { id, userData } = req.body;
+  const { id, email } = req.body;
   const token = req.headers.token;
 
   if (!jwt.verify(token, "admin4123"))
     return res.status(403).json({ success: false });
   try {
     const twit = await Twit.findById(id);
-    if (twit.likes.includes(userData)) {
-      twit.likes = twit.likes.filter((like) => like !== userData);
+    if (twit.likes.includes(email)) {
+      twit.likes = twit.likes.filter((like) => like !== email);
     } else {
-      twit.likes.push(userData);
+      twit.likes.push(email);
     }
     await twit.save();
     return res.status(200).json({ success: true });

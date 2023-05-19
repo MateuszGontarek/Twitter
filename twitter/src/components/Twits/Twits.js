@@ -48,10 +48,7 @@ const Twits = (props) => {
   };
 
   const getTwits = async () => {
-    const _id = ""
-    if (!notLoginUser) {
-      _id = JSON.parse(sessionStorage.getItem("userData")._id);
-    } 
+    const { _id } = JSON.parse(sessionStorage.getItem("userData"));
     console.log(_id)
     const response = await axios.get("/api/twits", {
       headers: {
@@ -82,9 +79,10 @@ const Twits = (props) => {
     if (notLoginUser) {
       return;
     }
+    console.log(email.email)
     const response = await axios.post(
       "/api/twits-like",
-      { id, email },
+      { id, email: email.email },
       {
         headers: { token },
       }
@@ -158,6 +156,7 @@ const Twits = (props) => {
       getTwitsByHashtag(hashtag, true);
     };
     getTwits();
+    console.log(email)
   }, []);
   return (
     <div className="">
@@ -228,10 +227,11 @@ const Twits = (props) => {
                               <p className="twit-heart-counter">
                                 {twit.likes.length}
                               </p>
+                              {console.log(twit.likes, email.email)}
                               <HeartFill
                                 size={30}
                                 className={
-                                  twit.likes.includes(email["email"])
+                                  twit.likes.includes(email.email)
                                     ? "twit-heart-active"
                                     : "twit-heart"
                                 }

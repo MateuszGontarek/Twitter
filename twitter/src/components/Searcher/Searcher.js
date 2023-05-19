@@ -26,7 +26,6 @@ const Searcher = () => {
       headers: { hashtag },
     });
     if (response.data.success) {
-      // setTwits(response.data.twitsByHashtag);
       const twitsByHashtag = response.data.twitsByHashtag;
     } else {
       console.log("error");
