@@ -168,14 +168,14 @@ body {
         color: #78909c;
         margin-right: 15px;
         cursor: pointer;
-        transition: 0.3s ease-in-out;
+        transition: 2s ease-in-out;
       }
       .twit-heart-active {
         margin-right: 15px;
-        color: $blue;
+        color: $red;
       }
-      .twit-heart:focus {
-        color: $twitter-color;
+      .twit-heart:hover {
+        color: $red;
       }
       .twit-delete {
         color: $secondary;
