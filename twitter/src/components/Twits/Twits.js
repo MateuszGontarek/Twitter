@@ -13,7 +13,7 @@ const Twits = (props) => {
   const [showMore, setShowMore] = useState([]);
   const [twits, setTwits] = useState([]);
   const [noTwits, setNoTwits] = useState(false);
-
+  const [hashtagNotFound, setHashtagNotFound] = useState(false);
   const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
@@ -24,8 +24,6 @@ const Twits = (props) => {
   if (!notLoginUser) {
     email = JSON.parse(sessionStorage.getItem("userData"));
   }
-  const [twits, setTwits] = useState([]);
-  const [noTwits, setNoTwits] = useState(false);
   const findTwits = async (e) => {
     const hashtagContent = hashtagRef.current.value;
     // if (hashtagContent.length === 0) {
