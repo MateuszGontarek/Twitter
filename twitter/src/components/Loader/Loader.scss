@@ -1,9 +1,12 @@
+@import "./../../colors.scss";
+h2 {
+  color: $white;
+}
 .loader {
   display: flex;
   flex-direction: column;
   align-items: center;
   h2 {
-    color: #f2f2f2;
     text-align: center;
     margin-top: -30px;
     margin-right: -20px;

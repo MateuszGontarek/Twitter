@@ -6,9 +6,11 @@ import {
   Trash3 as Trash3Fill,
   HeartFill,
   Search,
+  SearchHeart,
   PersonCircle,
 } from "react-bootstrap-icons";
 import Loader from "../Loader";
+import TwitNotFound from "../TwitNotFound";
 const Twits = (props) => {
   // const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
   const notLoginUser = props.notLoginUser;
@@ -21,20 +23,23 @@ const Twits = (props) => {
   }
   const [twits, setTwits] = useState([]);
   const [noTwits, setNoTwits] = useState(false);
+  const [isTwitsByHashtag, setIsTwitsByHashtag] = useState(true);
   const [showMore, setShowMore] = useState([]);
+  const [actualHashtag, setActualHashtag] = useState("");
   const findTwits = async (e) => {
-    const hashtagContent = hashtagRef.current.value;
-    if (hashtagContent.length === 0) {
+    const actualHashtag = hashtagRef.current.value;
+    setActualHashtag(hashtagRef.current.value);
+    if (actualHashtag.length === 0) {
       getTwits();
     }
     e.preventDefault();
     let hashtag = "";
-    if (hashtagContent[0] === "#") {
-      hashtag = hashtagContent.substring(1);
+    if (actualHashtag[0] === "#") {
+      hashtag = actualHashtag.substring(1);
     } else {
-      hashtag = hashtagContent;
+      hashtag = actualHashtag;
     }
-
+    console.log(hashtag);
     getTwitsByHashtag(hashtag);
   };
   const ifEmpty = (e) => {
@@ -140,12 +145,18 @@ const Twits = (props) => {
     }
   };
   const getTwitsByHashtag = async (hashtag) => {
+    setTwits([]);
+    setIsTwitsByHashtag(true);
     const response = await axios.get("/api/twits/find", {
       headers: { hashtag },
     });
     if (response.data.success) {
       const twitsWithHeaders = response.data.twitsWithHeaders;
-      setTwits(twitsWithHeaders);
+      if (twitsWithHeaders.length > 0) {
+        setTwits(twitsWithHeaders);
+      } else {
+        setIsTwitsByHashtag(false);
+      }
     } else {
       console.log("error");
     }
@@ -160,11 +171,17 @@ const Twits = (props) => {
   }, []);
   return (
     <div className="">
+      <h1 className="filtered-title">
+        {filter === "liked" ? "Liked" : filter === "user" ? "Your" : null}
+      </h1>
       <div className="searcher">
         <form>
           <div className="searcher-content">
-            {/* <img className="hashtag-symbol" src="../hashtag-symbol.webp" /> */}
-            <Search className="loop" size={25} />
+            {filter != "liked" ? (
+              <Search className="loop" size={25} />
+            ) : (
+              <SearchHeart className="loop" size={25} />
+            )}
             <input
               maxLength={200}
               onChange={(e) => {
@@ -174,7 +191,7 @@ const Twits = (props) => {
               }}
               ref={hashtagRef}
               type="text"
-              placeholder="wpisz hasztag"
+              placeholder="search by hashtag"
             />
           </div>
         </form>
@@ -290,17 +307,19 @@ const Twits = (props) => {
                     <textarea
                       maxLength={200}
                       className="comment-input"
-                      placeholder="Dodaj komentarz..."
+                      placeholder="Add comment..."
                       onChange={(element) => {
                         autoHeight(element.target);
                       }}
                     ></textarea>
-                    <button className="comment-button">Dodaj</button>
+                    <button className="comment-button">Add</button>
                   </form>
                 </div>
               );
             }
           })
+        ) : !isTwitsByHashtag ? (
+          <TwitNotFound hashtag={actualHashtag} />
         ) : (
           <Loader />
         )}

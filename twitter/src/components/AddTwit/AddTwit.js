@@ -27,7 +27,7 @@ const AddTwit = () => {
     e.preventDefault();
     if (twitTextRef.current.value === "") {
       twitTextRef.current.classList.add("warning");
-      twitTextRef.current.placeholder = "wpisz wiadomość";
+      twitTextRef.current.placeholder = "enter a message";
       twitTextRef.current.focus();
       return;
     }
@@ -58,7 +58,7 @@ const AddTwit = () => {
             }}
             ref={twitTextRef}
             type="text"
-            placeholder="co nowego?"
+            placeholder="what's new?"
           />
           <Image
             size={30}

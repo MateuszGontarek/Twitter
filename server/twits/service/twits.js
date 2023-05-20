@@ -33,7 +33,6 @@ const addTwit = async (req, res) => {
 const getTwits = async (req, res) => {
   try {
     const filterOption = req.headers.filteroption;
-    console.log(filterOption);
     const id = req.headers.id;
     const email = req.headers.email;
 
