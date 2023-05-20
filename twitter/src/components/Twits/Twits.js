@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap-icons";
 import Loader from "../Loader";
 import TwitNotFound from "../TwitNotFound";
+import NoTwitsYet from "../NoTwitsYet";
 const Twits = (props) => {
   // const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
   const notLoginUser = props.notLoginUser;
@@ -22,7 +23,7 @@ const Twits = (props) => {
     email = JSON.parse(sessionStorage.getItem("userData"));
   }
   const [twits, setTwits] = useState([]);
-  const [noTwits, setNoTwits] = useState(false);
+  const [ifNoTwits, setIfNoTwits] = useState(false);
   const [isTwitsByHashtag, setIsTwitsByHashtag] = useState(true);
   const [showMore, setShowMore] = useState([]);
   const [actualHashtag, setActualHashtag] = useState("");
@@ -77,7 +78,7 @@ const Twits = (props) => {
       if (twits.length > 0) {
         setTwits(twits);
       } else {
-        setNoTwits(true);
+        setIfNoTwits(true);
       }
     } else {
       console.log("error");
@@ -318,10 +319,14 @@ const Twits = (props) => {
               );
             }
           })
-        ) : !isTwitsByHashtag ? (
-          <TwitNotFound hashtag={actualHashtag} />
+        ) : !ifNoTwits ? (
+          !isTwitsByHashtag ? (
+            <TwitNotFound hashtag={actualHashtag} />
+          ) : (
+            <Loader />
+          )
         ) : (
-          <Loader />
+          <NoTwitsYet />
         )}
       </div>
     </div>

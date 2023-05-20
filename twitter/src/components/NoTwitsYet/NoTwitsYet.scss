@@ -1,0 +1,72 @@
+@import "./../../colors.scss";
+
+.no-twits-yet {
+  display: flex;
+  justify-content: center;
+  .card {
+    width: 310px;
+    height: 330px;
+    transition: all 0.2s;
+    margin-top: 100px;
+    position: relative;
+  }
+
+  .card-inner {
+    width: inherit;
+    height: inherit;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h2 {
+      color: $white;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 28px;
+    }
+  }
+
+  .card:hover {
+    transform: scale(1.04) rotate(1deg);
+  }
+
+  .circle {
+    width: 100px;
+    height: 100px;
+    // background: radial-gradient(#b0e633, #53ef7d);
+    border-radius: 50%;
+    position: absolute;
+    animation: move-up6 2s ease-in infinite alternate-reverse;
+  }
+
+  .circle:nth-child(1) {
+    top: -25px;
+    left: -25px;
+    background: linear-gradient(rgb(186, 66, 255) 35%, $twitter-color);
+  }
+
+  .circle:nth-child(2) {
+    bottom: -25px;
+    right: -25px;
+    animation-name: move-down1;
+    background: linear-gradient(
+      245.3deg,
+      $blue-second 25.83%,
+      $twitter-color 93.39%
+    );
+  }
+
+  @keyframes move-up6 {
+    to {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes move-down1 {
+    to {
+      transform: translateY(10px);
+    }
+  }
+}
