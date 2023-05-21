@@ -33,26 +33,46 @@ const Twits = (props) => {
   if (!notLoginUser) {
     email = JSON.parse(sessionStorage.getItem("userData"));
   }
-  const [ifToUpdateTwits, setIfToUpdateTwits] = useState(false);
   const [twits, setTwits] = useState([]);
   const [ifNoTwits, setIfNoTwits] = useState(false);
   const [isTwitsByHashtag, setIsTwitsByHashtag] = useState(true);
   const [showMore, setShowMore] = useState([]);
   const [actualHashtag, setActualHashtag] = useState("");
   const findTwits = async (e) => {
-    setActualHashtag(hashtagRef.current.value);
+    const hashtagContent = hashtagRef.current.value;
+    setTimeout(() => {
+      setActualHashtag(hashtagContent);
+    }, 1000);
 
-    if (actualHashtag.length === 0) {
+    if (hashtagContent.length === 0) {
       getTwits();
+      return;
     }
     e.preventDefault();
     let hashtag = "";
-    if (actualHashtag[0] === "#") {
-      hashtag = actualHashtag.substring(1);
+    if (hashtagContent[0] === "#") {
+      hashtag = hashtagContent.substring(1);
     } else {
-      hashtag = actualHashtag;
+      hashtag = hashtagContent;
     }
     getTwitsByHashtag(hashtag);
+  };
+  const getTwitsByHashtag = async (hashtag) => {
+    setTwits([]);
+    setIsTwitsByHashtag(true);
+    const response = await axios.get("/api/twits/find", {
+      headers: { hashtag, filter, email: email.email, id: email._id },
+    });
+    if (response.data.success) {
+      const twitsWithHeaders = response.data.twitsWithHeaders;
+      if (twitsWithHeaders.length > 0) {
+        setTwits(twitsWithHeaders);
+      } else {
+        setIsTwitsByHashtag(false);
+      }
+    } else {
+      NotificationManager.error("Something went wrong");
+    }
   };
   const ifEmpty = (e) => {
     NotificationManager.warning("Twitt can't be empty");
@@ -124,7 +144,6 @@ const Twits = (props) => {
 
   const addComment = async (e, id) => {
     if (notLoginUser) {
-      console.log("Log in");
       return;
     }
     e.preventDefault();
@@ -157,23 +176,6 @@ const Twits = (props) => {
     if (response.data.success) {
       getTwits();
       NotificationManager.success("Twitt deleted");
-    } else {
-      NotificationManager.error("Something went wrong");
-    }
-  };
-  const getTwitsByHashtag = async (hashtag) => {
-    setTwits([]);
-    setIsTwitsByHashtag(true);
-    const response = await axios.get("/api/twits/find", {
-      headers: { hashtag, filter, email: email.email, id: email._id },
-    });
-    if (response.data.success) {
-      const twitsWithHeaders = response.data.twitsWithHeaders;
-      if (twitsWithHeaders.length > 0) {
-        setTwits(twitsWithHeaders);
-      } else {
-        setIsTwitsByHashtag(false);
-      }
     } else {
       NotificationManager.error("Something went wrong");
     }
@@ -380,7 +382,6 @@ const Twits = (props) => {
           <NoTwitsYet />
         )}
       </div>
-      <>{}</>
     </div>
   );
 };

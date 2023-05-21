@@ -94,11 +94,7 @@ const getTwits = async (req, res) => {
   }
 };
 const getTwitsByHashtag = async (req, res) => {
-  const {hashtag,
-         filter,
-         email,
-         id } = req.headers;
-
+  const { hashtag, filter, email, id } = req.headers;
   try {
     const twitsWithHeaders = [];
     if (filter === undefined) {
@@ -120,11 +116,11 @@ const getTwitsByHashtag = async (req, res) => {
       return res.status(500).json({ success: false });
     }
     const twitsByHashtag = [];
-
     twits.forEach((twit) => {
       if (twit.hashtags) {
         twit.hashtags.forEach((twitHashtag) => {
           if (twitHashtag.includes(hashtag)) {
+            console.log(twit);
             twitsByHashtag.push(twit);
           }
         });
