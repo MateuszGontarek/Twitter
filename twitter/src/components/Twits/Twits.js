@@ -13,8 +13,8 @@ import {
 import Loader from "../Loader";
 import TwitNotFound from "../TwitNotFound";
 import NoTwitsYet from "../NoTwitsYet";
-import { NotificationManager } from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 const Twits = (props) => {
   const notLoginUser = props.notLoginUser;
