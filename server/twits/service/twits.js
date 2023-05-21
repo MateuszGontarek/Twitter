@@ -213,11 +213,13 @@ const addLike = async (req, res) => {
     const twit = await Twit.findById(id);
     if (twit.likes.includes(email)) {
       twit.likes = twit.likes.filter((like) => like !== email);
+      isLiked = false;
     } else {
       twit.likes.push(email);
+      isLiked = true;
     }
     await twit.save();
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, isLiked });
   } catch (error) {
     return res.status(500).json({ success: false });
   }
