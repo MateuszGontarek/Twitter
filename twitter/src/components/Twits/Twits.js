@@ -46,7 +46,7 @@ const Twits = (props) => {
     getTwitsByHashtag(hashtag);
   };
   const ifEmpty = (e) => {
-    NotificationManager.warning("Twitt nie może być pusty");
+    NotificationManager.warning("Twitt can't be empty");
   };
 
   const getTwits = async () => {
@@ -81,7 +81,7 @@ const Twits = (props) => {
         setIfNoTwits(true);
       }
     } else {
-      NotificationManager.error("Coś poszło nie tak");
+      NotificationManager.error("Something went wrong");
     }
   };
   const showMoreCommentsHandler = (index) => {
@@ -104,18 +104,18 @@ const Twits = (props) => {
     if (response.data.success) {
       getTwits();
       if (response.data.isLiked) {
-        NotificationManager.info("Dodano polubienie");
+        NotificationManager.info("Like added");
       } else {
-        NotificationManager.info("Usunięto polubienie");
+        NotificationManager.info("Like removed");
       }
     } else {
-      NotificationManager.error("Coś poszło nie tak");
+      NotificationManager.error("Something went wrong");
     }
   };
 
   const addComment = async (e, id) => {
     if (notLoginUser) {
-      console.log("zaloguj się");
+      console.log("Log in");
       return;
     }
     e.preventDefault();
@@ -128,7 +128,7 @@ const Twits = (props) => {
       }
     );
     getTwits();
-    NotificationManager.success("Dodano komentarz");
+    NotificationManager.success("Comment added");
     e.target[0].value = "";
   };
 
@@ -139,7 +139,7 @@ const Twits = (props) => {
 
   const deleteTwit = async (id) => {
     if (notLoginUser) {
-      NotificationManager.warning("Zaloguj się");
+      NotificationManager.warning("Log in");
       return;
     }
     const response = await axios.delete("/api/twits", {
@@ -147,9 +147,9 @@ const Twits = (props) => {
     });
     if (response.data.success) {
       getTwits();
-      NotificationManager.success("Usunięto twitt");
+      NotificationManager.success("Twitt deleted");
     } else {
-      NotificationManager.error("Coś poszło nie tak");
+      NotificationManager.error("Something went wrong");
     }
   };
   const getTwitsByHashtag = async (hashtag) => {
@@ -166,7 +166,7 @@ const Twits = (props) => {
         setIsTwitsByHashtag(false);
       }
     } else {
-      NotificationManager.error("Coś poszło nie tak");
+      NotificationManager.error("Something went wrong");
     }
   };
 

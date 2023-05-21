@@ -15,7 +15,7 @@ const AddTwit = () => {
   const twitTextRef = React.createRef();
   const [twitContent, setTwitContent] = useState({});
   const ifEmpty = (e) => {
-    NotificationManager.warning("Twitt nie może być pusty", "Uwaga!", 2000);
+    NotificationManager.warning("Twitt can't be empty");
   };
 
   const autoHeight = (element) => {
@@ -36,10 +36,10 @@ const AddTwit = () => {
     const response = await axios.post("/api/twits", { data, token });
     if (response.data.success) {
       setTwitContent({});
-      NotificationManager.success("Twitt dodany", "Sukces!", 2000);
+      NotificationManager.success("Twitt added");
     } else {
       NotificationManager.error(
-        "Wystąpił błąd podczas dodawania twitta",
+        "Something went wrong, try again later",
         "Błąd!",
         2000
       );
