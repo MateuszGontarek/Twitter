@@ -126,6 +126,12 @@ body {
       .twit-avatar-default {
         border: none !important;
       }
+      .date {
+        color: $indigo-light;
+        letter-spacing: 0.7px;
+        font-weight: 400;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
       .nickname {
         color: $twitter-color-dark;
         font-size: 35px;

@@ -2,6 +2,7 @@ import React from "react";
 import "./Twits.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import moment from "moment";
 import {
   Trash3 as Trash3Fill,
   HeartFill,
@@ -220,6 +221,7 @@ const Twits = (props) => {
                         <PersonCircle size={60} className="default-avatar" />
                       )}
                     </div>
+                    <p className="date">{moment(twit.date).fromNow()}</p>
                     <p className="nickname">{twit.nickname}</p>
                   </div>
                   <div className="twit-info">
