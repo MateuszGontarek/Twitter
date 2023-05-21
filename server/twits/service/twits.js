@@ -112,11 +112,20 @@ const getTwitsByHashtag = async (req, res) => {
     });
     twitsByHashtag.forEach((twit) => {
       if (twit.userId) {
-        const { _id, description, content, parents, date, likes, hashtags } =
-          twit;
+        const {
+          _id,
+          userId,
+          description,
+          content,
+          parents,
+          date,
+          likes,
+          hashtags,
+        } = twit;
         const twitUser = users.find((user) => user._id == twit.userId);
         const twitCopy = {
           _id,
+          userId,
           description,
           content,
           parents,
