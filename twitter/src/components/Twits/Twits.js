@@ -14,7 +14,6 @@ import Loader from "../Loader";
 import TwitNotFound from "../TwitNotFound";
 import NoTwitsYet from "../NoTwitsYet";
 const Twits = (props) => {
-  // const nickname = JSON.parse(sessionStorage.getItem("userData")).nickname;
   const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
@@ -150,7 +149,7 @@ const Twits = (props) => {
     setTwits([]);
     setIsTwitsByHashtag(true);
     const response = await axios.get("/api/twits/find", {
-      headers: { hashtag },
+      headers: { hashtag, filter, email: email.email, id: email._id},
     });
     if (response.data.success) {
       const twitsWithHeaders = response.data.twitsWithHeaders;
@@ -275,7 +274,7 @@ const Twits = (props) => {
                   <div className="twit-comments">
                     {twits
                       .filter((comment) => comment.parents === twit._id)
-                      .slice(0, showMore[index] ? 100 : 2)
+                      .slice(0, showMore[index] ? 100 : 5)
                       .map((comment) => {
                         return (
                           <div className="twit-comment" key={comment._id}>

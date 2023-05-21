@@ -94,11 +94,31 @@ const getTwits = async (req, res) => {
   }
 };
 const getTwitsByHashtag = async (req, res) => {
-  const hashtag = req.headers.hashtag;
+  const {hashtag,
+         filter,
+         email,
+         id } = req.headers;
+
   try {
     const twitsWithHeaders = [];
-    const twits = await Twit.find().sort({ date: -1 });
-    const users = await User.find();
+    if (filter === undefined) {
+      filter = "all";
+    }
+
+    if (filter === "all") {
+      var twits = await Twit.find().sort({ date: -1 });
+      var users = await User.find();
+    } else if (filter === "liked") {
+      var twits = await Twit.find({ likes: { $in: [email] } }).sort({
+        date: -1,
+      });
+      var users = await User.find();
+    } else if (filter === "user") {
+      var twits = await Twit.find({ userId: id }).sort({ date: -1 });
+      var users = await User.find();
+    } else {
+      return res.status(500).json({ success: false });
+    }
     const twitsByHashtag = [];
 
     twits.forEach((twit) => {
