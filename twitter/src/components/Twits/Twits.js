@@ -18,6 +18,14 @@ import "react-notifications/lib/notifications.css";
 
 const Twits = (props) => {
   const notLoginUser = props.notLoginUser;
+  const updateTwits = props.updateTwits;
+  const onTwitsUpdates = props.onTwitsUpdates;
+  useEffect(() => {
+    if (updateTwits) {
+      getTwits();
+      onTwitsUpdates(false);
+    }
+  }, [updateTwits]);
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
   const { filter } = props;
@@ -25,6 +33,7 @@ const Twits = (props) => {
   if (!notLoginUser) {
     email = JSON.parse(sessionStorage.getItem("userData"));
   }
+  const [ifToUpdateTwits, setIfToUpdateTwits] = useState(false);
   const [twits, setTwits] = useState([]);
   const [ifNoTwits, setIfNoTwits] = useState(false);
   const [isTwitsByHashtag, setIsTwitsByHashtag] = useState(true);
@@ -327,9 +336,18 @@ const Twits = (props) => {
                       })}
                     {twits.filter((comment) => comment.parents === twit._id)
                       .length > 2 ? (
-                      <button onClick={() => showMoreCommentsHandler(index)}>
-                        Pokaż {showMore[index] ? "Mniej" : "Więcej"}
-                      </button>
+                      <p
+                        className="view-all"
+                        onClick={() => showMoreCommentsHandler(index)}
+                      >
+                        {showMore[index]
+                          ? "Hide most comments"
+                          : "View all " +
+                            twits.filter(
+                              (comment) => comment.parents === twit._id
+                            ).length +
+                            " comments"}
+                      </p>
                     ) : null}
                   </div>
                   <form
@@ -362,6 +380,7 @@ const Twits = (props) => {
           <NoTwitsYet />
         )}
       </div>
+      <>{}</>
     </div>
   );
 };

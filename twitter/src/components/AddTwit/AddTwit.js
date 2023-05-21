@@ -5,11 +5,11 @@ import FileBase64 from "react-file-base64";
 import { useState } from "react";
 import { Image } from "react-bootstrap-icons";
 import { NotificationManager } from "react-notifications";
-import 'react-notifications/lib/notifications.css'
+import "react-notifications/lib/notifications.css";
 
-const AddTwit = () => {
+const AddTwit = (props) => {
   const token = sessionStorage.getItem("token");
-
+  const onTwitsUpdates = props.onTwitsUpdates;
   const userData = sessionStorage.getItem("userData");
   const userId = JSON.parse(userData)._id;
   const twitTextRef = React.createRef();
@@ -36,7 +36,9 @@ const AddTwit = () => {
     const response = await axios.post("/api/twits", { data, token });
     if (response.data.success) {
       setTwitContent({});
+      twitTextRef.current.value = "";
       NotificationManager.success("Twitt added");
+      onTwitsUpdates(true);
     } else {
       NotificationManager.error(
         "Something went wrong, try again later",

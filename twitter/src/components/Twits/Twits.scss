@@ -170,7 +170,7 @@ body {
       .twit-heart-counter {
         color: $blue;
         font-size: 15px;
-        margin-right: 25px;
+        margin-right: 5px;
       }
       .twit-heart {
         color: #78909c;
@@ -180,9 +180,6 @@ body {
       }
       .twit-heart-active {
         margin-right: 15px;
-        color: $red;
-      }
-      .twit-heart:hover {
         color: $red;
       }
       .twit-delete {
@@ -201,6 +198,15 @@ body {
     }
     .twit-content-none {
       display: none;
+    }
+    .view-all {
+      padding: 10px;
+      color: $twitter-color;
+      transition: 0.2s;
+      cursor: pointer;
+      &:hover {
+        color: $twitter-color-dark;
+      }
     }
     .twit-comments {
       display: flex;
@@ -259,6 +265,10 @@ body {
           color: $indigo-light;
           justify-self: end;
           margin-left: 10px;
+          transition: 0.2s;
+          &:hover {
+            color: $red;
+          }
         }
       }
     }

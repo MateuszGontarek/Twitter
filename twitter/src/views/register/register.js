@@ -7,7 +7,6 @@ const Register = () => {
   const emailRef = React.createRef();
   const nicknameRef = React.createRef();
   const passwordRef = React.createRef();
-  const repeatPasswordRef = React.createRef();
 
   const Register = async (e) => {
     e.preventDefault();
