@@ -96,6 +96,26 @@ body {
   justify-content: center;
   margin: 0 auto;
   width: 385px;
+  .twit-avatar {
+    border: 3px solid $indigo-light;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: $indigo-light;
+  }
+  .date {
+    color: $indigo-light;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  .twit-avatar-default {
+    border: none !important;
+  }
   .twit {
     // transform: scale(0.9);
     // background: $secondaryHover;
@@ -113,30 +133,12 @@ body {
       align-items: center;
       justify-content: space-between;
       margin-bottom: 10px;
-      .twit-avatar {
-        border: 3px solid $indigo-light;
-        width: 55px;
-        height: 55px;
-        border-radius: 50%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center center;
-        color: $indigo-light;
-      }
-      .twit-avatar-default {
-        border: none !important;
-      }
-      .date {
-        color: $indigo-light;
-        letter-spacing: 0.7px;
-        font-weight: 400;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-      }
       .nickname {
         color: $twitter-color-dark;
         font-size: 35px;
         font-weight: 600;
         margin-right: 10px;
+        font-family: alata;
       }
     }
     .twit-info {
@@ -206,34 +208,57 @@ body {
       margin-top: 10px;
       height: auto;
       .twit-comment {
-        color: black;
         width: 100%;
-        background-color: $white;
         border-radius: 10px;
         padding: 9px;
-        margin-bottom: 9px;
-        display: flex;
+        // display: flex;
+        display: grid;
+        grid-template-columns: 1fr 5fr 1fr;
         align-items: center;
-        justify-content: space-between;
-        margin-bottom: 9px;
+        padding-left: 30px;
         opacity: 0.8;
-        .twit-comment-description {
-          background: transparent;
-          font-size: 12px;
-          resize: none;
-          height: 100%;
-          width: 100%;
-          border: none;
-          color: $blue;
-          &:focus {
-            outline: none;
+        .twit-avatar {
+          width: 45px;
+          height: 45px;
+        }
+        .comment-content {
+          display: flex;
+          flex-direction: column;
+          margin-left: 15px;
+          .comment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 7px;
+            .nickname {
+              color: $twitter-color-dark;
+              font-family: alata;
+              margin-right: 5px;
+            }
+            .date {
+              font-size: 12px !important;
+            }
+          }
+          .twit-comment-description {
+            background: transparent;
+            font-size: 15px;
+            resize: none;
+            height: 100%;
+            margin-bottom: 7px;
             border: none;
-            box-shadow: none;
+            color: $white;
+            &:focus {
+              outline: none;
+              border: none;
+              box-shadow: none;
+            }
           }
         }
+
         .twit-delete {
           cursor: pointer;
           color: $indigo-light;
+          justify-self: end;
+          margin-left: 10px;
         }
       }
     }

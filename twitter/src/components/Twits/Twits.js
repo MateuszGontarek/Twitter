@@ -149,7 +149,7 @@ const Twits = (props) => {
     setTwits([]);
     setIsTwitsByHashtag(true);
     const response = await axios.get("/api/twits/find", {
-      headers: { hashtag, filter, email: email.email, id: email._id},
+      headers: { hashtag, filter, email: email.email, id: email._id },
     });
     if (response.data.success) {
       const twitsWithHeaders = response.data.twitsWithHeaders;
@@ -217,7 +217,7 @@ const Twits = (props) => {
                       }}
                     >
                       {!twit.avatar && (
-                        <PersonCircle size={60} className="default-avatar" />
+                        <PersonCircle size={55} className="default-avatar" />
                       )}
                     </div>
                     <p className="date">{moment(twit.date).fromNow()}</p>
@@ -278,11 +278,36 @@ const Twits = (props) => {
                       .map((comment) => {
                         return (
                           <div className="twit-comment" key={comment._id}>
-                            <textarea
-                              readOnly
-                              value={comment.description}
-                              className="twit-comment-description"
-                            />
+                            <div
+                              className={
+                                comment.avatar
+                                  ? "twit-avatar"
+                                  : "twit-avatar-default twit-avatar"
+                              }
+                              style={{
+                                backgroundImage: comment.avatar
+                                  ? `url(${comment.avatar})`
+                                  : null,
+                              }}
+                            >
+                              {!comment.avatar && (
+                                <PersonCircle
+                                  size={45}
+                                  className="default-avatar"
+                                />
+                              )}
+                            </div>
+                            <div className="comment-content">
+                              <div className="comment-header">
+                                <p className="nickname">{comment.nickname}</p>
+                                <p className="date">
+                                  {moment(comment.date).fromNow()}
+                                </p>
+                              </div>
+                              <p className="twit-comment-description">
+                                {comment.description}
+                              </p>
+                            </div>
                             {email && comment.userId === email._id && (
                               <Trash3Fill
                                 onClick={() => deleteTwit(comment._id)}
