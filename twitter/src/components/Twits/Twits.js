@@ -12,6 +12,9 @@ import {
 import Loader from "../Loader";
 import TwitNotFound from "../TwitNotFound";
 import NoTwitsYet from "../NoTwitsYet";
+import { NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+
 const Twits = (props) => {
   const notLoginUser = props.notLoginUser;
   const hashtagRef = React.createRef();
@@ -27,8 +30,8 @@ const Twits = (props) => {
   const [showMore, setShowMore] = useState([]);
   const [actualHashtag, setActualHashtag] = useState("");
   const findTwits = async (e) => {
-    const actualHashtag = hashtagRef.current.value;
     setActualHashtag(hashtagRef.current.value);
+
     if (actualHashtag.length === 0) {
       getTwits();
     }
@@ -39,13 +42,10 @@ const Twits = (props) => {
     } else {
       hashtag = actualHashtag;
     }
-    console.log(hashtag);
     getTwitsByHashtag(hashtag);
   };
   const ifEmpty = (e) => {
-    if (e.target.classList.contains("warning")) {
-      e.target.classList.remove("warning");
-    }
+    NotificationManager.warning("Twitt nie może być pusty");
   };
 
   const getTwits = async () => {
@@ -80,7 +80,7 @@ const Twits = (props) => {
         setIfNoTwits(true);
       }
     } else {
-      console.log("error");
+      NotificationManager.error("Coś poszło nie tak");
     }
   };
   const showMoreCommentsHandler = (index) => {
@@ -102,8 +102,13 @@ const Twits = (props) => {
     );
     if (response.data.success) {
       getTwits();
+      if (response.data.isLiked) {
+        NotificationManager.info("Dodano polubienie");
+      } else {
+        NotificationManager.info("Usunięto polubienie");
+      }
     } else {
-      console.log("error");
+      NotificationManager.error("Coś poszło nie tak");
     }
   };
 
@@ -122,6 +127,7 @@ const Twits = (props) => {
       }
     );
     getTwits();
+    NotificationManager.success("Dodano komentarz");
     e.target[0].value = "";
   };
 
@@ -132,7 +138,7 @@ const Twits = (props) => {
 
   const deleteTwit = async (id) => {
     if (notLoginUser) {
-      console.log("zaloguj się");
+      NotificationManager.warning("Zaloguj się");
       return;
     }
     const response = await axios.delete("/api/twits", {
@@ -140,8 +146,9 @@ const Twits = (props) => {
     });
     if (response.data.success) {
       getTwits();
+      NotificationManager.success("Usunięto twitt");
     } else {
-      console.log("error");
+      NotificationManager.error("Coś poszło nie tak");
     }
   };
   const getTwitsByHashtag = async (hashtag) => {
@@ -158,7 +165,7 @@ const Twits = (props) => {
         setIsTwitsByHashtag(false);
       }
     } else {
-      console.log("error");
+      NotificationManager.error("Coś poszło nie tak");
     }
   };
 
@@ -272,7 +279,7 @@ const Twits = (props) => {
                   <div className="twit-comments">
                     {twits
                       .filter((comment) => comment.parents === twit._id)
-                      .slice(0, showMore[index] ? 100 : 5)
+                      .slice(0, showMore[index] ? 100 : 2)
                       .map((comment) => {
                         return (
                           <div className="twit-comment" key={comment._id}>
@@ -292,7 +299,7 @@ const Twits = (props) => {
                         );
                       })}
                     {twits.filter((comment) => comment.parents === twit._id)
-                      .length > 5 ? (
+                      .length > 2 ? (
                       <button onClick={() => showMoreCommentsHandler(index)}>
                         Pokaż {showMore[index] ? "Mniej" : "Więcej"}
                       </button>

@@ -5,6 +5,8 @@ import MainPage from "./views/MainPage";
 import Register from "./views/register";
 import Home from "./views/Home";
 import Settings from "./views/Settings";
+import {NotificationContainer} from 'react-notifications';
+import "react-notifications/lib/notifications.css"; 
 function App() {
   return (
     <div className="App">
@@ -20,6 +22,7 @@ function App() {
           <Route path="/main" element={<MainPage />} />
         </Routes>
       </BrowserRouter>
+      <NotificationContainer/>
     </div>
   );
 }

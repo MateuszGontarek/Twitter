@@ -4,6 +4,8 @@ import axios from "axios";
 import FileBase64 from "react-file-base64";
 import { useState } from "react";
 import { Image } from "react-bootstrap-icons";
+import { NotificationManager } from "react-notifications";
+import 'react-notifications/lib/notifications.css'
 
 const AddTwit = () => {
   const token = sessionStorage.getItem("token");
@@ -13,9 +15,7 @@ const AddTwit = () => {
   const twitTextRef = React.createRef();
   const [twitContent, setTwitContent] = useState({});
   const ifEmpty = (e) => {
-    if (e.target.classList.contains("warning")) {
-      e.target.classList.remove("warning");
-    }
+    NotificationManager.warning("Twitt nie może być pusty", "Uwaga!", 2000);
   };
 
   const autoHeight = (element) => {
@@ -36,8 +36,13 @@ const AddTwit = () => {
     const response = await axios.post("/api/twits", { data, token });
     if (response.data.success) {
       setTwitContent({});
+      NotificationManager.success("Twitt dodany", "Sukces!", 2000);
     } else {
-      console.log("error");
+      NotificationManager.error(
+        "Wystąpił błąd podczas dodawania twitta",
+        "Błąd!",
+        2000
+      );
     }
   };
   const clickFileInput = () => {
