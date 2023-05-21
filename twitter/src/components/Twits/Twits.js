@@ -148,7 +148,7 @@ const Twits = (props) => {
     setTwits([]);
     setIsTwitsByHashtag(true);
     const response = await axios.get("/api/twits/find", {
-      headers: { hashtag },
+      headers: { hashtag, filter, email: email.email, id: email._id},
     });
     if (response.data.success) {
       const twitsWithHeaders = response.data.twitsWithHeaders;
