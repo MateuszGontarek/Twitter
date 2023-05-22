@@ -2,6 +2,8 @@ import React from "react";
 // import "./register.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 const Register = () => {
   const navigate = useNavigate();
   const emailRef = React.createRef();
@@ -18,6 +20,7 @@ const Register = () => {
     const response = await axios.post("/api/users", { data });
 
     if (response.data.success) {
+      NotificationManager.success("Registered");
       navigate("/login");
     }
   };

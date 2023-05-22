@@ -3,6 +3,9 @@ import "./login.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Google } from "react-bootstrap-icons";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
+
 const Login = () => {
   const navigate = useNavigate();
   const loginRef = React.createRef();
@@ -14,12 +17,13 @@ const Login = () => {
     const response = await axios.post("/api/login/user", { login, password });
 
     if (response.data.success) {
+      NotificationManager.success("Logged in");
       sessionStorage.setItem("token", response.data.token);
       const userData = JSON.stringify(response.data.user);
       sessionStorage.setItem("userData", userData);
       navigate("/home");
     } else {
-      console.log(response);
+      NotificationManager.error("Wrong credentials");
     }
   };
 

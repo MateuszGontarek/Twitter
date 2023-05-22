@@ -14,9 +14,7 @@ const AddTwit = (props) => {
   const userId = JSON.parse(userData)._id;
   const twitTextRef = React.createRef();
   const [twitContent, setTwitContent] = useState({});
-  const ifEmpty = (e) => {
-    NotificationManager.warning("Twitt can't be empty");
-  };
+
 
   const autoHeight = (element) => {
     const elementHeight = element.offsetHeight;
@@ -29,7 +27,7 @@ const AddTwit = (props) => {
   const addTwit = async (e) => {
     e.preventDefault();
     if (twitTextRef.current.value === "") {
-      twitTextRef.current.classList.add("warning");
+      NotificationManager.warning("Twitt can't be empty")
       twitTextRef.current.placeholder = "enter a message";
       twitTextRef.current.focus();
       return;
@@ -73,7 +71,6 @@ const AddTwit = (props) => {
           <textarea
             maxLength={200}
             onChange={(e) => {
-              ifEmpty(e);
               autoHeight(e.target);
             }}
             className="adder-input"

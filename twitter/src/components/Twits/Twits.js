@@ -178,7 +178,8 @@ const Twits = (props) => {
     });
     if (response.data.success) {
       getTwits();
-      NotificationManager.success("Twitt deleted");
+
+      NotificationManager.success(response.data.message);
     } else {
       NotificationManager.error("Something went wrong");
     }
@@ -220,7 +221,6 @@ const Twits = (props) => {
             <input
               maxLength={200}
               onChange={(e) => {
-                ifEmpty(e);
                 findTwits(e);
                 autoHeight(e.target);
               }}

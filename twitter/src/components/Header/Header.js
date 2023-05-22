@@ -1,6 +1,8 @@
 import React from "react";
 import "./Header.scss";
 import { Link } from "react-router-dom";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 import {
   BoxArrowLeft,
   House,
@@ -86,6 +88,7 @@ const Header = () => {
           </Link>
           <Link
             onClick={() => {
+              NotificationManager.success("You have been logged out");
               sessionStorage.clear();
             }}
             to="/login"
