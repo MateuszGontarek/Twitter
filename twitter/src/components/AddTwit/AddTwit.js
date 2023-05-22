@@ -19,8 +19,11 @@ const AddTwit = (props) => {
   };
 
   const autoHeight = (element) => {
-    element.style.height = "auto";
-    element.style.height = element.scrollHeight + "px";
+    const elementHeight = element.offsetHeight;
+    if (element.scrollHeight > elementHeight) {
+      element.style.height = "auto";
+      element.style.height = element.scrollHeight + "px";
+    }
   };
 
   const addTwit = async (e) => {
