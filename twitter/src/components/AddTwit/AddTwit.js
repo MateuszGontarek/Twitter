@@ -5,11 +5,11 @@ import FileBase64 from "react-file-base64";
 import { useState } from "react";
 import { Image } from "react-bootstrap-icons";
 import { NotificationManager } from "react-notifications";
-import 'react-notifications/lib/notifications.css'
-
-const AddTwit = () => {
+import "react-notifications/lib/notifications.css";
+import { useEffect } from "react";
+const AddTwit = (props) => {
   const token = sessionStorage.getItem("token");
-
+  const onTwitsUpdates = props.onTwitsUpdates;
   const userData = sessionStorage.getItem("userData");
   const userId = JSON.parse(userData)._id;
   const twitTextRef = React.createRef();
@@ -38,8 +38,9 @@ const AddTwit = () => {
     const response = await axios.post("/api/twits", { data, token });
     if (response.data.success) {
       setTwitContent({});
+      twitTextRef.current.value = "";
       NotificationManager.success("Twitt added");
-      
+      onTwitsUpdates(true);
     } else {
       NotificationManager.error(
         "Something went wrong, try again later",
@@ -53,9 +54,19 @@ const AddTwit = () => {
     const fileInput = fileInputDiv.querySelector("input");
     fileInput.click();
   };
+  useEffect(() => {
+    const adderContent = document.querySelector(".content-main");
+    const adderInput = document.querySelector(".adder-input");
+    adderInput.addEventListener("focus", function () {
+      adderContent.classList.add("adder-form-active");
+    });
+    adderInput.addEventListener("blur", function () {
+      adderContent.classList.remove("adder-form-active");
+    });
+  }, []);
   return (
     <div className="add-twits-container">
-      <form>
+      <form className="adder-form">
         <div className="content-main">
           {" "}
           <textarea
@@ -64,6 +75,7 @@ const AddTwit = () => {
               ifEmpty(e);
               autoHeight(e.target);
             }}
+            className="adder-input"
             ref={twitTextRef}
             type="text"
             placeholder="what's new?"

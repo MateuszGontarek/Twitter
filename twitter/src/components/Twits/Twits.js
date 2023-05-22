@@ -18,6 +18,14 @@ import "react-notifications/lib/notifications.css";
 
 const Twits = (props) => {
   const notLoginUser = props.notLoginUser;
+  const updateTwits = props.updateTwits;
+  const onTwitsUpdates = props.onTwitsUpdates;
+  useEffect(() => {
+    if (updateTwits) {
+      getTwits();
+      onTwitsUpdates(false);
+    }
+  }, [updateTwits]);
   const hashtagRef = React.createRef();
   const token = sessionStorage.getItem("token");
   const { filter } = props;
@@ -31,19 +39,40 @@ const Twits = (props) => {
   const [showMore, setShowMore] = useState([]);
   const [actualHashtag, setActualHashtag] = useState("");
   const findTwits = async (e) => {
-    setActualHashtag(hashtagRef.current.value);
+    const hashtagContent = hashtagRef.current.value;
+    setTimeout(() => {
+      setActualHashtag(hashtagContent);
+    }, 1000);
 
-    if (actualHashtag.length === 0) {
+    if (hashtagContent.length === 0) {
       getTwits();
+      return;
     }
     e.preventDefault();
     let hashtag = "";
-    if (actualHashtag[0] === "#") {
-      hashtag = actualHashtag.substring(1);
+    if (hashtagContent[0] === "#") {
+      hashtag = hashtagContent.substring(1);
     } else {
-      hashtag = actualHashtag;
+      hashtag = hashtagContent;
     }
     getTwitsByHashtag(hashtag);
+  };
+  const getTwitsByHashtag = async (hashtag) => {
+    setTwits([]);
+    setIsTwitsByHashtag(true);
+    const response = await axios.get("/api/twits/find", {
+      headers: { hashtag, filter, email: email.email, id: email._id },
+    });
+    if (response.data.success) {
+      const twitsWithHeaders = response.data.twitsWithHeaders;
+      if (twitsWithHeaders.length > 0) {
+        setTwits(twitsWithHeaders);
+      } else {
+        setIsTwitsByHashtag(false);
+      }
+    } else {
+      NotificationManager.error("Something went wrong");
+    }
   };
   const ifEmpty = (e) => {
     NotificationManager.warning("Twitt can't be empty");
@@ -115,7 +144,6 @@ const Twits = (props) => {
 
   const addComment = async (e, id) => {
     if (notLoginUser) {
-      console.log("Log in");
       return;
     }
     e.preventDefault();
@@ -153,29 +181,20 @@ const Twits = (props) => {
       NotificationManager.error("Something went wrong");
     }
   };
-  const getTwitsByHashtag = async (hashtag) => {
-    setTwits([]);
-    setIsTwitsByHashtag(true);
-    const response = await axios.get("/api/twits/find", {
-      headers: { hashtag, filter, email: email.email, id: email._id },
-    });
-    if (response.data.success) {
-      const twitsWithHeaders = response.data.twitsWithHeaders;
-      if (twitsWithHeaders.length > 0) {
-        setTwits(twitsWithHeaders);
-      } else {
-        setIsTwitsByHashtag(false);
-      }
-    } else {
-      NotificationManager.error("Something went wrong");
-    }
-  };
 
   useEffect(() => {
     window.getTwitsByHashtagAfterClick = (event) => {
       const hashtag = event.target.innerText.substring(1);
       getTwitsByHashtag(hashtag, true);
     };
+    const searcherContent = document.querySelector(".searcher-form");
+    const searcherInput = document.querySelector(".searcher-input");
+    searcherInput.addEventListener("focus", function () {
+      searcherContent.classList.add("searcher-form-active");
+    });
+    searcherInput.addEventListener("blur", function () {
+      searcherContent.classList.remove("searcher-form-active");
+    });
     getTwits();
   }, []);
   return (
@@ -184,9 +203,14 @@ const Twits = (props) => {
         {filter === "liked" ? "Liked" : filter === "user" ? "Your" : null}
       </h1>
       <div className="searcher">
-        <form>
+        <form
+          className="searcher-form"
+          onClick={() => {
+            document.querySelector(".searcher-input").focus();
+          }}
+        >
           <div className="searcher-content">
-            {filter != "liked" ? (
+            {filter !== "liked" ? (
               <Search className="loop" size={25} />
             ) : (
               <SearchHeart className="loop" size={25} />
@@ -198,6 +222,7 @@ const Twits = (props) => {
                 findTwits(e);
                 autoHeight(e.target);
               }}
+              className="searcher-input"
               ref={hashtagRef}
               type="text"
               placeholder="search by hashtag"
@@ -328,9 +353,18 @@ const Twits = (props) => {
                       })}
                     {twits.filter((comment) => comment.parents === twit._id)
                       .length > 2 ? (
-                      <button onClick={() => showMoreCommentsHandler(index)}>
-                        Pokaż {showMore[index] ? "Mniej" : "Więcej"}
-                      </button>
+                      <p
+                        className="view-all"
+                        onClick={() => showMoreCommentsHandler(index)}
+                      >
+                        {showMore[index]
+                          ? "Hide most comments"
+                          : "View all " +
+                            twits.filter(
+                              (comment) => comment.parents === twit._id
+                            ).length +
+                            " comments"}
+                      </p>
                     ) : null}
                   </div>
                   <form
