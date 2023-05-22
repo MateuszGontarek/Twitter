@@ -15,7 +15,9 @@ const AddTwit = () => {
   const twitTextRef = React.createRef();
   const [twitContent, setTwitContent] = useState({});
   const ifEmpty = (e) => {
-    NotificationManager.warning("Twitt can't be empty");
+    if (e.target.value === "") {
+      NotificationManager.warning("Twitt can't be empty");
+    }
   };
 
   const autoHeight = (element) => {
@@ -37,6 +39,7 @@ const AddTwit = () => {
     if (response.data.success) {
       setTwitContent({});
       NotificationManager.success("Twitt added");
+      
     } else {
       NotificationManager.error(
         "Something went wrong, try again later",

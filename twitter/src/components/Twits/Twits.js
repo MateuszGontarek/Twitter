@@ -147,7 +147,8 @@ const Twits = (props) => {
     });
     if (response.data.success) {
       getTwits();
-      NotificationManager.success("Twitt deleted");
+
+      NotificationManager.success(response.data.message);
     } else {
       NotificationManager.error("Something went wrong");
     }

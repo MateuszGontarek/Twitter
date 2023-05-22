@@ -168,13 +168,21 @@ const getTwitsByHashtag = async (req, res) => {
   }
 };
 const deleteTwit = async (req, res) => {
+  console.log(10)
   const id = req.headers.id;
   const token = req.headers.token;
   if (!jwt.verify(token, "admin4123"))
     return res.status(403).json({ success: false });
   try {
+    const isComment = await Twit.findById(id).then((twit) => twit.parents)
+    if (!isComment) { 
+      var message = "Twitt"
+    } else {
+      var message = "Comment"
+    }
     await Twit.deleteMany({ $or: [{ _id: id }, { parents: id }] });
-    return res.status(200).json({ success: true });
+    console.log(message)
+    return res.status(200).json({ success: true, message: message + " deleted" });
   } catch (error) {
     return res.status(500).json({ success: false });
   }
