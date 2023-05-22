@@ -25,7 +25,8 @@ body {
   display: flex;
   justify-content: center;
   background: $background;
-  .active {
+  transition: 3s;
+  .searcher-form-active {
     box-shadow: 0px 4px 10px $twitter-color-dark;
   }
   form {
@@ -50,10 +51,13 @@ body {
     .searcher-content {
       display: flex;
       align-items: center;
+      width: 100%;
     }
     input {
       height: auto !important;
       color: $white;
+
+      width: 100%;
       border: none;
       font-size: 15px;
       background: transparent;
@@ -176,7 +180,6 @@ body {
         color: #78909c;
         margin-right: 15px;
         cursor: pointer;
-        transition: 2s ease-in-out;
       }
       .twit-heart-active {
         margin-right: 15px;

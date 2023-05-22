@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Image } from "react-bootstrap-icons";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
-
+import { useEffect } from "react";
 const AddTwit = (props) => {
   const token = sessionStorage.getItem("token");
   const onTwitsUpdates = props.onTwitsUpdates;
@@ -52,9 +52,19 @@ const AddTwit = (props) => {
     const fileInput = fileInputDiv.querySelector("input");
     fileInput.click();
   };
+  useEffect(() => {
+    const adderContent = document.querySelector(".content-main");
+    const adderInput = document.querySelector(".adder-input");
+    adderInput.addEventListener("focus", function () {
+      adderContent.classList.add("adder-form-active");
+    });
+    adderInput.addEventListener("blur", function () {
+      adderContent.classList.remove("adder-form-active");
+    });
+  }, []);
   return (
     <div className="add-twits-container">
-      <form>
+      <form className="adder-form">
         <div className="content-main">
           {" "}
           <textarea
@@ -63,6 +73,7 @@ const AddTwit = (props) => {
               ifEmpty(e);
               autoHeight(e.target);
             }}
+            className="adder-input"
             ref={twitTextRef}
             type="text"
             placeholder="what's new?"

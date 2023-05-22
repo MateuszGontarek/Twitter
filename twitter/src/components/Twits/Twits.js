@@ -186,6 +186,14 @@ const Twits = (props) => {
       const hashtag = event.target.innerText.substring(1);
       getTwitsByHashtag(hashtag, true);
     };
+    const searcherContent = document.querySelector(".searcher-form");
+    const searcherInput = document.querySelector(".searcher-input");
+    searcherInput.addEventListener("focus", function () {
+      searcherContent.classList.add("searcher-form-active");
+    });
+    searcherInput.addEventListener("blur", function () {
+      searcherContent.classList.remove("searcher-form-active");
+    });
     getTwits();
   }, []);
   return (
@@ -194,9 +202,14 @@ const Twits = (props) => {
         {filter === "liked" ? "Liked" : filter === "user" ? "Your" : null}
       </h1>
       <div className="searcher">
-        <form>
+        <form
+          className="searcher-form"
+          onClick={() => {
+            document.querySelector(".searcher-input").focus();
+          }}
+        >
           <div className="searcher-content">
-            {filter != "liked" ? (
+            {filter !== "liked" ? (
               <Search className="loop" size={25} />
             ) : (
               <SearchHeart className="loop" size={25} />
@@ -208,6 +221,7 @@ const Twits = (props) => {
                 findTwits(e);
                 autoHeight(e.target);
               }}
+              className="searcher-input"
               ref={hashtagRef}
               type="text"
               placeholder="search by hashtag"
