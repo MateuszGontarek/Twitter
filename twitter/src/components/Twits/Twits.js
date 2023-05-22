@@ -218,7 +218,6 @@ const Twits = (props) => {
             <input
               maxLength={200}
               onChange={(e) => {
-                ifEmpty(e);
                 findTwits(e);
                 autoHeight(e.target);
               }}

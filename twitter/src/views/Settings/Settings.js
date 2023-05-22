@@ -7,6 +7,8 @@ import { BoxArrowInUpLeft, PersonCircle, CheckLg } from "react-bootstrap-icons";
 import Header from "../../components/Header";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 AOS.init();
 
 const Settings = () => {
@@ -32,6 +34,7 @@ const Settings = () => {
     };
     const response = await axios.put("/api/users/update", data);
     if (response.data.success) {
+      NotificationManager.success("Updated");
       newNicknameRef.current.value = "";
       const updateButton = document.querySelector(".update-button");
       const updateButtonText = updateButton.querySelector(
@@ -57,7 +60,7 @@ const Settings = () => {
       sessionStorage.setItem("userData", JSON.stringify(userData));
       setUserData(userData);
     } else {
-      console.log("error");
+      NotificationManager.error("Error");
     }
   };
   const chooseNewAvatar = () => {
@@ -69,14 +72,6 @@ const Settings = () => {
     <div className="container">
       <Header />
       <div className="settings">
-        {/* <div>
-          <img
-            src="../icon.svg"
-            className="icon"
-            data-aos="flip-up"
-            data-aos-duration="2000"
-          />
-        </div> */}
         <div className="title-button">
           <h2>Settings</h2>
           <button className="update-button" onClick={update}>
